@@ -1,0 +1,15 @@
+{
+    "include": ["client"],
+    "compilerOptions": {
+      "baseUrl": "src",
+      "module": "es6",
+      "target": "es5",
+      "jsx": "react",
+      "allowSyntheticDefaultImports": true,
+      "forceConsistentCasingInFileNames": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "strictNullChecks": true,
+      "noImplicitAny": true
+    }
+}
