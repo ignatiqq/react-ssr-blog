@@ -7,6 +7,9 @@
   </head>
   <body>
     <div id="root"><%- component %></div>
+    <script>
+      window.__REACT_QUERY_STATE__ = <%= queryState %>
+    </script>
     <script defer="defer" src="<%= assets["client.js"] %>"></script>
   </body>
 </html>
