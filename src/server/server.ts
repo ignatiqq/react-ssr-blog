@@ -15,8 +15,6 @@ import {getRouteByReqUrl} from './utils/url';
 import App from '../client/App';
 import routes from '../client/routes/routes';
 
-setClient(axios);
-
 const server = express();
 
 server.set('view engine', 'ejs');
