@@ -10,6 +10,7 @@
       "skipLibCheck": true,
       "strict": true,
       "strictNullChecks": true,
-      "noImplicitAny": true
+      "noImplicitAny": true,
+      "moduleResolution": "node"
     }
 }

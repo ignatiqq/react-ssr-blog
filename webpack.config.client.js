@@ -1,5 +1,6 @@
 const path = require('path');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   name: 'client',
@@ -14,7 +15,7 @@ module.exports = {
     clean: true
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'],
   },
   module: {
   rules: [
@@ -36,7 +37,17 @@ module.exports = {
             },
             exclude: /node_modules/
         },
+        {
+          test: /\.s[ac]ss$/i,
+          use: [
+              MiniCssExtractPlugin.loader,
+              "css-loader",
+              'sass-loader'
+          ]
+      },
     ],
   },
-  plugins: [new WebpackManifestPlugin()],
+  plugins: [new WebpackManifestPlugin(), new MiniCssExtractPlugin({
+    filename: '[name].[contenthash].css'
+  })],
 }

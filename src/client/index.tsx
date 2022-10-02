@@ -1,9 +1,13 @@
 import React from 'react';
-import { hydrate, render } from 'react-dom';
+import { hydrate } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
+import './styles/index.scss';
 import App from './App';
 
 hydrate(
-    <App />,
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>,
     document.getElementById('root')
 )
