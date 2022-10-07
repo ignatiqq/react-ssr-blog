@@ -1,7 +1,12 @@
 {
     "include": ["client"],
     "compilerOptions": {
-      "baseUrl": "src",
+      "baseUrl": "../",
+      "paths": {
+        "@client/*": ["../src/client/*"],
+        "@server/*": ["../src/server/*"],
+        "@general-infrastructure": ["../src/infrastructure/*"],
+      },
       "module": "es6",
       "target": "es5",
       "jsx": "react",
@@ -11,6 +16,6 @@
       "strict": true,
       "strictNullChecks": true,
       "noImplicitAny": false,
-      "moduleResolution": "node"
+      "moduleResolution": "node",
     }
 }

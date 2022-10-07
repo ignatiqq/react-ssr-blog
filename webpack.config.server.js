@@ -1,6 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const {webpackAliases} = require('./config/aliases.js');
 
 module.exports = {
     name: 'server',
@@ -15,6 +16,7 @@ module.exports = {
     },
     resolve: {
       extensions: ['.ts', '.tsx'],
+      alias: webpackAliases,
     },
     externals: [nodeExternals()],
     target: 'node',

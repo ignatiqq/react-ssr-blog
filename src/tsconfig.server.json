@@ -2,7 +2,11 @@
     "include": ["server"],
     "compilerOptions": {
       "module": "commonjs",
-      "baseUrl": "src",
+      "paths": {
+        "@client/*": ["./client/*"],
+        "@server/*": ["./server/*"],
+        "@general-infrastructure/*": ["./infrastructure/*"],
+      },
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
@@ -13,6 +17,7 @@
       "allowJs": true,
       "strict": true,
       "strictNullChecks": true,
-      "noImplicitAny": false
+      "noImplicitAny": false,
+      "allowSyntheticDefaultImports": true
     }
 }
