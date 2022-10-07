@@ -1,12 +1,8 @@
 import express from 'express';
 import fs from 'fs';
 import path from 'path';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import axios from 'axios';
 
-// client imports
-import handleRequest from '../infrastructure/handleRequest/handleRequest';
+import handleRequest from './infrastructure/handleRequest/handleRequest';
 import routes from '../infrastructure/routes/routes';
 
 const server = express();
@@ -31,8 +27,9 @@ const assets = JSON.parse(manifest);
   // 5. redux for theme
 
 server.get('*', (req, res, next) => {
-  handleRequest(req.url, routes).then(({component, state}) => {
-    res.render('client', { assets, component, queryState: state })
+  handleRequest(req.url, routes).then(({component, __REACT_QUERY_STATE__ = ''}) => {
+    console.log(__REACT_QUERY_STATE__);
+    res.render('client', { assets, component, __REACT_QUERY_STATE__ })
   });
 })
 

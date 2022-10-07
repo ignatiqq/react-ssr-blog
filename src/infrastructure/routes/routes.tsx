@@ -1,19 +1,23 @@
 import axios from "axios";
 
-import createInitialQueryRequest from '../initDataCreators/query';
+import createInitialQueryRequest from '../../client/infrastructure/initDataCreators/query';
 import { IRouteType } from "./types";
 import {Feed, Overview} from '../../client/modules/pages';
 import { QueryClient } from "@tanstack/react-query";
+import App from "../../client/App";
 
 const routes: IRouteType[] = [
     {
         path: '/',
-        component: Overview,
+        component: App
+    },
+    {
+        path: '/overview',
+        ...Overview
     },
     {
         path: '/feed',
         component: Feed,
-        getInitialData: (queryClient: QueryClient) => createInitialQueryRequest<{id: number, title: string}[]>(queryClient, {key: ['todos'], fn: () => axios.get('https://jsonplaceholder.typicode.com/todos')}),
     }
 ]
 

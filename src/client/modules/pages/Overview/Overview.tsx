@@ -1,9 +1,36 @@
-import React from "react";
+import axios, { AxiosResponse } from 'axios';
+import React from 'react';
+import {useAppQuery} from '../../../libs/query';
+import { queryRequestsCreator } from '../../../infrastructure/initDataCreators/createQueries';
 
-const Overview: React.FC = () => {
-    return (
-        <h1>Overview</h1>
-    )
+const getTodos = async () => {
+  const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5');
+  return await res.data;
+}
+const key = ['todos'];
+
+const Overview = () => {
+  const todos = useAppQuery(key, getTodos);
+
+  if(todos.isLoading) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <div>
+      {JSON.stringify(todos.data)}
+    </div>
+  )
 }
 
-export default Overview;
+const queryData = [{
+    key: key,
+    fn: getTodos
+}]
+
+export default {
+  component: Overview,
+  initialData: {
+    getInitialQueryData: queryRequestsCreator(queryData),
+  }
+};

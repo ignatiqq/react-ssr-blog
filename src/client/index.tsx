@@ -7,17 +7,15 @@ import './styles/index.scss';
 import App from './App';
 
 const dehydratedState = (window as any).__REACT_QUERY_STATE__;
-const queryClient = new QueryClient();
-
-console.log(dehydratedState);
+export const queryClient = new QueryClient();
 
 const container = document.getElementById('root') as HTMLElement;
 
-const root = hydrateRoot(
+hydrateRoot(
     container, 
     <QueryClientProvider client={queryClient}>
-        <Hydrate state={dehydratedState}>
+        <Hydrate state={JSON.parse(dehydratedState)}>
             <App />
-        </Hydrate>
+        </Hydrate> 
     </QueryClientProvider>
 );
