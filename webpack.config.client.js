@@ -1,7 +1,7 @@
 const path = require('path');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {webpakckAliases} = require('./config/aliases');
+const {webpackAliases} = require('./config/aliases');
 
 module.exports = {
   name: 'client',
@@ -17,7 +17,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'],
-    aliases: webpakckAliases,
+    alias: webpackAliases,
   },
   module: {
   rules: [

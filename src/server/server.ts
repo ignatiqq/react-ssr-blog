@@ -2,7 +2,7 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 
-import handleRequest from './infrastructure/handleRequest/handleRequest';
+import handleRequest from '@server/infrastructure/handleRequest/handleRequest';
 import routes from '@general-infrastructure/routes/routes';
 
 const server = express();

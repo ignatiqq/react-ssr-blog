@@ -1,12 +1,8 @@
 {
-    "include": ["client"],
+    "extends": "./tsconfig.json",
+    "exclude": ["node_modules", "src/server"],
     "compilerOptions": {
-      "baseUrl": "../",
-      "paths": {
-        "@client/*": ["../src/client/*"],
-        "@server/*": ["../src/server/*"],
-        "@general-infrastructure": ["../src/infrastructure/*"],
-      },
+      "baseUrl": "src",
       "module": "es6",
       "target": "es5",
       "jsx": "react",
@@ -16,6 +12,6 @@
       "strict": true,
       "strictNullChecks": true,
       "noImplicitAny": false,
-      "moduleResolution": "node",
-    }
+      "moduleResolution": "node"
+    },
 }

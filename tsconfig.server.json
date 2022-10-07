@@ -1,12 +1,9 @@
 {
-    "include": ["server"],
+    "extends": "./tsconfig.json",
+    "exclude": ["node_modules", "src/client"],
     "compilerOptions": {
       "module": "commonjs",
-      "paths": {
-        "@client/*": ["./client/*"],
-        "@server/*": ["./server/*"],
-        "@general-infrastructure/*": ["./infrastructure/*"],
-      },
+      "baseUrl": "src",
       "esModuleInterop": true,
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
@@ -17,7 +14,6 @@
       "allowJs": true,
       "strict": true,
       "strictNullChecks": true,
-      "noImplicitAny": false,
-      "allowSyntheticDefaultImports": true
+      "noImplicitAny": false
     }
 }
