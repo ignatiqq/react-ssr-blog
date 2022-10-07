@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es5",
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@general-infrastructure/*": ["./infrastructure/*"],
+      "@client/*": ["./client/*"],
+      "@server/*": ["./server/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

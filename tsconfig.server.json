@@ -1,5 +1,6 @@
 {
-    "include": ["server"],
+    "extends": "./tsconfig.json",
+    "exclude": ["node_modules", "src/client"],
     "compilerOptions": {
       "module": "commonjs",
       "baseUrl": "src",

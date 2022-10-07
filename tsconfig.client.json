@@ -1,5 +1,6 @@
 {
-    "include": ["client"],
+    "extends": "./tsconfig.json",
+    "exclude": ["node_modules", "src/server"],
     "compilerOptions": {
       "baseUrl": "src",
       "module": "es6",
@@ -12,5 +13,5 @@
       "strictNullChecks": true,
       "noImplicitAny": false,
       "moduleResolution": "node"
-    }
+    },
 }

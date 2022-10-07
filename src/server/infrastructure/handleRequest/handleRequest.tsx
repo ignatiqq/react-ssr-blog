@@ -6,9 +6,9 @@ import { StaticRouter } from 'react-router-dom/server';
 import serializeJavascript from 'serialize-javascript';
 
 // utils
-import { IRouteType } from "../../../infrastructure/routes/types";
-import App from '../../../client/App';
-import { getReactQueryState } from '../requestDataHandlers/getQueryState';
+import { IRouteType } from "@general-infrastructure/routes/types";
+import App from '@client/App';
+import { getReactQueryState } from '@server/infrastructure/requestDataHandlers/getQueryState';
 
 interface handleRequestResult {
     component: string;

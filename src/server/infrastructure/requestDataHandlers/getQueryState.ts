@@ -1,5 +1,5 @@
 import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { getInitialQueryData } from "../../../infrastructure/routes/types";
+import { getInitialQueryData } from "@general-infrastructure/routes/types";
 
 // @TODO ADD ARGUMENTS TO QUERY FN'S
 const getReactQueryState = async (queryClient: QueryClient, requests: getInitialQueryData[]): Promise<ReturnType<typeof dehydrate>> => {
