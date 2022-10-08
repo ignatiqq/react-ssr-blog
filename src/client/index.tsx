@@ -14,7 +14,7 @@ const container = document.getElementById('root') as HTMLElement;
 hydrateRoot(
     container, 
     <QueryClientProvider client={queryClient}>
-        <Hydrate state={JSON.parse(dehydratedState)}>
+        <Hydrate state={dehydratedState}>
             <App />
         </Hydrate> 
     </QueryClientProvider>
