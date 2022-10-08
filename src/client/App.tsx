@@ -1,9 +1,12 @@
-import React from 'react';
+import React from 'react'
+import { Overview } from '@client/modules/pages';
 
 const App = () => {
-	return (
-		<div>My blog</div>
-	);
-};
+  return (
+    <div>
+      <Overview.component />
+    </div>
+  )
+}
 
 export default App;
