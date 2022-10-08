@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 import handleRequest from '@server/infrastructure/handleRequest/handleRequest';
-import routes from '@general-infrastructure/routes/routes';
+import {routes} from '@general-infrastructure/routes/routes';
 
 const server = express();
 
@@ -20,15 +20,11 @@ const assets = JSON.parse(manifest);
 
 // TODO -
 // 1. Static Router
-// 2. infrastructure useQuery
-// 3. useAppQuery endpoints
-// 4. window.__initial_query__
 // https://tanstack.com/query/v4/docs/guides/ssr
 // 5. redux for theme
 
 server.get('*', (req, res, next) => {
 	handleRequest(req.url, routes).then(({component, __REACT_QUERY_STATE__ = ''}) => {
-		console.log(__REACT_QUERY_STATE__);
 		res.render('client', { assets, component, __REACT_QUERY_STATE__ });
 	});
 });
