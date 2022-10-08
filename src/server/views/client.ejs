@@ -8,7 +8,7 @@
   <body>
     <div id="root"><%- component %></div>
     <script>
-      window.__REACT_QUERY_STATE__ = <%= __REACT_QUERY_STATE__ %>
+      window.__REACT_QUERY_STATE__ = <%-__REACT_QUERY_STATE__ %>
     </script>
     <script defer="defer" src="<%= assets["client.js"] %>"></script>
   </body>
