@@ -1,4 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient } from '@tanstack/react-query';
 
 export type getInitialQueryData = (queryClient: QueryClient, ...args: any[]) => ReturnType<typeof queryClient.prefetchQuery>;
 
@@ -7,10 +7,10 @@ interface IRouteType {
     component: React.FC;
     initialData?: {
         getInitialQueryData?: Array<getInitialQueryData>;
-        getInitialStoreData?: Array<(store: any) => void>; 
+        getInitialStoreData?: Array<(store: any) => void>;
     }
 }
 
 export {
-    IRouteType,
-}
+	IRouteType,
+};

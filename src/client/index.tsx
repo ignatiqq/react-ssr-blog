@@ -12,10 +12,10 @@ export const queryClient = new QueryClient();
 const container = document.getElementById('root') as HTMLElement;
 
 hydrateRoot(
-    container, 
-    <QueryClientProvider client={queryClient}>
-        <Hydrate state={JSON.parse(dehydratedState)}>
-            <App />
-        </Hydrate> 
-    </QueryClientProvider>
+	container,
+	<QueryClientProvider client={queryClient}>
+		<Hydrate state={JSON.parse(dehydratedState)}>
+			<App />
+		</Hydrate>
+	</QueryClientProvider>,
 );

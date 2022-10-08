@@ -1,7 +1,8 @@
 const path = require('path');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {webpackAliases} = require('./config/aliases');
+const { webpackAliases } = require('./config/aliases');
+const { App } = require('./src/client/App');
 
 module.exports = {
   name: 'client',
@@ -10,10 +11,10 @@ module.exports = {
   },
   mode: 'production',
   output: {
-    path: path.resolve(__dirname + '/dist/static'),
+    path: path.resolve(__dirname, '/dist/static'),
     filename: '[name].[contenthash].js',
     publicPath: '/',
-    clean: true
+    clean: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'],
@@ -52,4 +53,4 @@ module.exports = {
   plugins: [new WebpackManifestPlugin(), new MiniCssExtractPlugin({
     filename: '[name].[contenthash].css'
   })],
-}
+};
