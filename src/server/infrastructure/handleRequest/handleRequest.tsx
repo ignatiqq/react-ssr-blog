@@ -28,18 +28,20 @@ async function handleRequest(url: string, routes: IRouteType[]): Promise<handleR
 		}
 
 		component = ReactDOMServer.renderToString(
-			<QueryClientProvider client={queryClient}>
-				<Hydrate state={dehydratedState}>
-					<App />
-				</Hydrate>
-			</QueryClientProvider>,
+			<StaticRouter location={url}>
+				<QueryClientProvider client={queryClient}>
+					<Hydrate state={dehydratedState}>
+						<App />
+					</Hydrate>
+				</QueryClientProvider>
+			</StaticRouter>,
 		);
 
 		queryClient.clear();
 
 		return {
 			component,
-			__REACT_QUERY_STATE__: JSON.stringify(dehydratedState),
+			__REACT_QUERY_STATE__: serializeJavascript(dehydratedState),
 		};
 	}
 	return {

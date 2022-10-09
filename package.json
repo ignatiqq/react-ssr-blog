@@ -6,7 +6,8 @@
   "scripts": {
     "build:server": "webpack --config webpack.config.server.js",
     "build:client": "webpack --config webpack.config.client.js",
-    "build:start": "npm run build:server && npm run build:client && npm start",
+    "build:start:prod": "NODE_ENV=production npm run build:server && NODE_ENV=production npm run build:client && npm start",
+    "build:start:dev": "NODE_ENV=development npm run build:server && NODE_ENV=development npm run build:client && npm start",
     "watch": "node dev.js",
     "start": "node ./dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,7 +30,6 @@
     "css-loader": "^6.7.1",
     "eslint": "^8.25.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.3.0",
     "eslint-plugin-promise": "^6.0.1",
     "eslint-plugin-react": "^7.31.8",
     "mini-css-extract-plugin": "^2.6.1",
