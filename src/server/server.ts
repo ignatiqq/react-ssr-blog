@@ -10,7 +10,9 @@ const server = express();
 server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views'));
 
-server.use('/', express.static(path.join(__dirname, 'static')));
+server.use('/static', express.static(path.join(__dirname, 'static')));
+
+// server.use(express.static(path.join(__dirname, 'static')));
 
 const manifest = fs.readFileSync(
 	path.join(__dirname, 'static/manifest.json'),
@@ -23,7 +25,7 @@ const assets = JSON.parse(manifest);
 // https://tanstack.com/query/v4/docs/guides/ssr
 // 5. redux for theme
 
-server.get('*', (req, res, next) => {
+server.get('*', (req, res) => {
 	handleRequest(req.url, routes).then(({component, __REACT_QUERY_STATE__ = ''}) => {
 		res.render('client', { assets, component, __REACT_QUERY_STATE__ });
 	});

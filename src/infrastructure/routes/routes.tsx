@@ -1,9 +1,6 @@
-import axios from 'axios';
-
-import createInitialQueryRequest from '@client/infrastructure/initDataCreators/query';
+import React from 'react';
 import { IRouteType } from './types';
 import {Feed, Overview} from '@client/modules/pages';
-import { QueryClient } from '@tanstack/react-query';
 import App from '@client/App';
 import { useRoutes } from 'react-router-dom';
 
@@ -22,9 +19,11 @@ const routes: IRouteType[] = [
 	},
 ];
 
-const clientRoutes = useRoutes(routes);
+const Routes: React.FC = () => {
+	return useRoutes([{path: '/', element: <Feed />}, {path: '/overview', element: <Overview.component />}]);
+};
 
 export {
 	routes,
-	clientRoutes,
+	Routes,
 };

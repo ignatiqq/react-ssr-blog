@@ -15,7 +15,7 @@ hydrateRoot(
 	container,
 	<BrowserRouter>
 		<QueryClientProvider client={queryClient}>
-			<Hydrate state={JSON.parse(dehydratedState)}>
+			<Hydrate state={dehydratedState}>
 				<App />
 			</Hydrate>
 		</QueryClientProvider>
