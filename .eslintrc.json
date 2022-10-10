@@ -22,8 +22,8 @@
         "indent": [2, "tab"],
         "semi": [2, "always"],
         "comma-dangle": [2, "always-multiline"],
-        "max-lines": [2, 80],
-        "max-len": [2, 150],
+        "max-lines": [2, 150],
+        "max-len": [2, 100],
         "no-trailing-spaces": 2,
         "quotes": [2, "single"]
     }

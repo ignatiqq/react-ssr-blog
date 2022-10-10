@@ -21,8 +21,6 @@ const manifest = fs.readFileSync(
 const assets = JSON.parse(manifest);
 
 // TODO -
-// 1. Static Router
-// https://tanstack.com/query/v4/docs/guides/ssr
 // 5. redux for theme
 
 server.get('*', (req, res) => {
