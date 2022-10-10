@@ -24,7 +24,10 @@ async function handleRequest(url: string, routes: IRouteType[]): Promise<handleR
 		const queryClient = new QueryClient();
 
 		if(activeRoute?.initialData?.getInitialQueryData) {
-			dehydratedState = await getReactQueryState(queryClient, activeRoute.initialData?.getInitialQueryData);
+			dehydratedState = await getReactQueryState(
+				queryClient,
+				activeRoute.initialData?.getInitialQueryData,
+			);
 		}
 
 		component = ReactDOMServer.renderToString(
