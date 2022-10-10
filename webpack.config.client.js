@@ -2,9 +2,11 @@ const path = require('path');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { webpackAliases } = require('./config/aliases');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isDev = mode === 'development';
+const analysisMode = process.env.ANALYSIS_MODE ? true : false;
 
 module.exports = {
 	name: 'client',
@@ -29,14 +31,12 @@ module.exports = {
 		splitChunks: {
 			cacheGroups: {
 				reactVendor: {
-					test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+					test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
 					name: 'react-libs',
 					chunks: 'all',
 				},
 				clientVendors: {
-					// eslint-disable-next-line max-len
 					// вебпак не возьмет express и ejs в бандл так как у него в дереве нет зависимости на них
-					// eslint-disable-next-line max-len
 					test: /[\/]node_modules[\/]((?!(react|react-dom|react-router-dom)).*)[\/]/,
 					name: 'vendors-without-react-libs',
 					chunks: 'all',
@@ -74,7 +74,14 @@ module.exports = {
 			},
 		],
 	},
-	plugins: [new WebpackManifestPlugin(), new MiniCssExtractPlugin({
-		filename: '[name].[contenthash].css',
-	})],
+	plugins: [
+		new WebpackManifestPlugin(),
+		new MiniCssExtractPlugin({
+			filename: '[name].[contenthash].css',
+		}),
+		new BundleAnalyzerPlugin({
+			generateStatsFile: isDev ? true: false,
+			analyzerMode: analysisMode,
+		}),
+	],
 };

@@ -6,6 +6,7 @@
   "scripts": {
     "build:server": "webpack --config webpack.config.server.js",
     "build:client": "webpack --config webpack.config.client.js",
+    "build:all": "NODE_ENV=development ANALYSIS_MODE=false npm run build:server && NODE_ENV=production npm run build:client && npm start",
     "build:start:prod": "NODE_ENV=production npm run build:server && NODE_ENV=production npm run build:client && npm start",
     "build:start:dev": "NODE_ENV=development npm run build:server && NODE_ENV=development npm run build:client && npm start",
     "watch": "node dev.js",
@@ -37,6 +38,7 @@
     "sass-loader": "^13.0.2",
     "ts-loader": "^9.4.1",
     "webpack": "^5.74.0",
+    "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0",
     "webpack-manifest-plugin": "^5.0.0",
     "webpack-node-externals": "^3.0.0"
