@@ -24,6 +24,8 @@ module.exports = {
 	},
 	devtool: isDev ? 'inline-source-map' : 'source-map',
 	optimization: {
+		runtimeChunk: 'single',
+		moduleIds: 'deterministic',
 		splitChunks: {
 			cacheGroups: {
 				reactVendor: {
@@ -35,8 +37,8 @@ module.exports = {
 					// eslint-disable-next-line max-len
 					// вебпак не возьмет express и ejs в бандл так как у него в дереве нет зависимости на них
 					// eslint-disable-next-line max-len
-					test: /[\/]node_modules[\/]((?!(react|react-dom|react-router-dom|express|ejs)).*)[\/]/,
-					name: 'vendors-without-react',
+					test: /[\/]node_modules[\/]((?!(react|react-dom|react-router-dom)).*)[\/]/,
+					name: 'vendors-without-react-libs',
 					chunks: 'all',
 				},
 			},
