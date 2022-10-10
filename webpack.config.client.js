@@ -23,6 +23,25 @@ module.exports = {
 		alias: webpackAliases,
 	},
 	devtool: isDev ? 'inline-source-map' : 'source-map',
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				reactVendor: {
+					test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+					name: 'react-libs',
+					chunks: 'all',
+				},
+				clientVendors: {
+					// eslint-disable-next-line max-len
+					// вебпак не возьмет express и ejs в бандл так как у него в дереве нет зависимости на них
+					// eslint-disable-next-line max-len
+					test: /[\/]node_modules[\/]((?!(react|react-dom|react-router-dom|express|ejs)).*)[\/]/,
+					name: 'vendors-without-react',
+					chunks: 'all',
+				},
+			},
+		},
+	},
 	module: {
 		rules: [
 			{
