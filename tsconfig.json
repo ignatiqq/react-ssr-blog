@@ -13,7 +13,7 @@
     "paths": {
       "@general-infrastructure/*": ["./infrastructure/*"],
       "@client/*": ["./client/*"],
-      "@server/*": ["./server/*"]
+      "@server/*": ["./server/*"],
     }
   },
   "exclude": ["node_modules"]

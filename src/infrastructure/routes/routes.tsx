@@ -19,14 +19,6 @@ const routes: IRouteType[] = [
 	},
 ];
 
-const Routes: React.FC = () => {
-	return useRoutes([
-		{path: '/', element: <Feed />},
-		{path: '/overview', element: <Overview.component />},
-	]);
-};
-
 export {
 	routes,
-	Routes,
 };

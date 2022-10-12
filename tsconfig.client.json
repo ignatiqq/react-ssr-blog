@@ -3,7 +3,7 @@
     "exclude": ["node_modules", "src/server"],
     "compilerOptions": {
       "baseUrl": "src",
-      "module": "es6",
+      "module": "ESNext",
       "target": "es5",
       "jsx": "react",
       "allowSyntheticDefaultImports": true,

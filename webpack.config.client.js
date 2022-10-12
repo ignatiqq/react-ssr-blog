@@ -3,10 +3,12 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { webpackAliases } = require('./config/aliases');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require('terser-webpack-plugin');
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isDev = mode === 'development';
-const analysisMode = process.env.ANALYSIS_MODE ? true : false;
+
+// @TODO раскидать статику по папочкам картинки жс css
 
 module.exports = {
 	name: 'client',
@@ -26,8 +28,9 @@ module.exports = {
 	},
 	devtool: isDev ? 'inline-source-map' : 'source-map',
 	optimization: {
-		runtimeChunk: 'single',
 		moduleIds: 'deterministic',
+		minimize: !isDev ? true: false,
+		minimizer: !isDev ? [new TerserPlugin()] : [],
 		splitChunks: {
 			cacheGroups: {
 				reactVendor: {
@@ -81,7 +84,6 @@ module.exports = {
 		}),
 		new BundleAnalyzerPlugin({
 			generateStatsFile: isDev ? true: false,
-			analyzerMode: analysisMode,
 		}),
 	],
 };

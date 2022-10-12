@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Routes } from '@general-infrastructure/routes/routes';
+import { Link } from 'react-router-dom';
+import Routes from '@client/infrastructure/Routes/Routes';
 
 const App = () => {
 	const [counter, increment] = useState(234234);
@@ -9,16 +10,13 @@ const App = () => {
 		increment(prev => prev + 1);
 	}
 
-	useEffect(() => {
-		console.log('EFFECT');
-	});
-
 	return (
 		<div>
 			{counter}
 			<button onClick={incrementFn}>Increment</button>
 			<h1>HEADER HASH CHANGE</h1>
-			{/* <Routes /> */}
+			<Link to="/overview">Overview</Link>
+			<Routes />
 		</div>
 	);
 };
