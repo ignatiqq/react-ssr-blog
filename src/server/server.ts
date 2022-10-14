@@ -15,12 +15,6 @@ server.use('/static', express.static(path.join(__dirname, 'static')));
 
 // server.use(express.static(path.join(__dirname, 'static')));
 
-const manifest = fs.readFileSync(
-	path.join(__dirname, 'static/manifest.json'),
-	'utf-8',
-);
-const assets = JSON.parse(manifest);
-
 // TODO -
 // 5. redux for theme
 

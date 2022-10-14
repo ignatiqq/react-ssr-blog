@@ -1,49 +1,19 @@
 import React from 'react';
 
-interface ScriptType {
-    src: string;
-    async: 'defer' | 'async';
+interface ChildrenType {
+	children: React.ReactNode;
 }
 
-interface AssetsType {
-    css: {
-        head: {
-            href: string;
-            rel: string;
-        }[],
-    },
-    meta: {name: string, content: string}[];
-    scripts: {
-        head: ScriptType[],
-        body: ScriptType[]
-    };
-}
-
-interface HTMLPropsType {
-    assets: AssetsType;
+export type HTMLDataType =  {
+    assets: {[key: string]: string};
     globalStatements: {[key: string]: string};
     title: string;
-    children: React.ReactNode;
 }
 
-const getScriptTag = (props: ScriptType, i: number) => {
-	const {src, async} = props;
-	switch (async) {
-	case 'async':
-		return <script key={i} src={src} async />;
-		break;
+type HTMLComponentPropsType = {HTMLData: HTMLDataType} & ChildrenType;
 
-	case 'defer':
-		return <script key={i} src={src} defer />;
-		break;
-
-	default:
-		return <script key={i} src={src} />;
-		break;
-	}
-};
-
-const Html: React.FC<HTMLPropsType> = ({ assets, globalStatements, title, children}) => {
+const Html: React.FC<HTMLComponentPropsType> = ({HTMLData, children}) => {
+	const {title, assets, globalStatements} = HTMLData;
 	return (
 		<html>
 			<head>
@@ -70,6 +40,18 @@ const Html: React.FC<HTMLPropsType> = ({ assets, globalStatements, title, childr
 			</body>
 			{
 				assets.scripts.body.map(getScriptTag)
+			}
+			{
+				assets.variables.map(({name, value}) => {
+					return (
+						<script
+							key={name}
+							dangerouslySetInnerHTML={{
+							    __html: `window.${name}: ${value}`,
+						    }}
+						/>
+					);
+				})
 			}
 		</html>
 	);

@@ -1,2 +1,1 @@
-// @ts-ignore
-export { default as Html } from './Html';
+export { default as Html } from './Html/Html';
