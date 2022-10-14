@@ -20,6 +20,7 @@ module.exports = {
 		path: path.resolve(__dirname + '/dist/static'),
 		filename: '[name].[contenthash].js',
 		publicPath: path.resolve(__dirname, '/static'),
+		chunkFilename: 'static.[name].bundle.js',
 		clean: true,
 	},
 	resolve: {

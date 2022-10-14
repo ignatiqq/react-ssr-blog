@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import React from 'react';
 import {useAppQuery} from '../../../libs/query';
 import { queryRequestsCreator } from '../../../infrastructure/initDataCreators/createQueries';
