@@ -1,4 +1,5 @@
 import React from 'react';
+import { Response } from 'express';
 import { dehydrate, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { matchPath } from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
@@ -15,7 +16,7 @@ interface handleRequestResult {
     __REACT_QUERY_STATE__?: string;
 }
 
-async function handleRequest(url: string, routes: IRouteType[]): Promise<handleRequestResult> {
+async function handleRequest(url: string, res: Response, routes: IRouteType[]): Promise<handleRequestResult> {
 	const activeRoute = routes.find((route) => matchPath(route.path, url));
 	let component = '';
 
@@ -30,7 +31,7 @@ async function handleRequest(url: string, routes: IRouteType[]): Promise<handleR
 			);
 		}
 
-		component = ReactDOMServer.renderToString(
+		const stream = ReactDOMServer.renderToPipeableStream(
 			<StaticRouter location={url}>
 				<QueryClientProvider client={queryClient}>
 					<Hydrate state={dehydratedState}>
@@ -38,7 +39,22 @@ async function handleRequest(url: string, routes: IRouteType[]): Promise<handleR
 					</Hydrate>
 				</QueryClientProvider>
 			</StaticRouter>,
+			{
+				onShellReady() {
+
+				}
+			}
 		);
+
+		// component = ReactDOMServer.renderToString(
+		// <StaticRouter location={url}>
+		// 	<QueryClientProvider client={queryClient}>
+		// 		<Hydrate state={dehydratedState}>
+		// 			<App />
+		// 		</Hydrate>
+		// 	</QueryClientProvider>
+		// </StaticRouter>,
+		// );
 
 		queryClient.clear();
 
