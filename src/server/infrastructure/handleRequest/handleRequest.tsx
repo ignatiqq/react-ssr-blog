@@ -32,6 +32,7 @@ async function handleRequest(url: string, res: Response, routes: IRouteType[]): 
 		queryClient.clear();
 
 	} else {
+		// TODO Rewrite on show react app with error page
 		res.statusCode = 404;
 		res.setHeader('Content-type', 'text/html');
 		res.end('<h2>Oops page not found</h2>');

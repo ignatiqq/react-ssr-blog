@@ -5,7 +5,7 @@ import { Html } from '@client/components/ssr';
 import type {HTMLDataType} from '@client/components/ssr/Html/Html';
 
 interface AppPropsType {
-	HTMLData: HTMLDataType;
+	HTMLData?: HTMLDataType;
 }
 
 const App: React.FC<AppPropsType> = ({HTMLData}) => {

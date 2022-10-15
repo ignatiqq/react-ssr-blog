@@ -13,15 +13,11 @@ server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views'));
 server.use('/static', express.static(path.join(__dirname, 'static')));
 
-// server.use(express.static(path.join(__dirname, 'static')));
-
 // TODO -
 // 5. redux for theme
 
 server.get('*', handleErrors(async function(req, res) {
-	handleRequest(req.url, res, routes).then(({component, __REACT_QUERY_STATE__ = ''}) => {
-		res.render('client', { assets, component, __REACT_QUERY_STATE__ });
-	});
+	handleRequest(req.url, res, routes);
 }));
 
 // server.get('*', (req: Request, res: Response) => {

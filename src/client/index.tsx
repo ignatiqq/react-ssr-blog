@@ -11,9 +11,6 @@ const container = document.getElementById('root') as HTMLElement;
 const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 export const queryClient = new QueryClient();
 
-console.log(typeof window);
-console.log(dehydratedState);
-
 hydrateRoot(
 	container,
 	<BrowserRouter>

@@ -10,7 +10,7 @@ export type HTMLDataType =  {
     title: string;
 }
 
-type HTMLComponentPropsType = {HTMLData: HTMLDataType} & ChildrenType;
+type HTMLComponentPropsType = {HTMLData: HTMLDataType} & ChildrenType | undefined;
 
 const Html: React.FC<HTMLComponentPropsType> = ({HTMLData, children}) => {
 	const {title, assets, globalStatements} = HTMLData;
@@ -19,18 +19,7 @@ const Html: React.FC<HTMLComponentPropsType> = ({HTMLData, children}) => {
 			<head>
 				<meta charSet="utf-8" />
 				<title>{title}</title>
-				{
-					// key never changes
-					assets.css.head.map(({rel, href}, i) => {
-						return <link key={i} rel={rel} href={href} />;
-					})
-				}
-				{
-					// key never changes
-					assets.meta.map(({name, content}, i) => {
-						return <meta key={i} name={name} content={content} />;
-					})
-				}
+				<link rel="stylesheet" href={assets['client.css']} />
 				<meta name="description" content="ignatiqq blog about programming" />
 			</head>
 			<body>
@@ -38,21 +27,15 @@ const Html: React.FC<HTMLComponentPropsType> = ({HTMLData, children}) => {
 					{children}
 				</div>
 			</body>
-			{
-				assets.scripts.body.map(getScriptTag)
-			}
-			{
-				assets.variables.map(({name, value}) => {
-					return (
-						<script
-							key={name}
-							dangerouslySetInnerHTML={{
-							    __html: `window.${name}: ${value}`,
-						    }}
-						/>
-					);
-				})
-			}
+			<script defer src={assets['static.src_client_modules_pages_Lazy_tsx.bundle.js']} />
+			<script defer src={assets['client.js']} />
+			<script src={assets['vendors-without-react-libs.js']} />
+			<script src={assets['react-libs.js']} />
+			<script
+				dangerouslySetInnerHTML={{
+					__html: `window.__REACT_QUERY_STATE__: ${globalStatements.__REACT_QUERY_STATE__}`,
+				}}
+			/>
 		</html>
 	);
 };

@@ -21,8 +21,6 @@ interface RenderOptions {
 const render = (res: Response, options: RenderOptions) => {
 	const {url, queryClient, queryState, title} = options;
 
-	let didError = false;
-
 	const manifest = fs.readFileSync(
 		path.join(__dirname, 'static/manifest.json'),
 		'utf-8',
@@ -38,6 +36,7 @@ const render = (res: Response, options: RenderOptions) => {
 		assets,
 		title,
 	};
+	let didError = false;
 
 	const stream = renderToPipeableStream(
 		<StaticRouter location={url}>
@@ -53,9 +52,9 @@ const render = (res: Response, options: RenderOptions) => {
 				res.setHeader('Content-type', 'text/html');
 				stream.pipe(res);
 			},
-			onError(err: ErrorType) {
+			onError(err) {
 				didError = true;
-				console.error(err.message);
+				console.error((err as ErrorType).message);
 			},
 		},
 	);
