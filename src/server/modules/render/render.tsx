@@ -28,21 +28,26 @@ const render = (res: Response, options: RenderOptions) => {
 
 	// assets html data
 	const assets = JSON.parse(manifest);
-	const globalStatements = {
-		__REACT_QUERY_STATE__: queryState,
-	};
 	const assetsHtmlData = {
-		globalStatements,
 		assets,
 		title,
 	};
+	const globalStatements = {
+		__REACT_QUERY_STATE__: queryState,
+		__HTML_ASSETS__: JSON.stringify(assetsHtmlData),
+	};
 	let didError = false;
+
+	const assetsWithGlobalStatements = {
+		...assetsHtmlData,
+		globalStatements,
+	};
 
 	const stream = renderToPipeableStream(
 		<StaticRouter location={url}>
 			<QueryClientProvider client={queryClient}>
 				<Hydrate state={queryState}>
-					<App HTMLData={assetsHtmlData} />
+					<App HTMLData={assetsWithGlobalStatements} />
 				</Hydrate>
 			</QueryClientProvider>
 		</StaticRouter>,

@@ -9,6 +9,7 @@ import App from './App';
 const container = document.getElementById('root') as HTMLElement;
 
 const dehydratedState = (window as any).__REACT_QUERY_STATE__;
+const globalHTMLAssets = JSON.parse((window as any).__HTML_ASSETS__ || '');
 export const queryClient = new QueryClient();
 
 hydrateRoot(
@@ -16,7 +17,7 @@ hydrateRoot(
 	<BrowserRouter>
 		<QueryClientProvider client={queryClient}>
 			<Hydrate state={dehydratedState}>
-				<App />
+				<App HTMLData={globalHTMLAssets} />
 			</Hydrate>
 		</QueryClientProvider>
 	</BrowserRouter>,
