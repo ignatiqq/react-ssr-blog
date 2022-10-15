@@ -38,10 +38,4 @@ module.exports = {
 			},
 		],
 	},
-	plugins: [
-		new CopyPlugin({
-			patterns: [{
-				from: path.resolve(__dirname, 'src/server/views'), to: path.resolve(__dirname, 'dist/views') }],
-		}),
-	],
 };
