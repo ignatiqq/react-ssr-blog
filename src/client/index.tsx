@@ -6,17 +6,13 @@ import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query
 import './styles/index.scss';
 import App from './App';
 
-const container = document.getElementById('root') as HTMLElement;
-
 // TODO DECLARE WINDOW TYPE
 const dehydratedState = (window as any).__REACT_QUERY_STATE__;
 const globalHTMLAssets = JSON.parse((window as any).__HTML_ASSETS__ || '');
 export const queryClient = new QueryClient();
 
-console.log(globalHTMLAssets);
-
 hydrateRoot(
-	container,
+	document,
 	<BrowserRouter>
 		<QueryClientProvider client={queryClient}>
 			<Hydrate state={dehydratedState}>
