@@ -34,7 +34,9 @@ const render = (res: Response, options: RenderOptions) => {
 	};
 	const globalStatements = {
 		__REACT_QUERY_STATE__: queryState,
-		__HTML_ASSETS__: JSON.stringify(assetsHtmlData),
+		__HTML_ASSETS__: JSON.stringify({...assetsHtmlData, globalStatements: {
+			__REACT_QUERY_STATE__: queryState,
+		}}),
 	};
 	let didError = false;
 

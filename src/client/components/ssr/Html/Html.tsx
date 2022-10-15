@@ -33,10 +33,12 @@ const Html: React.FC<HTMLComponentPropsType> = ({HTMLData, children}) => {
 			<script src={assets['react-libs.js']} />
 			<script
 				dangerouslySetInnerHTML={{
-					__html: `
-						window.__REACT_QUERY_STATE__: ${globalStatements.__REACT_QUERY_STATE__};
-						window.__HTML_ASSETS__: ${globalStatements.__HTML_ASSETS__};
-					`,
+					__html: `window.__REACT_QUERY_STATE__ = ${globalStatements.__REACT_QUERY_STATE__};`,
+				}}
+			/>
+			<script
+				dangerouslySetInnerHTML={{
+					__html: `window.__HTML_ASSETS__ = ${JSON.stringify(globalStatements.__HTML_ASSETS__)};`,
 				}}
 			/>
 		</html>

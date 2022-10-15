@@ -18,12 +18,14 @@ const App: React.FC<AppPropsType> = ({HTMLData}) => {
 
 	return (
 		<Html HTMLData={HTMLData}>
-			{counter}
-			<button onClick={incrementFn}>Increment</button>
-			<h1>HEADER HASH CHANGE</h1>
-			<Link to="/overview">Overview</Link>
-			<Link to="/lazy">lazy</Link>
-			<Routes />
+			<div>
+				{counter}
+				<button onClick={incrementFn}>Increment</button>
+				<h1>HEADER HASH CHANGE</h1>
+				<Link to="/overview">Overview</Link>
+				<Link to="/lazy">lazy</Link>
+				<Routes />
+			</div>
 		</Html>
 	);
 };
