@@ -1,6 +1,4 @@
 import express from 'express';
-import type { Request, Response } from 'express';
-import fs from 'fs';
 import path from 'path';
 
 import handleRequest from '@server/infrastructure/handleRequest/handleRequest';
@@ -19,12 +17,6 @@ server.use('/static', express.static(path.join(__dirname, 'static')));
 server.get('*', handleErrors(async function(req, res) {
 	handleRequest(req.url, res, routes);
 }));
-
-// server.get('*', (req: Request, res: Response) => {
-// 	handleRequest(req.url, res, routes).then(({component, __REACT_QUERY_STATE__ = ''}) => {
-// 		res.render('client', { assets, component, __REACT_QUERY_STATE__ });
-// 	});
-// });
 
 server.listen(3000, () => {
 	console.log('Server running on http://localhost:3000');
