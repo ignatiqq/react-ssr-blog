@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Routes from './infrastructure/Routes/Routes';
 // import { Html } from '@client/components/ssr';
@@ -17,14 +17,16 @@ const App: React.FC = () => {
 	}
 
 	return (
-		<div>
-			{counter}
-			<button onClick={incrementFn}>Increment</button>
-			<h1>HEADER HASH CHANGE</h1>
-			<Link to="/overview">Overview</Link>
-			<Link to="/lazy">lazy</Link>
-			<Routes />
-		</div>
+		<Suspense fallback={'Loading...'}>
+			<div>
+				{counter}
+				<button onClick={incrementFn}>Increment</button>
+				<h1>HEADER HASH CHANGE</h1>
+				<Link to="/overview">Overview</Link>
+				<Link to="/lazy">lazy</Link>
+				<Routes />
+			</div>
+		</Suspense>
 	);
 };
 

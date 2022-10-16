@@ -13,6 +13,7 @@ server.use('/static', express.static(path.join(__dirname, 'static')));
 // 5. redux for theme
 
 server.get('*', handleErrors(async function(req, res, next) {
+	console.log(req.url);
 	handleRequest(req.url, res, routes);
 }));
 

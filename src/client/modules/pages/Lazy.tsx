@@ -1,7 +1,7 @@
 import React from 'react';
 
 const LazyComponent = () => {
-	return <div>Lazy</div>;
+	return <div>Lazy COMPONENT</div>;
 };
 
 export default LazyComponent;
