@@ -13,30 +13,34 @@ export type HTMLDataType =  {
 type HTMLComponentPropsType = {HTMLData: HTMLDataType} & ChildrenType;
 
 const Html: React.FC<HTMLComponentPropsType> = ({HTMLData, children}) => {
-	const {title, assets, globalStatements} = HTMLData;
 	return (
 		<html lang="en">
 			<head>
 				<meta charSet="utf-8" />
-				<link rel="stylesheet" href={assets['client.css']} />
+				<link rel="stylesheet" href={HTMLData.assets['client.css']} />
 				<meta name="description" content="ignatiqq blog about programming" />
-				<title>{title}</title>
+				<title>{HTMLData.title}</title>
 			</head>
 			<body>
+				<noscript
+					dangerouslySetInnerHTML={{
+						__html: '<b>Enable JavaScript to run this app.</b>',
+					}}
+				/>
 				<div id="root">
 					{children}
 				</div>
-				<script defer src={assets['client.js']} />
-				<script src={assets['vendors-without-react-libs.js']} />
-				<script src={assets['react-libs.js']} />
+				<script defer src={HTMLData.assets['client.js']} />
+				<script src={HTMLData.assets['vendors-without-react-libs.js']} />
+				<script src={HTMLData.assets['react-libs.js']} />
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `window.__REACT_QUERY_STATE__ = ${globalStatements.__REACT_QUERY_STATE__};`,
+						__html: `window.__REACT_QUERY_STATE__ = ${HTMLData.globalStatements.__REACT_QUERY_STATE__};`,
 					}}
 				/>
 				<script
 					dangerouslySetInnerHTML={{
-						__html: `window.__HTML_ASSETS__ = ${JSON.stringify(globalStatements.__HTML_ASSETS__)};`,
+						__html: `window.__HTML_ASSETS__ = ${JSON.stringify(HTMLData.globalStatements.__HTML_ASSETS__)};`,
 					}}
 				/>
 			</body>

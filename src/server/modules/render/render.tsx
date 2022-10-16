@@ -9,6 +9,7 @@ import { QueryClientProvider, Hydrate, QueryClient } from '@tanstack/react-query
 import { ABORT_DELAY } from '@server/constants/render';
 import App from '@client/App';
 import { ErrorType } from '@server/types';
+import { Html } from '@client/components/ssr';
 
 interface RenderOptions {
 	url: string;
@@ -48,8 +49,10 @@ const render = (res: Response, options: RenderOptions) => {
 	const stream = renderToPipeableStream(
 		<StaticRouter location={url}>
 			<QueryClientProvider client={queryClient}>
-				<Hydrate state={queryState}>
-					<App HTMLData={assetsWithGlobalStatements} />
+				<Hydrate state={JSON.parse(queryState)}>
+					<Html HTMLData={assetsWithGlobalStatements}>
+						<App />
+					</Html>
 				</Hydrate>
 			</QueryClientProvider>
 		</StaticRouter>,
