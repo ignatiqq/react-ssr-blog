@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Routes from '@client/infrastructure/Routes/Routes';
+import Routes from './infrastructure/Routes/Routes';
+// import { Html } from '@client/components/ssr';
+// import type {HTMLDataType} from '@client/components/ssr/Html/Html';
 
-const App = () => {
+// interface AppPropsType {
+// 	HTMLData?: HTMLDataType;
+// }
+
+const App: React.FC = () => {
 	const [counter, increment] = useState(234234);
 
 	function incrementFn() {
@@ -11,14 +17,16 @@ const App = () => {
 	}
 
 	return (
-		<div>
-			{counter}
-			<button onClick={incrementFn}>Increment</button>
-			<h1>HEADER HASH CHANGE</h1>
-			<Link to="/overview">Overview</Link>
-			<Link to="/lazy">lazy</Link>
-			<Routes />
-		</div>
+		<Suspense fallback={'Loading...'}>
+			<div>
+				{counter}
+				<button onClick={incrementFn}>Increment</button>
+				<h1>HEADER HASH CHANGE</h1>
+				<Link to="/overview">Overview</Link>
+				<Link to="/lazy">lazy</Link>
+				<Routes />
+			</div>
+		</Suspense>
 	);
 };
 

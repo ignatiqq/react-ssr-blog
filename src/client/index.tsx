@@ -8,11 +8,10 @@ import App from './App';
 
 const container = document.getElementById('root') as HTMLElement;
 
+// TODO DECLARE WINDOW TYPE
 const dehydratedState = (window as any).__REACT_QUERY_STATE__;
+const globalHTMLAssets = JSON.parse((window as any).__HTML_ASSETS__ || '');
 export const queryClient = new QueryClient();
-
-console.log(typeof window);
-console.log(dehydratedState);
 
 hydrateRoot(
 	container,

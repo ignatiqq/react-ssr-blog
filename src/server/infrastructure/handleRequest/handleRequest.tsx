@@ -1,23 +1,15 @@
 import React from 'react';
-import { dehydrate, Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Response } from 'express';
+import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { matchPath } from 'react-router-dom';
-import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom/server';
 import serializeJavascript from 'serialize-javascript';
 
-// utils
 import { IRouteType } from '@general-infrastructure/routes/types';
-import App from '@client/App';
 import { getReactQueryState } from '@server/infrastructure/requestDataHandlers/getQueryState';
+import render from '@server/modules/render/render';
 
-interface handleRequestResult {
-    component: string;
-    __REACT_QUERY_STATE__?: string;
-}
-
-async function handleRequest(url: string, routes: IRouteType[]): Promise<handleRequestResult> {
+async function handleRequest(url: string, res: Response, routes: IRouteType[]): Promise<void> {
 	const activeRoute = routes.find((route) => matchPath(route.path, url));
-	let component = '';
 
 	if(activeRoute) {
 		let dehydratedState: ReturnType<typeof dehydrate>| null = null;
@@ -30,26 +22,21 @@ async function handleRequest(url: string, routes: IRouteType[]): Promise<handleR
 			);
 		}
 
-		component = ReactDOMServer.renderToString(
-			<StaticRouter location={url}>
-				<QueryClientProvider client={queryClient}>
-					<Hydrate state={dehydratedState}>
-						<App />
-					</Hydrate>
-				</QueryClientProvider>
-			</StaticRouter>,
-		);
+		render(res, {
+			url,
+			queryState: serializeJavascript(dehydratedState),
+			queryClient: queryClient,
+			title: activeRoute.title,
+		});
 
 		queryClient.clear();
 
-		return {
-			component,
-			__REACT_QUERY_STATE__: serializeJavascript(dehydratedState),
-		};
+	} else {
+		// TODO Rewrite on show react app with error page
+		res.statusCode = 404;
+		res.setHeader('Content-type', 'text/html');
+		res.end('<h2>Oops page not found</h2>');
 	}
-	return {
-		component: '',
-	};
 }
 
 export default handleRequest;

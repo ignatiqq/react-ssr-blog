@@ -12,10 +12,6 @@ const key = ['todos'];
 const Overview = () => {
 	const todos = useAppQuery(key, getTodos);
 
-	if(todos.isLoading) {
-		return <div>Loading...</div>;
-	}
-
 	return (
 		<div>
 			Overview
