@@ -1,12 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Routes from './infrastructure/Routes/Routes';
-// import { Html } from '@client/components/ssr';
-// import type {HTMLDataType} from '@client/components/ssr/Html/Html';
-
-// interface AppPropsType {
-// 	HTMLData?: HTMLDataType;
-// }
 
 const App: React.FC = () => {
 	const [counter, increment] = useState(234234);

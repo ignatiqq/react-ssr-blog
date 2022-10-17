@@ -7,13 +7,13 @@ import { handleErrors } from '@server/middlewares/errorHandler/errorHandler';
 
 const server = express();
 
-server.use('/static', express.static(path.join(__dirname, 'static')));
+console.log(path.join(__dirname, '/static'));
+server.use('/static', express.static(path.join(__dirname, '/static')));
 
 // TODO -
 // 5. redux for theme
 
 server.get('*', handleErrors(async function(req, res, next) {
-	console.log(req.url);
 	handleRequest(req.url, res, routes);
 }));
 

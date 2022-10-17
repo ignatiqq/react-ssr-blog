@@ -38,11 +38,6 @@ const Html: React.FC<HTMLComponentPropsType> = ({HTMLData, children}) => {
 						__html: `window.__REACT_QUERY_STATE__ = ${HTMLData.globalStatements.__REACT_QUERY_STATE__};`,
 					}}
 				/>
-				<script
-					dangerouslySetInnerHTML={{
-						__html: `window.__HTML_ASSETS__ = ${JSON.stringify(HTMLData.globalStatements.__HTML_ASSETS__)};`,
-					}}
-				/>
 			</body>
 		</html>
 	);

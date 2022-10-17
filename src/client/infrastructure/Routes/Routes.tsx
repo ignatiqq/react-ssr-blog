@@ -7,7 +7,7 @@ const Routes: React.FC = () => {
 	const AppRoutes =  useRoutes(
 		[
 			{path: '/', element: <Feed />},
-			{path: '/lazy', element: <Suspense fallback="123"><Lazy /></Suspense>},
+			{path: '/lazy', element: <Lazy />},
 			{path: '/overview', element: <Overview.component />},
 		],
 	);
