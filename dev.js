@@ -1,7 +1,7 @@
 const spawn = require('cross-spawn');
 const path = require('path');
 const webpack = require('webpack');
-const webpackConfigClient = require('./webpack.config.client');
+const webpackConfigClient = require('./webpack.client.config');
 const webpackConfigServer = require('./webpack.config.server');
 
 const compiler = webpack([

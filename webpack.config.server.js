@@ -1,7 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
-const {webpackAliases} = require('./config/aliases.js');
+const {webpackAliases} = require('./webpack/shared/aliases.js');
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isDev = mode === 'development';
