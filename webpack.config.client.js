@@ -19,7 +19,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname + '/dist/static'),
 		filename: '[name].[contenthash].js',
-		publicPath: path.resolve(__dirname, '/static'),
+		publicPath: path.resolve(__dirname, '/static') + '/',
 		chunkFilename: 'react.[name].chunk.js',
 		clean: true,
 	},
