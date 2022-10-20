@@ -1,7 +1,9 @@
 import React from 'react';
 
+import './huse.scss';
+
 const LazyComponent = () => {
-	return <div>Lazy COMPONENT</div>;
+	return <div className='hello'>Lazy COMPONENT</div>;
 };
 
 export default LazyComponent;

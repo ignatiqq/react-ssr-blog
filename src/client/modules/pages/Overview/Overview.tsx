@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React from 'react';
-import {useAppQuery} from '../../../libs/query';
-import { queryRequestsCreator } from '../../../infrastructure/initDataCreators/createQueries';
+import {useAppQuery} from '@client/libs/query';
+import { queryRequestsCreator } from '@client/infrastructure/initDataCreators/createQueries';
 
 const getTodos = async () => {
 	const res = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=5');

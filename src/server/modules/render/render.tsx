@@ -9,7 +9,7 @@ import { QueryClientProvider, Hydrate, QueryClient } from '@tanstack/react-query
 import { ABORT_DELAY } from '@server/constants/render';
 import App from '@client/App';
 import { ErrorType } from '@server/types';
-import { Html } from '@client/components/ssr';
+import { Html } from '@server/components';
 
 interface RenderOptions {
 	url: string;

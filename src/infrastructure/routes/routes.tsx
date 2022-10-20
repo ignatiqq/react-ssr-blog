@@ -1,7 +1,7 @@
 import React from 'react';
 import { IRouteType } from './types';
 import {Feed, Overview} from '@client/modules/pages';
-import Lazy from '@client/modules/pages/Lazy';
+import Lazy from '@client/modules/pages/Lazy/Lazy';
 import App from '@client/App';
 
 const routes: IRouteType[] = [
