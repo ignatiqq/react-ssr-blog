@@ -1,13 +1,18 @@
 import React, { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Overview, Feed } from '@client/modules/pages';
-const Lazy = React.lazy(() => import(/* webpackChunkName: "LazyChunk" */ '@client/modules/pages/Lazy/Lazy'));
+import { LazyLoad } from '@client/libs/LazyComponents';
 
 const Routes: React.FC = () => {
 	const AppRoutes =  useRoutes(
 		[
 			{path: '/', element: <Feed />},
-			{path: '/lazy', element: <Lazy />},
+			{path: '/lazy', element: (
+				<LazyLoad<{hello: string}>
+					render={(Component) => <Component hello="dfgd" />}
+					load={() => import(/* webpackChunkName: "LazyLoadChunk" */ '@client/modules/pages/Lazy/Lazy')}
+				/>
+			)},
 			{path: '/overview', element: <Overview.component />},
 		],
 	);
