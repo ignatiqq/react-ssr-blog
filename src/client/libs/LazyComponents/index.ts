@@ -1,1 +1,1 @@
-export { default as LazyLoad } from './createLazyComponent';
+export * from './modules';
