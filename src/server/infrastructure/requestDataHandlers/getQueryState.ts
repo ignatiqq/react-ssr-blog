@@ -2,7 +2,10 @@ import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { getInitialQueryData } from '@general-infrastructure/routes/types';
 
 // @TODO ADD ARGUMENTS TO QUERY FN'S
-const getReactQueryState = async (queryClient: QueryClient, requests: getInitialQueryData[]): Promise<ReturnType<typeof dehydrate>> => {
+const getReactQueryState = async (
+	queryClient: QueryClient,
+	requests: getInitialQueryData[],
+): Promise<ReturnType<typeof dehydrate>> => {
 	return new Promise((res, rej) => {
 		const queries: Promise<void>[] = [];
 
