@@ -3,7 +3,7 @@ import React, {ReactNode, ComponentType, LazyExoticComponent, Suspense, useState
 import {loadWithRetry} from '@client/libs/LazyComponents/utils/';
 import {dynamicImportReturn} from '@client/libs/LazyComponents/types';
 
-interface ILazyLoad<T> {
+export interface ILazyLoad<T> {
 	load: () => dynamicImportReturn;
     render: (arg: React.LazyExoticComponent<React.ComponentType<T>>) => React.ReactNode,
     fallback?: ReactNode;
