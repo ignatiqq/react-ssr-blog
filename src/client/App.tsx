@@ -2,24 +2,21 @@ import React, { Suspense, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Routes from './infrastructure/Routes/Routes';
 
+import { AppThemeProdvider } from '@client/modules/layouts';
+import {Container} from '@client/shared/';
+
 const App: React.FC = () => {
-	const [counter, increment] = useState(234234);
-
-	function incrementFn() {
-		console.log('increment');
-		increment(prev => prev + 1);
-	}
-
 	return (
 		<Suspense fallback={'Loading...'}>
-			<div>
-				{counter}
-				<button onClick={incrementFn}>Increment</button>
-				<h1>HEADER HASH CHANGE</h1>
-				<Link to="/overview">Overview</Link>
-				<Link to="/lazy">lazy</Link>
-				<Routes />
-			</div>
+			<AppThemeProdvider>
+				<Container>
+					<div>
+						<Link to="/overview">Overview</Link>
+						<Link to="/lazy">lazy</Link>
+						<Routes />
+					</div>
+				</Container>
+			</AppThemeProdvider>
 		</Suspense>
 	);
 };

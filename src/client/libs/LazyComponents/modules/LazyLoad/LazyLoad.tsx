@@ -1,6 +1,6 @@
 import React, {ReactNode, ComponentType, LazyExoticComponent, Suspense, useState, lazy} from 'react';
 
-import {loadWithRetry} from '@client/libs/LazyComponents/utils/';
+import {loadWithRetry} from '@client/libs/LazyComponents/utils';
 import {dynamicImportReturn} from '@client/libs/LazyComponents/types';
 
 export interface ILazyLoad<T> {
