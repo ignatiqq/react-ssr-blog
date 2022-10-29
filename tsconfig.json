@@ -14,7 +14,7 @@
       "@general-infrastructure/*": ["./infrastructure/*"],
       "@client/*": ["./client/*"],
       "@server/*": ["./server/*"],
-      "@api/*": ["./api/*"]
+      "@api/*": ["./api/*"],
     }
   },
   "exclude": ["node_modules"]
