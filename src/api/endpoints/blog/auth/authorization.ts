@@ -4,6 +4,7 @@ import type { BlogApiError } from '../types';
 
 import blogAPI from '../config';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
+import { QueryOptionsType } from '@client/libs/query/useAppQuery';
 
 type LoginDataType = {
     email: string;
@@ -48,8 +49,8 @@ export const useLogin = ({email, password}: LoginDataType) => {
 	);
 };
 
-export const useRefreshToken = () => {
-	return useAppQuery<Response<RefreshTokenResponse>, BlogApiError>(['refresh_token'], authorization.refresh);
+export const useRefreshToken = (options?: QueryOptionsType<Response<RefreshTokenResponse>, BlogApiError>) => {
+	return useAppQuery<Response<RefreshTokenResponse>, BlogApiError>(['refresh_token'], authorization.refresh, options);
 };
 
 export default authorization;
