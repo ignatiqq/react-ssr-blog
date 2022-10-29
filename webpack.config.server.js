@@ -1,8 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
-const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 const {webpackAliases} = require('./config/aliases.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const Dotenv = require('dotenv-webpack');
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isDev = mode === 'development';
@@ -46,4 +45,7 @@ module.exports = {
 			},
 		],
 	},
+	plugins: [
+		new Dotenv(),
+	],
 };
