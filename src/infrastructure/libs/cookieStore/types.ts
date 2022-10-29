@@ -3,7 +3,7 @@ export type setHandlerOptionsType = {
 }
 
 export interface CookieStoreType {
-    get: (key: string) => string;
+    get: (key: string) => string | undefined;
     set: (
         key: string,
         value: string,
