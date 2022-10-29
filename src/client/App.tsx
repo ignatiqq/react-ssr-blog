@@ -8,7 +8,7 @@ import { Header } from '@client/modules/global';
 import { useRefreshToken } from '@api/endpoints/blog/auth/authorization';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
-import {AuthContext} from '@client/modules/context';
+import {AuthContext} from '@client/modules/authorization/context';
 
 
 const App: React.FC = () => {

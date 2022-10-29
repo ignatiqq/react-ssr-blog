@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Flex} from '@client/shared';
+import { MustAuthorized } from '@client/modules/authorization/components';
 
 const Header = () => {
 
@@ -15,6 +16,11 @@ const Header = () => {
 			<div>
                 some text
 			</div>
+			<MustAuthorized>
+				<div>
+					ADMIN
+				</div>
+			</MustAuthorized>
 		</Flex>
 	);
 };
