@@ -4,6 +4,13 @@ interface CookieStore extends CookieStoreType {
     store: CookieStoreType;
 }
 
+/**
+ * Interface class for cookieStore manager in app
+ * Interface needs to work with isomorphic stores as with one
+ * Also, the interface gives independence from the implementation.
+ * Dependency inversion principle
+ */
+
 class CookieStore implements CookieStore {
 
 	store: CookieStoreType;
