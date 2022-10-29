@@ -1,4 +1,4 @@
-export { default as cookieStore } from './cookieStore';
+export { default as CookieStore } from './cookieStore';
 
 // types
 

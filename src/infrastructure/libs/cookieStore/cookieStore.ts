@@ -15,7 +15,7 @@ class CookieStore implements CookieStore {
 
 	store: CookieStoreType;
 
-	constructor(store: CookieStore) {
+	constructor(store: CookieStoreType) {
 		this.store = store;
 	}
 
