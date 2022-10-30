@@ -36,7 +36,7 @@ module.exports = {
 		splitChunks: {
 			cacheGroups: {
 				reactVendor: {
-					test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
+					test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|react-is)[\\/]/,
 					name: 'react-libs',
 					chunks: 'all',
 				},
@@ -76,6 +76,14 @@ module.exports = {
 					'css-loader',
 					'sass-loader',
 				],
+			},
+			{
+				test: /\.svg$/,
+			 	loader: 'svg-inline-loader',
+			},
+			{
+				test: /\.png/,
+				type: 'asset',
 			},
 		],
 	},

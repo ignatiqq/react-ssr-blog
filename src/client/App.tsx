@@ -31,6 +31,7 @@ const App: React.FC = () => {
 						<div>
 							<Link to="/overview">Overview</Link>
 							<Link to="/lazy">lazy</Link>
+							<Link to="/super-private-page">SUPER PRIVATE DONT CLICK</Link>
 							<Routes />
 						</div>
 					</Container>

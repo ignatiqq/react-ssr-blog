@@ -1,12 +1,12 @@
 import React from 'react';
 import { Flex } from '@client/modules/components/shared';
 
-import { ReactComponent as NotFoundPNG } from './assets/404-error.png';
+import notFoundImg from './assets/404-error.png';
 
 const NotFound = () => {
 	return (
 		<Flex customWidth='100%' flexDirection='column' alignItems='center'>
-			<NotFoundPNG />
+			<img src={notFoundImg} alt="Page not found" />
 			<h2>Oops! Page not found</h2>
 		</Flex>
 	);
