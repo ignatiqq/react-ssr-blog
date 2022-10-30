@@ -1,3 +1,5 @@
-import { makeApi } from 'api/config';
+import { makeApi } from '@api/config';
 
-export const blogAPI = makeApi(`${process.env.API_URL}`);
+const blogAPI = makeApi(`${process.env.API_URL}`);
+
+export default blogAPI;

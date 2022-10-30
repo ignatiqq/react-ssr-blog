@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Flex} from '@client/shared';
+import {Flex} from '@client/modules/components/shared';
+import { MustAuthorized } from '@client/modules/authorization/components';
 
 const Header = () => {
-
 	return (
 		<Flex customWidth='100%' justifyContent='space-between' alignItems='center'>
 			<div>
@@ -15,6 +15,11 @@ const Header = () => {
 			<div>
                 some text
 			</div>
+			<MustAuthorized>
+				<div>
+					ADMIN
+				</div>
+			</MustAuthorized>
 		</Flex>
 	);
 };

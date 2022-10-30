@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import type {CookieStoreType, setHandlerOptionsType} from '@general-infrastructure/libs/cookieStore';
 
 class CookieStore implements CookieStoreType {
-
 	get(key: string) {
 		return Cookies.get(key);
 	}
@@ -21,4 +20,4 @@ class CookieStore implements CookieStoreType {
 	}
 }
 
-export default CookieStore;
+export default new CookieStore();

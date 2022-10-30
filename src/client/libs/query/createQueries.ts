@@ -8,6 +8,4 @@ const queryRequestsCreator = (queries: {key: QueryKey, fn: any}[]) => {
 	});
 };
 
-export {
-	queryRequestsCreator,
-};
+export default queryRequestsCreator;
