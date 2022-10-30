@@ -1,4 +1,4 @@
-import { LIGHT, DARK } from '@client/contants/styles/theme';
+import { LIGHT, DARK } from '@client/constants/styles/theme';
 import { lightTheme, darkTheme, theme } from './theme';
 
 interface ITheme {

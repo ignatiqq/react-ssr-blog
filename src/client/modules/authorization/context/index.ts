@@ -1,1 +1,1 @@
-export { default as AuthContext } from './authorization';
+export { default as AuthContext } from './authorization/authorization';

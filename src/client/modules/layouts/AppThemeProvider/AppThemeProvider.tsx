@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import { LIGHT, DARK } from '@client/contants/styles/theme';
+import { LIGHT, DARK } from '@client/constants/styles/theme';
 import { getAppTheme } from '@client/styles/theme';
 
 
