@@ -18,6 +18,8 @@ class CookieStore implements CookieStoreType {
 	response: ResponseWithCookies;
 	req: RequestWithCookies;
 
+	static isServer = true;
+
 	constructor(req: RequestWithCookies, res: ResponseWithCookies) {
 		this.req = req;
 		this.response = res;

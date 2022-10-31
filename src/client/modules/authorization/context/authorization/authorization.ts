@@ -1,5 +1,5 @@
 import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
-import cookieStore from '@general-infrastructure/stores/cookieStore/client/cookieStore';
+import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import React from 'react';
 
 const AuthContext = React.createContext({

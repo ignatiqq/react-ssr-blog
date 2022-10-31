@@ -29,10 +29,10 @@ export const requests = Object.freeze({
 	},
 });
 
-const makeApi = (baseUrl: string, headers?: { [key: string]: string }) => {
+const makeApi = (baseUrl: string, headers: { [key: string]: string } = {}) => {
 	return {
 		get(endpoint: string, config?: IRequestConfig) {
-			return requests.get(`${baseUrl}${endpoint}`, { ...config, headers });
+			return requests.get(`${baseUrl}${endpoint}`, { ...config, ...headers });
 		},
 		post<T>(endpoint: string, body: T, config?: IRequestConfig) {
 			return requests.post(`${baseUrl}${endpoint}`, body, { ...config, headers });
