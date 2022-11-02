@@ -18,6 +18,10 @@ const App: React.FC = () => {
 		onError: () => {
 			cookieStore.remove(REFRESH_TOKEN);
 		},
+		onSuccess: (data) => {
+			const refreshToken = data.data?.refreshToken;
+			refreshToken ?? cookieStore.set(REFRESH_TOKEN, refreshToken);
+		},
 	});
 
 	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
