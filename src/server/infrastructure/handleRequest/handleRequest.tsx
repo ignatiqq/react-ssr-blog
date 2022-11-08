@@ -30,7 +30,6 @@ async function handleRequest(url: string, res: Response, routes: IRouteType[]): 
 				queryClient,
 				queryRequests,
 			);
-			console.log('DEH', dehydratedState);
 		}
 
 		render(res, {

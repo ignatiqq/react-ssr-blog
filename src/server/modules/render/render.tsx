@@ -23,7 +23,7 @@ const render = (res: Response, options: RenderOptions) => {
 	const {url, queryClient, queryState, title} = options;
 
 	const manifest = fs.readFileSync(
-		path.join(__dirname, 'static/manifest.json'),
+		path.join(__dirname, 'client/manifest.json'),
 		'utf-8',
 	);
 
