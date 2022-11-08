@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '@client/modules/authorization/context';
-import { Loader } from '@client/modules/components/shared';
 import { NotFound } from '@client/modules/components/global';
 
 interface PrivateRouteType {
@@ -9,14 +8,14 @@ interface PrivateRouteType {
 
 const PrivateRoute: React.FC<PrivateRouteType> = ({Component}) => {
 
-	const {isAuthorized, isLoading} = useContext(AuthContext);
+	const {isAuthorized, isLoading, hasRefreshCookie} = useContext(AuthContext);
 
-	if(isLoading) {
-		<Loader />;
+	if(!hasRefreshCookie && !isAuthorized) {
+		return <NotFound />;
 	}
 
-	if(!isLoading && !isAuthorized) {
-		return <NotFound />;
+	if(isLoading && hasRefreshCookie) {
+		return <div>Loading...</div>;
 	}
 
 	return (

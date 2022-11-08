@@ -5,6 +5,7 @@ import type { BlogApiError } from '../types';
 import blogAPI from '../config';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import { QueryOptionsType } from '@client/libs/query/useAppQuery';
+import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
 
 type LoginDataType = {
     email: string;
@@ -37,7 +38,7 @@ const authorization = Object.freeze({
 	refresh(): Promise<Response<RefreshTokenResponse>> {
 		return blogAPI.get('/refresh', {
 			headers: {
-				authorization: `Bearer ${cookieStore.get('refresh_token')}`,
+				'Authorization': `Bearer ${cookieStore.get(REFRESH_TOKEN)}`,
 			},
 		});
 	},
@@ -52,5 +53,22 @@ export const useLogin = ({email, password}: LoginDataType) => {
 export const useRefreshToken = (options?: QueryOptionsType<Response<RefreshTokenResponse>, BlogApiError>) => {
 	return useAppQuery<Response<RefreshTokenResponse>, BlogApiError>(['refresh_token'], authorization.refresh, options);
 };
+
+export const queryRefreshRequestData = [
+	{
+		key: ['refresh_token'],
+	 	fn: async () => {
+			try {
+				const res = await authorization.refresh();
+				if(res.data.refreshToken) {
+					cookieStore.set(REFRESH_TOKEN, res.data.refreshToken);
+				}
+				return res.data;
+			} catch (error) {
+				return (error as Error).message;
+			}
+		},
+	},
+];
 
 export default authorization;

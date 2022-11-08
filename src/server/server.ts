@@ -9,11 +9,12 @@ import { handleErrors } from '@server/middlewares/errorHandler/errorHandler';
 
 const server = express();
 
-server.use('/static', express.static(path.join(__dirname, '/static')));
-server.use(cookieParser());
+server.use('/static', express.static(path.join(__dirname, '/client')));
+server.use('/', express.static(path.join(__dirname, '/client/images')));
+// for <img src="src" /> tag static middleware
+// server.use('/', express.static(path.join(__dirname, '/static')));
 
-// TODO -
-// 5. redux for theme
+server.use(cookieParser());
 
 server.get('*', handleErrors(async function(req, res, next) {
 	setServerCookie(req, res);

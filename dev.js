@@ -17,7 +17,7 @@ const compiler = webpack([
 	{
 		...webpackConfigServer,
 		mode: 'development',
-		devtool: 'source-map',
+		devtool: 'inline-source-map',
 	},
 ]);
 

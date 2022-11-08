@@ -7,18 +7,28 @@ import serializeJavascript from 'serialize-javascript';
 import { IRouteType } from '@general-infrastructure/routes/types';
 import { getReactQueryState } from '@server/infrastructure/requestDataHandlers/getQueryState';
 import render from '@server/modules/render/render';
+import { cookieStore } from '@general-infrastructure/stores/cookieStore';
+import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
+import { queryRequestsCreator } from '@general-infrastructure/libs/query';
+import { queryRefreshRequestData } from '@api/endpoints/blog/auth/authorization';
 
 async function handleRequest(url: string, res: Response, routes: IRouteType[]): Promise<void> {
 	const activeRoute = routes.find((route) => matchPath(route.path, url));
 
+
 	if(activeRoute) {
-		let dehydratedState: ReturnType<typeof dehydrate>| null = null;
+		let dehydratedState: ReturnType<typeof dehydrate> | null = null;
 		const queryClient = new QueryClient();
 
-		if(activeRoute?.initialData?.getInitialQueryData) {
+		const queryRequests = [
+			...(activeRoute.initialData?.getInitialQueryData ? activeRoute.initialData.getInitialQueryData : []),
+			...(!!cookieStore.get(REFRESH_TOKEN) ? queryRequestsCreator(queryRefreshRequestData) : []),
+		];
+
+		if(queryRequests.length > 0) {
 			dehydratedState = await getReactQueryState(
 				queryClient,
-				activeRoute.initialData?.getInitialQueryData,
+				queryRequests,
 			);
 		}
 

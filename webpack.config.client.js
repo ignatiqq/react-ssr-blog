@@ -9,8 +9,6 @@ const Dotenv = require('dotenv-webpack');
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isDev = mode === 'development';
 
-// @TODO раскидать статику по папочкам картинки жс css
-
 module.exports = {
 	name: 'client',
 	entry: {
@@ -18,11 +16,12 @@ module.exports = {
 	},
 	mode: mode,
 	output: {
-		path: path.resolve(__dirname + '/dist/static'),
-		filename: '[name].[contenthash].js',
+		path: path.resolve(__dirname + '/dist/client'),
+		filename: 'js/[name].[contenthash].js',
 		publicPath: path.resolve(__dirname, '/static') + '/',
-		chunkFilename: 'react.[name].chunk.js',
+		chunkFilename: 'chunks/react.[name].chunk.js',
 		clean: true,
+		assetModuleFilename: 'images/[hash][ext]',
 	},
 	resolve: {
 		extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'],
@@ -36,14 +35,14 @@ module.exports = {
 		splitChunks: {
 			cacheGroups: {
 				reactVendor: {
-					test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
-					name: 'react-libs',
+					test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|react-is)[\\/]/,
+					name: 'vendors/react-libs',
 					chunks: 'all',
 				},
 				clientVendors: {
 					// вебпак не возьмет express и ejs в бандл так как у него в дереве нет зависимости на них
 					test: /[\/]node_modules[\/]((?!(react|react-dom|react-router-dom)).*)[\/]/,
-					name: 'vendors-without-react-libs',
+					name: 'vendors/vendors-without-react-libs',
 					chunks: 'all',
 				},
 			},
@@ -77,13 +76,21 @@ module.exports = {
 					'sass-loader',
 				],
 			},
+			{
+				test: /\.svg$/,
+			 	loader: 'svg-inline-loader',
+			},
+			{
+				test: /\.png/,
+				type: 'asset',
+			},
 		],
 	},
 	plugins: [
 		new Dotenv(),
 		new WebpackManifestPlugin(),
 		new MiniCssExtractPlugin({
-			filename: '[name].[contenthash].css',
+			filename: 'css/[name].[contenthash].css',
 		}),
 		new BundleAnalyzerPlugin({
 			generateStatsFile: isDev ? true: false,

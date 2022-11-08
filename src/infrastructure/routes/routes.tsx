@@ -1,29 +1,28 @@
 import React from 'react';
 import { IRouteType } from './types';
-import {Feed, Overview} from '@client/modules/pages';
-import Lazy from '@client/modules/pages/Lazy/Lazy';
-import App from '@client/App';
+import {Overview} from '@client/modules/pages';
 
 const routes: IRouteType[] = [
 	{
 		path: '/',
-		component: App,
 		title: 'Main page',
 	},
 	{
 		path: '/overview',
 		title: 'Overview',
-		...Overview,
+		initialData: Overview.initialData,
 	},
 	{
 		path: '/feed',
 		title: 'Feed',
-		component: Feed,
 	},
 	{
 		path: '/lazy',
 		title: 'Lazy page',
-		component: Lazy,
+	},
+	{
+		path: '/super-private-page',
+		title: 'PRIVATE!!!',
 	},
 ];
 

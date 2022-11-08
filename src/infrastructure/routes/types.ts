@@ -6,7 +6,6 @@ export type getInitialQueryData = (
 
 interface IRouteType {
     path: string;
-    component: React.FC<any>;
     title: string;
     initialData?: {
         getInitialQueryData?: Array<getInitialQueryData>;

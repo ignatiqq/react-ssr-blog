@@ -12,13 +12,24 @@ import {AuthContext} from '@client/modules/authorization/context';
 
 
 const App: React.FC = () => {
-	const {isLoading, data} = useRefreshToken({enabled: !!cookieStore.get(REFRESH_TOKEN)});
+	const {isLoading, data} = useRefreshToken({
+		enabled: !!cookieStore.get(REFRESH_TOKEN),
+		retry: 1,
+		onError: () => {
+			cookieStore.remove(REFRESH_TOKEN);
+		},
+		onSuccess: (data) => {
+			const refreshToken = data.data?.refreshToken;
+			refreshToken ?? cookieStore.set(REFRESH_TOKEN, refreshToken);
+		},
+	});
 
 	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
 
 	const authContext = {
 		isAuthorized,
 		isLoading,
+		hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
 	};
 
 	return (
@@ -31,6 +42,7 @@ const App: React.FC = () => {
 						<div>
 							<Link to="/overview">Overview</Link>
 							<Link to="/lazy">lazy</Link>
+							<Link to="/super-private-page">SUPER PRIVATE DONT CLICK</Link>
 							<Routes />
 						</div>
 					</Container>
