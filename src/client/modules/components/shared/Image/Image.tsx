@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {isNodeJS} from '@general-infrastructure/constants';
+
 type PropTypes = {
     src: string;
     alt: string;
@@ -10,7 +12,7 @@ const Image: React.FC<PropTypes> = ({
 	alt,
 }) => {
 	return (
-		<img src={src} alt={alt} />
+		<img src={isNodeJS() ? `/client/images/${src}` : src} alt={alt} />
 	);
 };
 

@@ -18,7 +18,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname + '/dist/client'),
 		filename: 'js/[name].[contenthash].js',
-		publicPath: path.resolve(__dirname, '/static') + '/',
+		publicPath: path.resolve(__dirname, '/client') + '/',
 		chunkFilename: 'chunks/react.[name].chunk.js',
 		clean: true,
 		assetModuleFilename: 'images/[hash][ext]',
