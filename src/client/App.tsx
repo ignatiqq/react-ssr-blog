@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo } from 'react';
+import React, {Suspense, useEffect, useMemo} from 'react';
 import { Link } from 'react-router-dom';
 
 import Routes from '@client/modules/Routes/Routes';
@@ -7,7 +7,7 @@ import {Container} from '@client/modules/components/shared';
 import { Header } from '@client/modules/components/global';
 import { useRefreshToken } from '@api/endpoints/blog/auth/authorization';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
-import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
+import {ACCESS_TOKEN, REFRESH_TOKEN} from '@general-infrastructure/constants/cookies';
 import {AuthContext} from '@client/modules/authorization/context';
 
 
@@ -17,25 +17,27 @@ const App: React.FC = () => {
 		retry: 1,
 		onError: () => {
 			cookieStore.remove(REFRESH_TOKEN);
-		},
-		onSuccess: (data) => {
-			const refreshToken = data.data?.refreshToken;
-			refreshToken ?? cookieStore.set(REFRESH_TOKEN, refreshToken);
+			cookieStore.remove(ACCESS_TOKEN);
 		},
 	});
 
-	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
+	useEffect(() => {
+		const refreshToken = data?.data?.refreshToken;
+		if(refreshToken) {
+			cookieStore.set(REFRESH_TOKEN, refreshToken);
+		}
+	}, [data]);
 
-	const authContext = {
-		isAuthorized,
-		isLoading,
-		hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
-	};
+	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
 
 	return (
 		// @TODO add error boundary
 		<Suspense fallback={'Loading...'}>
-			<AuthContext.Provider value={authContext}>
+			<AuthContext.Provider value={{
+				isAuthorized,
+				isLoading,
+				hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
+			}}>
 				<AppThemeProdvider>
 					<Container>
 						<Header />

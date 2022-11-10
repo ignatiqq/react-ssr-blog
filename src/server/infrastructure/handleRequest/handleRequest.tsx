@@ -15,7 +15,6 @@ import { queryRefreshRequestData } from '@api/endpoints/blog/auth/authorization'
 async function handleRequest(url: string, res: Response, routes: IRouteType[]): Promise<void> {
 	const activeRoute = routes.find((route) => matchPath(route.path, url));
 
-
 	if(activeRoute) {
 		let dehydratedState: ReturnType<typeof dehydrate> | null = null;
 		const queryClient = new QueryClient();
