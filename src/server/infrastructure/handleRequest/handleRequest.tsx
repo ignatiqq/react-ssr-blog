@@ -19,8 +19,6 @@ async function handleRequest(url: string, res: Response, routes: IRouteType[]): 
 		let dehydratedState: ReturnType<typeof dehydrate> | null = null;
 		const queryClient = new QueryClient();
 
-		console.log(!!cookieStore.get(REFRESH_TOKEN));
-
 		const queryRequests = [
 			...(activeRoute.initialData?.getInitialQueryData ? activeRoute.initialData.getInitialQueryData : []),
 			...(!!cookieStore.get(REFRESH_TOKEN) ? queryRequestsCreator(queryRefreshRequestData) : []),
