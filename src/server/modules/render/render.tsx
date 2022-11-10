@@ -14,7 +14,6 @@ import { Html } from '@server/components';
 interface RenderOptions {
 	url: string;
 	queryClient: QueryClient;
-	// TODO MUST TO TYPE IT
 	queryState: string;
 	title: string;
 }

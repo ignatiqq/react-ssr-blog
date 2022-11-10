@@ -5,7 +5,7 @@ import type { BlogApiError } from '../types';
 import blogAPI from '../config';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import { QueryOptionsType } from '@client/libs/query/useAppQuery';
-import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
+import { REFRESH_TOKEN, ACCESS_TOKEN } from '@general-infrastructure/constants/cookies';
 
 type LoginDataType = {
     email: string;
@@ -18,7 +18,7 @@ type UserAuthResponseType = {
 }
 
 type AuthTokens = {
-	accessToken: string;
+	accesToken: string;
 	refreshToken: string;
 };
 
@@ -61,7 +61,9 @@ export const queryRefreshRequestData = [
 			try {
 				const res = await authorization.refresh();
 				if(res.data.refreshToken) {
+					console.log('set-cookie ', res.data);
 					cookieStore.set(REFRESH_TOKEN, res.data.refreshToken);
+					cookieStore.set(ACCESS_TOKEN, res.data.accesToken);
 				}
 				return res.data;
 			} catch (error) {
