@@ -1,10 +1,34 @@
-import { keyframes } from 'styled-components';
+import {Keyframes, keyframes} from 'styled-components';
 
 const breatheAnimation = keyframes`
  50% { background: #fff; box-shadow: 0 -200px 100px -100px #eee inset; }
 `;
 
-const theme = {
+export interface ThemeType {
+	colors: {
+		[key: string]: string
+	};
+	mediaQueries: {
+		mobile: string,
+		table: string,
+		desktop: string,
+		desktopXl: string,
+		desktop2Xl: string,
+	};
+	fonts: {
+		small: string,
+		normal: string,
+		large: string;
+	},
+	transition: {
+		hover: string;
+	},
+	animations: {
+		background: Keyframes;
+	}
+};
+
+const theme: ThemeType = {
 	colors: {
 		primaryText: '#4C4C4C',
 		secondaryText: '#888888',

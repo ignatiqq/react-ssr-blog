@@ -9,10 +9,8 @@ import { handleErrors } from '@server/middlewares/errorHandler/errorHandler';
 
 const server = express();
 
-server.use('/static', express.static(path.join(__dirname, '/client')));
+server.use('/client', express.static(path.join(__dirname, '/client')));
 server.use('/', express.static(path.join(__dirname, '/client/images')));
-// for <img src="src" /> tag static middleware
-// server.use('/', express.static(path.join(__dirname, '/static')));
 
 server.use(cookieParser());
 

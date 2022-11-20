@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {isNodeJS} from '@general-infrastructure/constants';
+
 type PropTypes = {
     src: string;
     alt: string;

@@ -16,6 +16,5 @@
       "@server/*": ["./server/*"],
       "@api/*": ["./api/*"],
     }
-  },
-  "exclude": ["node_modules"]
+  }
 }

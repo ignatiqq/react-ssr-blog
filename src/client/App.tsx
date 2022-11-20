@@ -1,7 +1,7 @@
 import React, {Suspense, useEffect, useMemo} from 'react';
 import { Link } from 'react-router-dom';
 
-import Routes from '@client/modules/Routes/Routes';
+import Routes from '@client/modules/routes/Routes';
 import { AppThemeProdvider } from '@client/modules/layouts';
 import {Container} from '@client/modules/components/shared';
 import { Header } from '@client/modules/components/global';
