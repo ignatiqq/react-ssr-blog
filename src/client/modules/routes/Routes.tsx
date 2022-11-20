@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { useRoutes } from 'react-router-dom';
 import { Overview, Feed } from '@client/modules/pages';
+import Lazy from '@client/modules/pages/Lazy/Lazy';
 import LazyLoad from '@client/libs/LazyComponents/modules/LazyLoad/LazyLoad';
 import PrivateRoute from './PrivateRoute';
 const SuperPrivatePage = React.lazy(
@@ -10,7 +11,7 @@ const SuperPrivatePage = React.lazy(
 );
 
 const Routes: React.FC = () => {
-	const AppRoutes =  useRoutes(
+	const AppRoutes = useRoutes(
 		[
 			{path: '/', element: <Feed />},
 			{path: '/lazy', element: (

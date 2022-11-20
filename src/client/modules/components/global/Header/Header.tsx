@@ -1,26 +1,28 @@
 import React from 'react';
 
-import {Flex} from '@client/modules/components/shared';
-import { MustAuthorized } from '@client/modules/authorization/components';
+import {Flex, Link, Wrap} from '@client/modules/components/shared';
+import {MustAuthorized} from '@client/modules/authorization/components';
 
 const Header = () => {
 	return (
-		<Flex customWidth='100%' justifyContent='space-between' alignItems='center'>
-			<div>
-                SOCIALS
-			</div>
-			<div>
-                ignatiqq blog
-			</div>
-			<div>
-                some text
-			</div>
-			<MustAuthorized>
+		<Wrap padding="20px">
+			<Flex customWidth='100%' justifyContent='space-between' alignItems='center'>
 				<div>
-					ADMIN
+					SOCIALS
 				</div>
-			</MustAuthorized>
-		</Flex>
+				<div>
+					<span>ignatiqq blog</span>
+				</div>
+				<div>
+					<Link href={'https://github.com/ignatiqq/react-ssr-blog'}>source code</Link>
+				</div>
+				<MustAuthorized>
+					<div>
+						ADMIN
+					</div>
+				</MustAuthorized>
+			</Flex>
+		</Wrap>
 	);
 };
 

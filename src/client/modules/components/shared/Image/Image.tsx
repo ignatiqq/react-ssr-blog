@@ -12,7 +12,7 @@ const Image: React.FC<PropTypes> = ({
 	alt,
 }) => {
 	return (
-		<img src={isNodeJS() ? `/client/images/${src}` : src} alt={alt} />
+		<img src={src} alt={alt} />
 	);
 };
 
