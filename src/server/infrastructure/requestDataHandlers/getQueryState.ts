@@ -10,7 +10,7 @@ const getReactQueryState = async (
 		const queries: Promise<void>[] = [];
 
 		requests.forEach((cb) => {
-			queries.push(cb(queryClient));
+			queries.push(cb(queryClient as any));
 		});
 
 		Promise.allSettled(queries).then(() => {

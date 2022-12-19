@@ -41,8 +41,8 @@ module.exports = {
 				},
 				clientVendors: {
 					// вебпак не возьмет express и ejs в бандл так как у него в дереве нет зависимости на них
-					test: /[\/]node_modules[\/]((?!(react|react-dom|react-router-dom)).*)[\/]/,
-					name: 'vendors/vendors-without-react-libs',
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors/other-vendors',
 					chunks: 'all',
 				},
 			},

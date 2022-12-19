@@ -1,6 +1,6 @@
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
-const {webpackAliases} = require('./config/aliases.js');
+const {webpackAliases} = require('../../config/aliases.js');
 const Dotenv = require('dotenv-webpack');
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
@@ -9,7 +9,7 @@ const isDev = mode === 'development';
 module.exports = {
 	name: 'server',
 	entry: {
-		server: path.resolve(__dirname, 'src/server/server.ts'),
+		server: path.resolve(__dirname, 'server.ts'),
 	},
 	mode: mode,
 	output: {

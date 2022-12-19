@@ -35,12 +35,13 @@ const render = (res: Response, options: RenderOptions) => {
 	const globalStatements = {
 		__REACT_QUERY_STATE__: queryState,
 	};
-	let didError = false;
 
 	const assetsWithGlobalStatements = {
 		...assetsHtmlData,
 		globalStatements,
 	};
+
+	let didError = false;
 
 	const stream = renderToPipeableStream(
 		<StaticRouter location={url}>
