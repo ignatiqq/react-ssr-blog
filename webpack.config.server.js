@@ -34,9 +34,7 @@ module.exports = {
 			{
 				test: /\.tsx?$/,
 				loader: 'ts-loader',
-				options: {
-					configFile: 'tsconfig.server.json',
-				},
+				exclude: /node_modules/,
 			},
 			{
 				test: /\.s[ac]ss$/i,
@@ -44,14 +42,17 @@ module.exports = {
 					'css-loader',
 					'sass-loader',
 				],
+				exclude: /node_modules/,
 			},
 			{
 				test: /\.svg$/,
 			 	loader: 'svg-inline-loader',
+				 exclude: /node_modules/,
 			},
 			{
 				test: /\.png/,
 				type: 'asset',
+				exclude: /node_modules/,
 			},
 		],
 	},

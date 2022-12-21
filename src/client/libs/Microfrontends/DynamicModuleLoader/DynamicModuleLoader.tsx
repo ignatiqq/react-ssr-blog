@@ -1,7 +1,6 @@
 import React, { ReactElement, RefObject, useEffect, useState } from 'react';
 
-// @ts-ignore
-import loadModule from '@client/libs/loadScript';
+import loadModule from '@client/libs/Microfrontends/loadModule';
 
 interface IDynamicModuleLoader<ModuleProps> {
     url?: string;
@@ -10,7 +9,7 @@ interface IDynamicModuleLoader<ModuleProps> {
     props?: ModuleProps;
 }
 
-type RenderFunction<ModuleProps> = (props?: ModuleProps) => ReactElement;
+export type RenderFunction<ModuleProps> = (props?: ModuleProps) => ReactElement;
 
 const DynamicModuleLoader = <ModuleProps,>({
 	url,
@@ -21,7 +20,7 @@ const DynamicModuleLoader = <ModuleProps,>({
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState('');
 
-	const renderFnRef = React.useRef<RenderFunction<ModuleProps>>(null);
+	const renderFnRef = React.useRef<RenderFunction<ModuleProps> | null>();
 
 	useEffect(() => {
 		(async function () {
@@ -38,7 +37,7 @@ const DynamicModuleLoader = <ModuleProps,>({
 				setIsLoading(false);
 			} catch (error) {
 				setIsLoading(false);
-				setError(error.message);
+				setError((error as Error).message);
 				renderFnRef.current = null;
 			}
 		})();
@@ -54,7 +53,7 @@ const DynamicModuleLoader = <ModuleProps,>({
 
 	return (
 		<div id={`Microfront container: ${containerName}, name: ${module}`}>
-			{renderFnRef.current(props)}
+			{renderFnRef.current && renderFnRef.current(props)}
 		</div>
 	);
 };
