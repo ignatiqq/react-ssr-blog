@@ -11,6 +11,6 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: 'css/[name].[contenthash].css',
 		}),
-		// moduleFederation.client,
+		moduleFederation.client,
 	],
 };

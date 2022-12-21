@@ -4,44 +4,42 @@ const dependencies = require('../../package.json').dependencies;
 
 const shared = {
 	react: {
-		eager: true,
 		singleton: true,
 		requiredVersion: dependencies['react'],
 	},
 	'react-dom': {
-		eager: true,
 		singleton: true,
 		requiredVersion: dependencies['react-dom'],
 	},
 	'react-router-dom': {
-		eager: true,
 		singleton: true,
 		requiredVersion: dependencies['react-router-dom'],
 	},
 	axios: {
-		eager: true,
 		singleton: true,
 		requiredVersion: dependencies['axios'],
 	},
 	'@tanstack/react-query': {
-		eager: true,
 		singleton: true,
 		requiredVersion: dependencies['@tanstack/react-query'],
 	},
 };
 
+const remotes = {
+	homePage: 'homePage@http://localhost:8080/homePageRemote.js',
+};
+
 module.exports = {
 	client: new ModuleFederationPlugin({
 		name: 'shellApp',
-		library: { type: 'var' },
 		filename: 'shellContainer.js',
-		// remotes: {}
+		remotes: {...remotes},
 		shared,
 	}),
 	server: new ModuleFederationPlugin({
 		name: 'shellApp',
 		filename: 'shellEntry.js',
-		// remotes: {}
+		remotes: {...remotes},
 		shared,
 	}),
 };

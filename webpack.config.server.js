@@ -3,6 +3,8 @@ const path = require('path');
 const {webpackAliases} = require('./config/aliases.js');
 const Dotenv = require('dotenv-webpack');
 
+const {sharedPlugins} = require('./config/plugins');
+
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isDev = mode === 'development';
 
@@ -54,6 +56,7 @@ module.exports = {
 		],
 	},
 	plugins: [
+		...sharedPlugins,
 		new Dotenv(),
 	],
 };
