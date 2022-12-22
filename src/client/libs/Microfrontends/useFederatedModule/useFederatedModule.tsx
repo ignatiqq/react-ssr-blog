@@ -19,7 +19,7 @@ const requestForModule = <Props,>(containerName: string, module: string): LazyEx
 	}
 };
 
-const federatedModulesCache: {[key: string]: boolean} = {};
+const federatedModulesCache: {[key: string]: React.FC<any>} = {};
 
 const createFederatedModuleKey = ({url, containerName, module}: {[key: string]: string}) => {
 	return [url,containerName,module].join('-');
@@ -34,12 +34,17 @@ const useFederatedModule = <Props, >({
 	const {error, isReady} = useLoadScript(url);
 
 	useEffect(() => {
-		if(!isReady || !error) return;
+		if(!isReady && !error) return;
+		const moduleKey = createFederatedModuleKey({url, containerName, module});
+
+		if(federatedModulesCache[moduleKey]) {
+			setComponent(federatedModulesCache[moduleKey]);
+			return;
+		}
 
 		const component = requestForModule(containerName, module);
 		setComponent(component);
-		const moduleKey = createFederatedModuleKey({url, containerName, module});
-		federatedModulesCache[moduleKey] = true;
+		federatedModulesCache[moduleKey] = component;
 
 		return () => {
 			removeKeyFromObject(federatedModulesCache, moduleKey);

@@ -30,7 +30,7 @@ const DynamicModuleLoader = <ModuleProps,>({
 	return (
 		<div id={`Microfront container: ${containerName}, name: ${module}`}>
 			<Suspense fallback="Component module loading...">
-				<Component {...props} />
+				{/* <Component {...props} /> */}
 			</Suspense>
 		</div>
 	);
