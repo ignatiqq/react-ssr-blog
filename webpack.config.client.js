@@ -12,7 +12,7 @@ const isDev = mode === 'development';
 module.exports = {
 	name: 'client',
 	entry: {
-		client: path.resolve(__dirname, 'src/client/index.tsx'),
+		client: path.resolve(__dirname, 'src/client/index.ts'),
 	},
 	mode: mode,
 	output: {

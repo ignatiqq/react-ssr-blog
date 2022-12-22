@@ -1,15 +1,26 @@
-import React, { ReactElement, RefObject, useEffect, useState } from 'react';
+import React, { memo, ReactElement, ReactNode, RefObject, useEffect, useState, LazyExoticComponent, ComponentType } from 'react';
 
 import loadModule from '@client/libs/Microfrontends/loadModule';
+import {loadScript} from '@client/libs/loadScript/loadScript/loadScript';
 
 interface IDynamicModuleLoader<ModuleProps> {
-    url?: string;
+    url: string;
     containerName: string;
     module: string;
     props?: ModuleProps;
 }
 
-export type RenderFunction<ModuleProps> = (props?: ModuleProps) => ReactElement;
+export type FederatedComponent<ModuleProps> = React.FC<ModuleProps>;
+
+const requestForModule = <Props,>(containerName: string, module: string): LazyExoticComponent<ComponentType<Props>> => {
+	try {
+		return React.lazy(loadModule<Props>(containerName, module));
+	} catch (error) {
+		throw Error(error);
+	}
+};
+
+const ModulesCache;
 
 const DynamicModuleLoader = <ModuleProps,>({
 	url,
@@ -20,28 +31,30 @@ const DynamicModuleLoader = <ModuleProps,>({
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState('');
 
-	const renderFnRef = React.useRef<RenderFunction<ModuleProps> | null>();
+	const renderFnRef = React.useRef<FederatedComponent<ModuleProps> | null>();
 
 	useEffect(() => {
-		(async function () {
+		const loadModuleFn = async function () {
 			try {
-				const component = await loadModule(containerName, module);
+				const Component = requestForModule<ModuleProps>(containerName, module);
 
-				console.log(component);
-
-				if(typeof component !== 'function') {
-					throw new TypeError('Typeof loadable module must be function');
-				}
-
-				renderFnRef.current = component;
-				setIsLoading(false);
-			} catch (error) {
-				setIsLoading(false);
+            } catch (error) {
 				setError((error as Error).message);
 				renderFnRef.current = null;
+			} finally {
+				setIsLoading(false);
 			}
-		})();
-	});
+		};
+
+		loadScript(url, {
+			onLoad: () => {
+				loadModuleFn();
+			},
+			onError: () => {
+				setError(`Some error occured while ${containerName} MFE loading`);
+			},
+		});
+	}, []);
 
 	if (isLoading && !renderFnRef.current) {
 		return <div>Loading module...</div>;
@@ -51,6 +64,8 @@ const DynamicModuleLoader = <ModuleProps,>({
 		return <div>Some error occured while component loading: {error}</div>;
 	}
 
+	console.log(renderFnRef.current);
+
 	return (
 		<div id={`Microfront container: ${containerName}, name: ${module}`}>
 			{renderFnRef.current && renderFnRef.current(props)}
@@ -58,4 +73,4 @@ const DynamicModuleLoader = <ModuleProps,>({
 	);
 };
 
-export default DynamicModuleLoader;
+export default memo(DynamicModuleLoader);

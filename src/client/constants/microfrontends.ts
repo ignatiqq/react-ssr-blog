@@ -2,6 +2,6 @@ export const HOMEPAGE_MICROFRONT = {
 	containerName: 'homePage',
 	url: 'http://localhost:8080/homePageRemote.js',
 	components: {
-		'homePage': './Homepage',
+		'HomePage': './Homepage',
 	},
 };

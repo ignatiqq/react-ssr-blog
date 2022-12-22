@@ -32,13 +32,11 @@ const remotes = {
 module.exports = {
 	client: new ModuleFederationPlugin({
 		name: 'shellApp',
-		filename: 'shellContainer.js',
 		remotes: {...remotes},
 		shared,
 	}),
 	server: new ModuleFederationPlugin({
 		name: 'shellApp',
-		filename: 'shellEntry.js',
 		remotes: {...remotes},
 		shared,
 	}),

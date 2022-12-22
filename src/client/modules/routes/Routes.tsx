@@ -28,7 +28,8 @@ const Routes: React.FC = () => {
 				path: '/microfronted/home',
 				element: (
 					<DynamicModuleLoader
-						module={HOMEPAGE_MICROFRONT.components['homePage']}
+						url={HOMEPAGE_MICROFRONT.url}
+						module={HOMEPAGE_MICROFRONT.components['HomePage']}
 						containerName={HOMEPAGE_MICROFRONT.containerName}
 					/>
 				),
