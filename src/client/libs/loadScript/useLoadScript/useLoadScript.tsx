@@ -29,10 +29,17 @@ const useLoadScript = (url: string): {error: string, isReady: boolean} => {
 			}
 		};
 
-		loadScript(url, {
+		const unmountScript = loadScript(url, {
 			onLoad,
 			onError,
 		});
+
+		return () => {
+			unmountScript();
+			if(scriptsCache[url]) {
+				removeKeyFromObject(scriptsCache, url);
+			}
+		};
 	}, []);
 
 	return {
