@@ -36,7 +36,7 @@ const DynamicModuleLoader = <ModuleProps,>({
 	);
 };
 
-export default memo(DynamicModuleLoader);
+export default DynamicModuleLoader;
 
 
 // LEGACY::

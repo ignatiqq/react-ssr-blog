@@ -1,4 +1,4 @@
-import React, { useEffect, useState, LazyExoticComponent, ComponentType } from 'react';
+import React, { useEffect, useState, LazyExoticComponent, ComponentType, useRef } from 'react';
 
 import useLoadScript from '@client/libs/loadScript/useLoadScript/useLoadScript';
 import { removeKeyFromObject } from '@client/libs/codeHelpers/filters';
@@ -30,12 +30,15 @@ const useFederatedModule = <Props, >({
 	containerName,
 	module,
 }: IFederatedComponentHook) => {
-	const [Component, setComponent] = useState<React.FC<Props> | null>(null);
+	const moduleKeyRef = useRef<string>(createFederatedModuleKey({url, containerName, module}));
+
+	const [Component, setComponent] = useState<React.FC<Props> | null>(federatedModulesCache[moduleKeyRef.current]);
 	const {error, isReady} = useLoadScript(url);
 
 	useEffect(() => {
 		if(!isReady && !error) return;
-		const moduleKey = createFederatedModuleKey({url, containerName, module});
+
+		const moduleKey = moduleKeyRef.current;
 
 		if(federatedModulesCache[moduleKey]) {
 			setComponent(federatedModulesCache[moduleKey]);
