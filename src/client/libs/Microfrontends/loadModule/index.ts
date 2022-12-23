@@ -6,7 +6,7 @@ import { ComponentType } from 'react';
 * @param {string} MFPmodule ModuleFederationPlugin module path which vared in MFP {exposes: {'./*modulepath'}}
 */
 // @ts-ignore
-async function loadModule<Props>(MFPname: string, MFPmodule: string): () => Promise<{ default: ComponentType<Props>; }> {
+function loadModule<Props>(MFPname: string, MFPmodule: string): () => Promise<{ default: ComponentType<Props>; }> {
 	return async () => {
 	// Initializes the shared scope.
 		await __webpack_init_sharing__('default');
@@ -16,7 +16,6 @@ async function loadModule<Props>(MFPname: string, MFPmodule: string): () => Prom
 		// @ts-ignore
 		const factory = await window[MFPname].get(MFPmodule);
 		const Module = factory();
-		console.log('Module:', Module);
 		return Module;
 	};
 }
