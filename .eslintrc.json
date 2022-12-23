@@ -23,7 +23,7 @@
         "semi": [2, "always"],
         "comma-dangle": [2, "always-multiline"],
         "max-lines": [2, 150],
-        "max-len": [2, 120],
+        "max-len": [2, 125],
         "no-trailing-spaces": 2,
         "quotes": [2, "single"],
         "no-console": "warn",

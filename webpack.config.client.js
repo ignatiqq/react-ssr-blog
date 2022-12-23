@@ -1,10 +1,10 @@
 const path = require('path');
-const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { webpackAliases } = require('./config/aliases');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const TerserPlugin = require('terser-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
+
+const {sharedPlugins} = require('./config/plugins');
 
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production';
 const isDev = mode === 'development';
@@ -12,7 +12,7 @@ const isDev = mode === 'development';
 module.exports = {
 	name: 'client',
 	entry: {
-		client: path.resolve(__dirname, 'src/client/index.tsx'),
+		client: path.resolve(__dirname, 'src/client/index.ts'),
 	},
 	mode: mode,
 	output: {
@@ -63,9 +63,6 @@ module.exports = {
 			{
 				test: /\.ts(x?)$/,
 				loader: 'ts-loader',
-				options: {
-					configFile: 'tsconfig.client.json',
-				},
 				exclude: /node_modules/,
 			},
 			{
@@ -87,11 +84,7 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new Dotenv(),
-		new WebpackManifestPlugin(),
-		new MiniCssExtractPlugin({
-			filename: 'css/[name].[contenthash].css',
-		}),
+		...sharedPlugins,
 		new BundleAnalyzerPlugin({
 			generateStatsFile: isDev ? true: false,
 		}),

@@ -4,7 +4,7 @@ interface ChildrenType {
 	children: React.ReactNode;
 }
 
-export type HTMLDataType =  {
+export type HTMLDataType = {
     assets: {[key: string]: string};
     globalStatements: {[key: string]: string};
     title: string;

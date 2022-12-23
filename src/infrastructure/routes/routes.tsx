@@ -24,6 +24,10 @@ const routes: IRouteType[] = [
 		path: '/super-private-page',
 		title: 'PRIVATE!!!',
 	},
+	{
+		path: '/microfronted/home',
+		title: 'microfront',
+	},
 ];
 
 export {
