@@ -10,7 +10,8 @@ const SuperPrivatePage = React.lazy(
 	),
 );
 
-import { HOMEPAGE_MICROFRONT } from '@client/constants/microfrontends';
+// import { HOMEPAGE_MICROFRONT } from '@client/constants/microfrontends';
+const Homepage = React.lazy(() => import('homePage/Homepage'));
 
 const Routes: React.FC = () => {
 	const AppRoutes = useRoutes(
@@ -27,11 +28,7 @@ const Routes: React.FC = () => {
 			{
 				path: '/microfronted/home',
 				element: (
-					<DynamicModuleLoader
-						url={HOMEPAGE_MICROFRONT.url}
-						module={HOMEPAGE_MICROFRONT.components['HomePage']}
-						containerName={HOMEPAGE_MICROFRONT.containerName}
-					/>
+					<Homepage />
 				),
 			},
 		],
