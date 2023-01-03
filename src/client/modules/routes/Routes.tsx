@@ -31,6 +31,7 @@ const Routes: React.FC = () => {
 						url={HOMEPAGE_MICROFRONT.url}
 						module={HOMEPAGE_MICROFRONT.components['HomePage']}
 						containerName={HOMEPAGE_MICROFRONT.containerName}
+						baseRouterPath={'/microfronted/home'}
 					/>
 				),
 			},
