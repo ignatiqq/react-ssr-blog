@@ -6,6 +6,7 @@ interface IDynamicModuleLoader<ModuleProps> {
     url: string;
     containerName: string;
     module: string;
+	baseRouterPath?: string;
     props?: ModuleProps | {};
 }
 
