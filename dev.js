@@ -1,8 +1,8 @@
 const spawn = require('cross-spawn');
 const path = require('path');
 const webpack = require('webpack');
-const webpackConfigClient = require('./webpack.config.client');
-const webpackConfigServer = require('./webpack.config.server');
+const webpackConfigClient = require('./webpack/webpack.client');
+const webpackConfigServer = require('./webpack/webpack.server');
 
 const compiler = webpack([
 	{
@@ -42,7 +42,7 @@ compiler.watch({}, (err, stats) => {
 		console.log('Starting Node.js ...');
 		node = spawn(
 			'node',
-			['--inspect', path.join(__dirname, 'dist/server.js')],
+			['--inspect', path.join(__dirname, 'dist/server/js/server.js')],
 			{
 				stdio: 'inherit',
 			},

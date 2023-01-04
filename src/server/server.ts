@@ -9,8 +9,8 @@ import { handleErrors } from '@server/middlewares/errorHandler/errorHandler';
 
 const server = express();
 
-server.use('/client', express.static(path.join(__dirname, '/client')));
-server.use('/', express.static(path.join(__dirname, '/client/images')));
+server.use('/client', express.static(path.join(__dirname, '../../client')));
+server.use('/', express.static(path.join(__dirname, '../../client/images')));
 
 server.use(cookieParser());
 

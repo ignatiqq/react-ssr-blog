@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:server": "webpack --config webpack.config.server.js",
-    "build:client": "webpack --config webpack.config.client.js",
+    "build:server": "webpack --config ./webpack/webpack.server.js",
+    "build:client": "webpack --config ./webpack/webpack.client.js",
     "build:all": "NODE_ENV=production ANALYSIS_MODE=true npm run build:server && NODE_ENV=production npm run build:client && npm start",
     "build:start:prod": "NODE_ENV=production npm run build:server && NODE_ENV=production npm run build:client && npm start",
     "build:start:dev": "NODE_ENV=development npm run build:server && NODE_ENV=development npm run build:client && npm start",
@@ -63,6 +63,7 @@
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0",
     "webpack-manifest-plugin": "^5.0.0",
+    "webpack-merge": "^5.8.0",
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
