@@ -19,9 +19,6 @@ const plugins = {
 		moduleFederation.client,
 	],
 	server: [
-		new MiniCssExtractPlugin({
-			filename: isDev ? 'css/[name].css' : 'css/[name].[contenthash].css',
-		}),
 		new Dotenv(),
 		new WebpackManifestPlugin(),
 		moduleFederation.server,

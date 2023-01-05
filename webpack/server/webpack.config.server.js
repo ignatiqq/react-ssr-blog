@@ -22,7 +22,16 @@ module.exports = {
 		__dirname: false,
 	},
 	module: {
-		rules: [...rules],
+		rules: [
+			...rules,
+			{
+				test: /\.s[ac]ss$/i,
+				use: [
+					'css-loader',
+					'sass-loader',
+				],
+			},
+		],
 	},
 	plugins: [...plugins.server],
 };

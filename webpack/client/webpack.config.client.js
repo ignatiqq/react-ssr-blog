@@ -1,5 +1,6 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const {rules} = require('../shared/rules');
 const {isDev} = require('../webpack.shared.config');
@@ -39,7 +40,17 @@ module.exports = {
 		},
 	},
 	module: {
-		rules: [...rules],
+		rules: [
+			...rules,
+			{
+				test: /\.s[ac]ss$/i,
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					'sass-loader',
+				],
+			},
+		],
 	},
 	plugins: [
 		...plugins.client,
