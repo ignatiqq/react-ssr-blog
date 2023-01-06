@@ -17,7 +17,7 @@ module.exports = {
 		assetModuleFilename: 'images/[hash][ext]',
 	},
 	externals: [nodeExternals()],
-	target: 'node',
+	// false because mfe TargetStreamingPlugin should work with
 	node: {
 		__dirname: false,
 	},

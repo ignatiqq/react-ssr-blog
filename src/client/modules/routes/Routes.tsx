@@ -4,13 +4,14 @@ import { Overview, Feed } from '@client/modules/pages';
 import LazyLoad from '@client/libs/LazyComponents/modules/LazyLoad/LazyLoad';
 import PrivateRoute from './PrivateRoute';
 import { DynamicModuleLoader } from '@client/libs/Microfrontends/DynamicModuleLoader';
+import { HOMEPAGE_MICROFRONT } from '@client/constants/microfrontends';
+
 const SuperPrivatePage = React.lazy(
 	() => import(/* webpackChunkName: "SuperPrivatePageChunk" */
 		'@client/modules/pages/SuperPrivatePage/SuperPrivatePage'
 	),
 );
 
-// import { HOMEPAGE_MICROFRONT } from '@client/constants/microfrontends';
 const Homepage = React.lazy(() => import('homePage/Homepage'));
 
 const Routes: React.FC = () => {

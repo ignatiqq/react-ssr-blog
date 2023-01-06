@@ -12,7 +12,7 @@ const Image: React.FC<PropTypes> = ({
 	alt,
 }) => {
 	return (
-		<img src={src} alt={alt} />
+		<img src={src.replace('server', 'client')} alt={alt} />
 	);
 };
 

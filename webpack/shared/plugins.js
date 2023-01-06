@@ -16,12 +16,12 @@ const plugins = {
 		new BundleAnalyzerPlugin({
 			generateStatsFile: isDev ? true: false,
 		}),
-		moduleFederation.client,
+		...moduleFederation.client,
 	],
 	server: [
 		new Dotenv(),
 		new WebpackManifestPlugin(),
-		moduleFederation.server,
+		...moduleFederation.server,
 	],
 };
 
