@@ -1,5 +1,6 @@
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
+const {mode} = require('../webpack.shared.config');
 
 const {rules} = require('../shared/rules');
 const plugins = require('../shared/plugins');
@@ -9,15 +10,19 @@ module.exports = {
 	entry: {
 		server: path.resolve(__dirname, '../../src/server/server.ts'),
 	},
+	stats: {
+		colors: true,
+	},
+	mode: mode,
 	output: {
 		path: path.resolve(__dirname, '../../dist/server'),
 		publicPath: '/server/',
 		filename: 'js/[name].js',
 		clean: true,
 		assetModuleFilename: 'images/[hash][ext]',
+		libraryTarget: 'commonjs-module',
 	},
 	externals: [nodeExternals()],
-	// false because mfe TargetStreamingPlugin should work with
 	node: {
 		__dirname: false,
 	},

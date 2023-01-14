@@ -14,18 +14,18 @@ const shared = {
 		singleton: true,
 		requiredVersion: dependencies['react-dom'],
 	},
-	'react-router-dom': {
-		singleton: true,
-		requiredVersion: dependencies['react-router-dom'],
-	},
-	axios: {
-		singleton: true,
-		requiredVersion: dependencies['axios'],
-	},
-	'@tanstack/react-query': {
-		singleton: true,
-		requiredVersion: dependencies['@tanstack/react-query'],
-	},
+	// 'react-router-dom': {
+	// 	singleton: true,
+	// 	requiredVersion: dependencies['react-router-dom'],
+	// },
+	// axios: {
+	// 	singleton: true,
+	// 	requiredVersion: dependencies['axios'],
+	// },
+	// '@tanstack/react-query': {
+	// 	singleton: true,
+	// 	requiredVersion: dependencies['@tanstack/react-query'],
+	// },
 };
 
 const remotes = {
@@ -56,7 +56,6 @@ module.exports = {
 			name: 'shellApp',
 			library: { type: 'commonjs-module' },
 			remotes: {...remotes.server},
-			shared,
 		}),
 	],
 };
