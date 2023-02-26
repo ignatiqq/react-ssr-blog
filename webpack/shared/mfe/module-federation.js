@@ -50,7 +50,6 @@ module.exports = {
 			name: 'shellApp',
 			library: {type: 'commonjs-module'},
 			remotes: {...remotes.server},
-			shared,
 		}),
 		new StreamingTargetPlugin({
 			name: 'shellApp',

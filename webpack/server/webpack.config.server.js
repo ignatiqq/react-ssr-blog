@@ -16,7 +16,7 @@ module.exports = {
 	mode: mode,
 	output: {
 		path: path.resolve(__dirname, '../../dist/server'),
-		publicPath: '/server/',
+		publicPath: '/static/',
 		filename: 'js/[name].js',
 		clean: true,
 		assetModuleFilename: 'images/[hash][ext]',
