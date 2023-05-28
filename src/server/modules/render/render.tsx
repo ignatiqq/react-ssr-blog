@@ -42,13 +42,8 @@ const render = async (res: Response, options: RenderOptions) => {
 		globalStatements,
 	};
 
-
-	const start = Date.now();
-	console.log('start', start);
-
 	const root = import('@client/App').then(data => {
 		const App = data.default;
-		console.log(App, 'end: ', Date.now() - start);
 
 		const stream = renderToPipeableStream(
 			<StaticRouter location={url}>

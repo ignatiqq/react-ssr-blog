@@ -7,11 +7,9 @@ const dependencies = require(path.join(__dirname, '../../../package.json')).depe
 
 const shared = {
 	react: {
-		singleton: true,
 		requiredVersion: dependencies['react'],
 	},
 	'react-dom': {
-		singleton: true,
 		requiredVersion: dependencies['react-dom'],
 	},
 };
@@ -31,14 +29,17 @@ module.exports = {
 			name: 'shellApp',
 			filename: 'container.js',
 			remotes: {...remotes.client},
-			shared: [shared],
+			exposes: {},
+			shared,
 		}),
 	],
 	server: [
 		new NodeFederationPlugin({
 			name: 'shellApp',
+			filename: 'container.js',
 			library: {type: 'commonjs-module'},
 			remotes: {...remotes.server},
+			shared: [{ 'react': dependencies.react, 'react-dom': dependencies['react-dom'] }],
 		}),
 		new StreamingTargetPlugin({
 			name: 'shellApp',

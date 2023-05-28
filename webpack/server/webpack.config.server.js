@@ -22,7 +22,7 @@ module.exports = {
 		assetModuleFilename: 'images/[hash][ext]',
 		libraryTarget: 'commonjs-module',
 	},
-	externals: [nodeExternals()],
+	externals: [nodeExternals(), {react: 'react'}],
 	node: {
 		__dirname: false,
 	},
