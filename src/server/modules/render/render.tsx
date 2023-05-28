@@ -18,11 +18,11 @@ interface RenderOptions {
 	title: string;
 }
 
-const render = (res: Response, options: RenderOptions) => {
+const render = async (res: Response, options: RenderOptions) => {
 	const {url, queryClient, queryState, title} = options;
 
 	const manifest = fs.readFileSync(
-		path.join(__dirname, 'client/manifest.json'),
+		path.join(__dirname, '../../client/manifest.json'),
 		'utf-8',
 	);
 
@@ -42,32 +42,36 @@ const render = (res: Response, options: RenderOptions) => {
 		globalStatements,
 	};
 
-	const stream = renderToPipeableStream(
-		<StaticRouter location={url}>
-			<QueryClientProvider client={queryClient}>
-				<Hydrate state={JSON.parse(queryState)}>
-					<Html HTMLData={assetsWithGlobalStatements}>
-						<App />
-					</Html>
-				</Hydrate>
-			</QueryClientProvider>
-		</StaticRouter>,
-		{
-			onShellReady() {
-				res.statusCode = didError ? 500 : 200;
-				res.setHeader('Content-type', 'text/html');
-				stream.pipe(res);
-			},
-			onError(err) {
-				didError = true;
-				console.error((err as ErrorType).message);
-			},
-		},
-	);
+	const root = import('@client/App').then(data => {
+		const App = data.default;
 
-	setTimeout(() => {
-		stream.abort();
-	}, ABORT_DELAY);
+		const stream = renderToPipeableStream(
+			<StaticRouter location={url}>
+				<QueryClientProvider client={queryClient}>
+					<Hydrate state={JSON.parse(queryState)}>
+						<Html HTMLData={assetsWithGlobalStatements}>
+							<App />
+						</Html>
+					</Hydrate>
+				</QueryClientProvider>
+			</StaticRouter>,
+			{
+				onShellReady() {
+					res.statusCode = didError ? 500 : 200;
+					res.setHeader('Content-type', 'text/html');
+					stream.pipe(res);
+				},
+				onError(err) {
+					didError = true;
+					console.error((err as ErrorType).message);
+				},
+			},
+		);
+
+		setTimeout(() => {
+			stream.abort();
+		}, ABORT_DELAY);
+	});
 };
 
 export default render;

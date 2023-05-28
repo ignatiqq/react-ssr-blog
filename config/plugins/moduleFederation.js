@@ -1,4 +1,5 @@
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const {NodeFederationPlugin} = require('@module-federation/node');
 
 const dependencies = require('../../package.json').dependencies;
 
@@ -26,18 +27,24 @@ const shared = {
 };
 
 const remotes = {
-	homePage: 'homePage@http://localhost:8080/homePageRemote.js',
+	client: {
+		homePage: 'homePage@http://localhost:8080/homePageRemote.js',
+	},
+	server: {
+		homePage: 'homePage@http://localhost:8080/homePageRemoteServer.js',
+	},
 };
 
 module.exports = {
 	client: new ModuleFederationPlugin({
 		name: 'shellApp',
-		remotes: {...remotes},
+		remotes: {...remotes.client},
 		shared,
 	}),
-	server: new ModuleFederationPlugin({
-		name: 'shellApp',
-		remotes: {...remotes},
+	server: new NodeFederationPlugin({
+		name: 'shellAppServer',
+		library: {type: 'commonjs-module'},
+		remotes: {...remotes.server},
 		shared,
 	}),
 };
