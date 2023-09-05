@@ -11,7 +11,7 @@ interface RenderOptions {
 	title: string;
 }
 
-export function preapareAndSendHead(options: RenderOptions) {
+export function preapareHeadHtml(options: RenderOptions) {
 	const {queryState, title} = options;
 
     const manifest = fs.readFileSync(
@@ -34,6 +34,5 @@ export function preapareAndSendHead(options: RenderOptions) {
 		globalStatements,
 	};
 
-	const getHeader = renderToString(<Head htmlData={assetsWithGlobalStatements} />);
-
+	return renderToString(<Head htmlData={assetsWithGlobalStatements} />);
 }

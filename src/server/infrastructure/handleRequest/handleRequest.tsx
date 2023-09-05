@@ -5,14 +5,14 @@ import serializeJavascript from 'serialize-javascript';
 
 import { IRouteType } from '@general-infrastructure/routes/types';
 import { getReactQueryState } from '@server/infrastructure/requestDataHandlers/getQueryState';
-import render from '@server/modules/render/render';
+import { renderToStream } from '@server/modules/render/render';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
 import { queryRequestsCreator } from '@general-infrastructure/libs/query';
 import { queryRefreshRequestData } from '@api/endpoints/blog/auth/authorization';
 import { ResponseManagersType } from '@server/types';
 import { streamChunks } from '@server/modules/streamChunks/streamChunks';
-import { preapareAndSendHead } from '@server/modules/sendHead';
+import { preapareHeadHtml } from '@server/modules/sendHead';
 
 
 async function handleRequest(
@@ -20,6 +20,9 @@ async function handleRequest(
 	res: Response,
 	routes: IRouteType[],
 	managers: ResponseManagersType): Promise<void> {
+	// set all header
+	res.setHeader('Content-type', 'text/html');
+
 	const activeRoute = routes.find((route) => matchPath(route.path, url));
 
 	if(activeRoute) {
@@ -40,12 +43,17 @@ async function handleRequest(
 
 		const queryState = serializeJavascript(dehydratedState);
 
-		// separate to another functions
+		// add head to response stream
+		const head = preapareHeadHtml({queryState, title: activeRoute.title});
+		// send {head} to reponseStream
+		managers.responseStream.push(head);
+		// start streaming in responseStream
 
-		preapareAndSendHead({queryState, title: activeRoute.title});
+		// ПАЙПИТЬ СРАЗУ ИЛИ НЕТ НЕ ОЧ ПОНЯТНО
+		// НУЖНО УЗНАТЬ СРОК ЖИЗНИ СТРИМА
+		// res.pipe(managers.responseStream);
 
-		// TODO ADD CATCH STATE
-		render(res, {
+		renderToStream(res, {
 			url,
 			queryState,
 			queryClient: queryClient,
@@ -54,8 +62,14 @@ async function handleRequest(
 			.then(() => {{
 				queryClient.clear();
 
+				// отправить все чанки в стрим клиенту после
+				// заврешения всех деферред промисов
+				// тоесть отослать все саспесны
+				// и достримить промисы с ответами на клиент
 				streamChunks(res, managers);
-			}});
+			}})
+			// TODO ADD CATCH STATE
+			.catch(() => {});
 
 
 	} else {

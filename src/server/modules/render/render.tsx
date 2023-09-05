@@ -5,7 +5,6 @@ import { StaticRouter } from 'react-router-dom/server';
 import { QueryClientProvider, Hydrate, QueryClient } from '@tanstack/react-query';
 
 import { ABORT_DELAY } from '@server/constants/render';
-import { Html } from '@server/components';
 import { ResponseManagersType } from '@server/types';
 import { HtmlToStreamWriteable } from '../htmlToStreamWriteable/htmlToStreamWriteable';
 import { Deffered } from '@general-infrastructure/libs/defferedPromise/defferedPromise';
@@ -16,7 +15,7 @@ interface RenderOptions {
 	queryState: string;
 }
 
-const render = async (res: Response, options: RenderOptions, managers: ResponseManagersType) => {
+export const renderToStream = async (res: Response, options: RenderOptions, managers: ResponseManagersType) => {
 	const {url, queryClient, queryState} = options;
 	const {responseStream, taskManager} = managers;
 
@@ -81,5 +80,3 @@ const render = async (res: Response, options: RenderOptions, managers: ResponseM
 
 	return onEndRenderPromise.promise;
 };
-
-export default render;
