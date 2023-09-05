@@ -1,4 +1,3 @@
-import React from 'react';
 import { Response } from 'express';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { matchPath } from 'react-router-dom';
@@ -11,8 +10,16 @@ import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import { REFRESH_TOKEN } from '@general-infrastructure/constants/cookies';
 import { queryRequestsCreator } from '@general-infrastructure/libs/query';
 import { queryRefreshRequestData } from '@api/endpoints/blog/auth/authorization';
+import { ResponseManagersType } from '@server/types';
+import { streamChunks } from '@server/modules/streamChunks/streamChunks';
+import { preapareAndSendHead } from '@server/modules/sendHead';
 
-async function handleRequest(url: string, res: Response, routes: IRouteType[]): Promise<void> {
+
+async function handleRequest(
+	url: string,
+	res: Response,
+	routes: IRouteType[],
+	managers: ResponseManagersType): Promise<void> {
 	const activeRoute = routes.find((route) => matchPath(route.path, url));
 
 	if(activeRoute) {
@@ -31,14 +38,25 @@ async function handleRequest(url: string, res: Response, routes: IRouteType[]): 
 			);
 		}
 
+		const queryState = serializeJavascript(dehydratedState);
+
+		// separate to another functions
+
+		preapareAndSendHead({queryState, title: activeRoute.title});
+
+		// TODO ADD CATCH STATE
 		render(res, {
 			url,
-			queryState: serializeJavascript(dehydratedState),
+			queryState,
 			queryClient: queryClient,
-			title: activeRoute.title,
-		});
+		}, managers)
+		// then flow after we collected all react chunks
+			.then(() => {{
+				queryClient.clear();
 
-		queryClient.clear();
+				streamChunks(res, managers);
+			}});
+
 
 	} else {
 		// TODO Rewrite on show react app with error page
