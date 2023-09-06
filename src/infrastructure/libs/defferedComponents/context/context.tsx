@@ -4,6 +4,8 @@ import { DefferedStoreType, getDefferedStore } from '../defferedStore/defferedSt
 
 const initialState: DefferedStoreType = {get: () => new Deffered()};
 
+// we should use context because of we dont want to create global variable on server to keep
+// deffered map var with context we can just put it there and keep in 1 session
 export const DefferedStoreContext = React.createContext<DefferedStoreType>(initialState);
 
 export const DefferedStoreProvider: React.FC<PropsWithChildren> = ({children}) => {
