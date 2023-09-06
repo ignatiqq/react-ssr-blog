@@ -46,13 +46,15 @@ async function handleRequest(
 		// add head to response stream
 		const head = preapareHeadHtml({queryState, title: activeRoute.title});
 
+
 		// ----
-		res.pipe(managers.responseStream);
+		managers.responseStream.pipe(res);
+		// res.pipe(managers.responseStream);
 		// ----
 
+		res.setHeader('Content-type', 'text/html');
 		// send {head} to reponseStream
-		managers.responseStream.push(`<html lang="en">${head}<body>`);
-		// start streaming in responseStream
+		res.write(`<html lang="en">${head}<body><div id="root">`);
 
 
 		// ПАЙПИТЬ СРАЗУ ИЛИ НЕТ НЕ ОЧ ПОНЯТНО
@@ -67,6 +69,8 @@ async function handleRequest(
 		// then flow after we collected all react chunks
 			.then(() => {{
 				queryClient.clear();
+
+				console.log(managers.taskManager);
 
 				// отправить все чанки в стрим клиенту после
 				// заврешения всех деферред промисов

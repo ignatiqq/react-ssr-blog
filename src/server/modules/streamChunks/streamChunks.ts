@@ -8,7 +8,7 @@ export async function streamChunks(res: Response, managers: ResponseManagersType
 	// начинаю стримить (тут мог быть хед) возможно исправлю
 	// nodejs поток начинает читать managers.responseStream поток, в который мы будем
 	// пушить дату из managers.taskManagers тасок
-	res.pipe(managers.responseStream);
+	// {{ managers.responseStream.pipe(res) }}
 
 	managers.taskManager.processQueue();
 
@@ -16,6 +16,8 @@ export async function streamChunks(res: Response, managers: ResponseManagersType
 	// а ноджс респонс поток читает и отправляет их клиету)
 	await managers.taskManager.closeQueue();
 
+	// close id="root" div + body + html
+	managers.responseStream.push('</div></body></html>');
 
 	// close stream
 	managers.responseStream.push(null);

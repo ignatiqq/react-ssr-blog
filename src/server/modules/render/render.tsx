@@ -52,7 +52,6 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 			{
 				onShellReady() {
 					res.statusCode = didError ? 500 : 200;
-					res.setHeader('Content-type', 'text/html');
 					// pipe not to actuall node js response
 					// pipe to HtmlWriter => TaskManager
 					stream.pipe(htmlToResponseStreamWriter);

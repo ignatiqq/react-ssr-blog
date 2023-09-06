@@ -12,9 +12,13 @@ export const Head = ({htmlData}: {htmlData: HTMLDataType}) => {
 			<meta charSet="utf-8" />
 			<link rel="stylesheet" href={htmlData.assets['client.css']} />
 			<meta name="description" content="ignatiqq blog about programming" />
-			<script defer src={htmlData.assets['client.js']} />
-			<script defer src={htmlData.assets['vendors/vendors-without-react-libs.js']} />
-			<script src={htmlData.assets['vendors/react-libs.js']} />
+			{/* we should use async typef of scripts loading */}
+			{/* because of our teleporting promises feature */}
+			{/* defer script runs only after html request is done */}
+			{/* but we need progressive stream and HYDRATIOB */}
+			<script async src={htmlData.assets['client.js']} />
+			<script async src={htmlData.assets['vendors/vendors-without-react-libs.js']} />
+			<script async src={htmlData.assets['vendors/react-libs.js']} />
 			<script
 				dangerouslySetInnerHTML={{
 					__html: `window.__REACT_QUERY_STATE__ = ${htmlData.globalStatements.__REACT_QUERY_STATE__};`,
