@@ -8,7 +8,7 @@ export type HTMLDataType = {
 
 export const Head = ({htmlData}: {htmlData: HTMLDataType}) => {
 	return (
-		<>
+		<head>
 			<meta charSet="utf-8" />
 			<link rel="stylesheet" href={htmlData.assets['client.css']} />
 			<meta name="description" content="ignatiqq blog about programming" />
@@ -21,6 +21,6 @@ export const Head = ({htmlData}: {htmlData: HTMLDataType}) => {
 				}}
 			/>
 			<title>{htmlData.title}</title>
-		</>
+		</head>
 	);
 };

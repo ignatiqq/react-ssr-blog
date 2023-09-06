@@ -45,9 +45,15 @@ async function handleRequest(
 
 		// add head to response stream
 		const head = preapareHeadHtml({queryState, title: activeRoute.title});
+
+		// ----
+		res.pipe(managers.responseStream);
+		// ----
+
 		// send {head} to reponseStream
-		managers.responseStream.push(head); // убрать пуш до пайпа xD
+		managers.responseStream.push(`<html lang="en">${head}<body>`);
 		// start streaming in responseStream
+
 
 		// ПАЙПИТЬ СРАЗУ ИЛИ НЕТ НЕ ОЧ ПОНЯТНО
 		// НУЖНО УЗНАТЬ СРОК ЖИЗНИ СТРИМА

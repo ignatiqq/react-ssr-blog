@@ -16,6 +16,10 @@ export async function streamChunks(res: Response, managers: ResponseManagersType
 	// а ноджс респонс поток читает и отправляет их клиету)
 	await managers.taskManager.closeQueue();
 
+
+	// close stream
+	managers.responseStream.push(null);
+
 	// насколько я понял мы не закрываем боди пока не выполним
 	// все дефферд таски с <Await /> компонента
 	// ->

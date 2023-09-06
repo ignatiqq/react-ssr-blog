@@ -62,13 +62,13 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 					// by resolving the promise
 					onEndRenderPromise.resolve();
 				},
-				onError(err) {
-					didError = true;
-					// reject((err as ErrorType).message);
-				},
 				onAllReady() {
 					// set our last (after all streamed chunks) promise to resolve
 					defferedStreamReady.resolve();
+				},
+				onError(err) {
+					didError = true;
+					// reject((err as ErrorType).message);
 				},
 			},
 		);
