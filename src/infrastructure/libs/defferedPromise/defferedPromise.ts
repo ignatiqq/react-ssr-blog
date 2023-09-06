@@ -1,7 +1,6 @@
-import { noop } from '@general-infrastructure/constants/functions';
 import { rejects } from 'assert';
 
-type DefferedType<PromiseDataType> = {
+export type DefferedType<PromiseDataType> = {
     resolve: (data?: PromiseDataType) => void;
     reject: (reason: any) => void;
     isResolved: () => boolean;
@@ -11,6 +10,7 @@ type DefferedType<PromiseDataType> = {
     promise: Promise<PromiseDataType> | null;
 }
 
+// Realization
 export class Deffered<PromiseDataType> implements DefferedType<PromiseDataType> {
 	isResolvedPromise: boolean;
 	isRejectedPromise: boolean;
