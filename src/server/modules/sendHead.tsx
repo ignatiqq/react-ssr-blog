@@ -14,12 +14,12 @@ interface RenderOptions {
 export function preapareHeadHtml(options: RenderOptions) {
 	const {queryState, title} = options;
 
-    const manifest = fs.readFileSync(
+	const manifest = fs.readFileSync(
 		path.join(__dirname, '../../client/manifest.json'),
 		'utf-8',
 	);
 
-    // assets html data
+	// assets html data
 	const assets = JSON.parse(manifest);
 	const assetsHtmlData = {
 		assets,

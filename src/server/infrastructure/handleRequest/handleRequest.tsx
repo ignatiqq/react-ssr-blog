@@ -46,7 +46,7 @@ async function handleRequest(
 		// add head to response stream
 		const head = preapareHeadHtml({queryState, title: activeRoute.title});
 		// send {head} to reponseStream
-		managers.responseStream.push(head);
+		managers.responseStream.push(head); // убрать пуш до пайпа xD
 		// start streaming in responseStream
 
 		// ПАЙПИТЬ СРАЗУ ИЛИ НЕТ НЕ ОЧ ПОНЯТНО
