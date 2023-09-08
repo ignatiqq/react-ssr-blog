@@ -1,4 +1,4 @@
-import { DefferedStoreType } from '@general-infrastructure/libs/defferedComponents/defferedStore/defferedStore';
+import { DefferedStoreType } from '@general-infrastructure/libs/defferedStore/defferedStore';
 
 type WindowHydrateStateType = () => void | boolean;
 

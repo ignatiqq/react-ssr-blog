@@ -14,6 +14,12 @@ export async function streamChunks(res: Response, managers: ResponseManagersType
 
 	// рендерим реакт (пушим все htmlины из тасок в респонс стрим,
 	// а ноджс респонс поток читает и отправляет их клиету)
+
+	// ТРЮК ТОГО, что нода отправит все отложенные промисы и отрендерит все фолбеки
+	// до закрытия запроса в том, что у нас есть отложенный промис в
+	// onAllReady (метод у renderToPipeabledStream, который отработает только после рендера всех фолбеков)
+	// и как только мы телепортируем все промисы и отредерим все фолбеки на клиенте, заресолвится этот промис
+	// и закроется стрим
 	await managers.taskManager.closeQueue();
 
 	// close id="root" div + body + html
@@ -21,14 +27,6 @@ export async function streamChunks(res: Response, managers: ResponseManagersType
 
 	// close stream
 	managers.responseStream.push(null);
-
-	// насколько я понял мы не закрываем боди пока не выполним
-	// все дефферд таски с <Await /> компонента
-	// ->
-	// а после каждого из их ресолва мы отправляем скрипт (до бади)
-	// с ресолвом сериализованной даты
-	// ->
-	// после этого закрываем боди тег
 
 	managers.taskManager.processQueue();
 }

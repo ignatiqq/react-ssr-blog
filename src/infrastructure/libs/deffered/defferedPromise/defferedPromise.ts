@@ -1,5 +1,3 @@
-import { rejects } from 'assert';
-
 export type DefferedType<PromiseDataType> = {
     resolve: (data?: PromiseDataType) => void;
     reject: (reason: any) => void;
@@ -27,7 +25,7 @@ export class Deffered<PromiseDataType> implements DefferedType<PromiseDataType> 
 
 			this.reject = (reason) => {
 				this.isResolvedPromise = true;
-				rejects(reason);
+				rej(reason);
 			};
 		});
 	}
