@@ -15,7 +15,7 @@ export const Head = ({htmlData}: {htmlData: HTMLDataType}) => {
 			{/* we should use async typef of scripts loading */}
 			{/* because of our teleporting promises feature */}
 			{/* defer script runs only after html request is done */}
-			{/* but we need progressive stream and HYDRATIOB */}
+			{/* but we need progressive stream and HYDRATION */}
 			<script async src={htmlData.assets['client.js']} />
 			<script async src={htmlData.assets['vendors/vendors-without-react-libs.js']} />
 			<script async src={htmlData.assets['vendors/react-libs.js']} />
