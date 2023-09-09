@@ -1,4 +1,4 @@
-import React, {Suspense, useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import { Link } from 'react-router-dom';
 
 import Routes from '@client/modules/routes/Routes';
@@ -9,6 +9,8 @@ import { useRefreshToken } from '@api/endpoints/blog/auth/authorization';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '@general-infrastructure/constants/cookies';
 import {AuthContext} from '@client/modules/authorization/context';
+import { DefferedStoreProvider } from '@general-infrastructure/libs/deffered/defferedComponents/context/context';
+import { DefferdStoreClient } from '@general-infrastructure/libs/deffered';
 
 
 const App: React.FC = () => {
@@ -31,8 +33,7 @@ const App: React.FC = () => {
 	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
 
 	return (
-		// @TODO add error boundary
-		<Suspense fallback={'Loading...'}>
+		<DefferedStoreProvider defferedStore={new DefferdStoreClient()}>
 			<AuthContext.Provider value={{
 				isAuthorized,
 				isLoading,
@@ -51,7 +52,8 @@ const App: React.FC = () => {
 					</Container>
 				</AppThemeProdvider>
 			</AuthContext.Provider>
-		</Suspense>
+		</DefferedStoreProvider>
+
 	);
 };
 

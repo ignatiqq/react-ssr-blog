@@ -43,16 +43,13 @@ async function handleRequest(
 
 		const queryState = serializeJavascript(dehydratedState);
 
+		res.setHeader('Content-type', 'text/html');
+
 		// add head to response stream
 		const head = preapareHeadHtml({queryState, title: activeRoute.title});
 
-
-		// ----
 		managers.responseStream.pipe(res);
-		// res.pipe(managers.responseStream);
-		// ----
 
-		res.setHeader('Content-type', 'text/html');
 		// send {head} to reponseStream
 		res.write(`<html lang="en">${head}<body><div id="root">`);
 
@@ -67,7 +64,7 @@ async function handleRequest(
 			queryClient: queryClient,
 		}, managers)
 		// then flow after we collected all react chunks
-			.then(() => {{
+			.then(async () => {{
 				queryClient.clear();
 
 				console.log(managers.taskManager);
@@ -76,7 +73,8 @@ async function handleRequest(
 				// заврешения всех деферред промисов
 				// тоесть отослать все саспесны
 				// и достримить промисы с ответами на клиент
-				streamChunks(res, managers);
+				await streamChunks(managers);
+				res.end();
 			}})
 			// TODO ADD CATCH STATE
 			.catch(() => {});

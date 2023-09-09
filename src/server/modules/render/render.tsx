@@ -7,7 +7,10 @@ import { QueryClientProvider, Hydrate, QueryClient } from '@tanstack/react-query
 import { ABORT_DELAY } from '@server/constants/render';
 import { ResponseManagersType } from '@server/types';
 import { HtmlToStreamWriteable } from '../htmlToStreamWriteable/htmlToStreamWriteable';
-import { Deffered } from '@general-infrastructure/libs/defferedPromise/defferedPromise';
+import { Deffered, DefferedStoreServer } from '@general-infrastructure/libs/deffered';
+import { DefferedStoreProvider } from '@general-infrastructure/libs/deffered/defferedComponents/context/context';
+import { serializer } from '@general-infrastructure/libs/serializer';
+import { ScriptResolver } from '@general-infrastructure/libs/deffered/scriptResolver/scriptResolver';
 
 interface RenderOptions {
 	url: string;
@@ -42,18 +45,24 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 
 	let didError = false;
 
+	// script resolver for deffered scripts sending functionalluity
+	const scriptResolver = new ScriptResolver(res);
+
 	import('@client/App').then(data => {
 		const App = data.default;
 
 		// render <div id="root">HTML</div>
 		const stream = renderToPipeableStream(
-			<StaticRouter location={url}>
-				<QueryClientProvider client={queryClient}>
-					<Hydrate state={JSON.parse(queryState)}>
-						<App />
-					</Hydrate>
-				</QueryClientProvider>
-			</StaticRouter>,
+			<DefferedStoreProvider defferedStore={new DefferedStoreServer(serializer, scriptResolver)}>
+				<StaticRouter location={url}>
+					<QueryClientProvider client={queryClient}>
+						<Hydrate state={JSON.parse(queryState)}>
+							<App />
+						</Hydrate>
+					</QueryClientProvider>
+				</StaticRouter>
+			</DefferedStoreProvider>
+			,
 			{
 				bootstrapScripts: [BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING],
 				onShellReady() {

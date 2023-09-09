@@ -9,5 +9,4 @@ export class Serializer implements SerializerType {
 	serializeObject<T extends object>(obj: T) {
 		return this.serializer.serializeObject(obj);
 	}
-
 }

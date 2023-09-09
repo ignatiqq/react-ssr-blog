@@ -2,7 +2,7 @@ import { ResponseManagersType } from '@server/types';
 import { Response } from 'express';
 
 
-export async function streamChunks(res: Response, managers: ResponseManagersType) {
+export async function streamChunks(managers: ResponseManagersType) {
 	// stream all rendered (not suspened) react chunks
 
 	// начинаю стримить (тут мог быть хед) возможно исправлю
@@ -27,6 +27,4 @@ export async function streamChunks(res: Response, managers: ResponseManagersType
 
 	// close stream
 	managers.responseStream.push(null);
-
-	managers.taskManager.processQueue();
 }

@@ -1,9 +1,7 @@
 import { SerializerType } from '@general-infrastructure/libs/serializer/type';
 import { DefferedType } from '../defferedPromise/defferedPromise';
+import { ScriptResolverType } from '../scriptResolver/scriptResolver';
 import { DefferedServerStoreType, DEFFERED_STORE_CONSTANT_NAME } from './defferedStore';
-
-export type ScriptResolverType = (script: string) => void;
-
 
 export class DefferedStoreServer implements DefferedServerStoreType {
 	defferedTasks = new Map<string, DefferedType<any>>();
@@ -34,11 +32,9 @@ export class DefferedStoreServer implements DefferedServerStoreType {
 			.then((data) => {
 				if(!this.isDefferedPresents(actionName)) return;
 
-				const deffered = this.getDeffered(actionName);
-
 				const script = this.createResolveScript(actionName, this.serializer.serializeObject(data));
 
-				this.scriptResolver(script);
+				this.scriptResolver.resolveScript(script);
 			})
 			.catch((err: Error) => {
 				if(!this.isDefferedPresents(actionName)) return;
