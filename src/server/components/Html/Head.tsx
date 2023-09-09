@@ -7,6 +7,7 @@ export type HTMLDataType = {
 }
 
 export const Head = ({htmlData}: {htmlData: HTMLDataType}) => {
+	console.log({htmlData});
 	return (
 		<head>
 			<meta charSet="utf-8" />

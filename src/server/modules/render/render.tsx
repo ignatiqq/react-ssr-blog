@@ -21,7 +21,7 @@ interface RenderOptions {
 // https://github.com/reactwg/react-18/discussions/114
 // client bootstrap.tsx
 const BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING =
-'typeof window._HYDRATE === function ? window._HYDRATE() : window._HYDRATE = true';
+'typeof window._HYDRATE === "function" ? window._HYDRATE() : window._HYDRATE = true';
 
 export const renderToStream = async (res: Response, options: RenderOptions, managers: ResponseManagersType) => {
 	const {url, queryClient, queryState} = options;
@@ -64,7 +64,7 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 			</DefferedStoreProvider>
 			,
 			{
-				bootstrapScripts: [BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING],
+				bootstrapScriptContent: BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING,
 				onShellReady() {
 					res.statusCode = didError ? 500 : 200;
 					// pipe not to actuall node js response
