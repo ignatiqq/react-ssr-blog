@@ -1,26 +1,20 @@
 import { DefferedType } from '../defferedPromise/defferedPromise';
+import { DefferedStoreServer } from './serverDefferedStore';
+import { DefferdStoreClient } from './clientDefferedStore';
 
-export type DefferedStoreType = {
+export const DEFFERED_STORE_CONSTANT_NAME = '_DEFFERED_STORE';
+
+type DefferedStoreType = {
     // any should be typed
     getByActionName: (actionName: string) => DefferedType<any> | null;
 }
 
-class DefferedStore implements DefferedStoreType {
-	defferedTasks = new Map<string, DefferedType<any>>();
+export type DefferedClientStoreType = DefferedStoreType;
 
-	getByActionName(actionName: string) {
-		return this.defferedTasks.get(actionName) || null;
-	}
-}
+export type DefferedServerStoreType = {
+	createActionData: <T extends object>(actionName: string, getData: () => Promise<T>) => void;
+} & DefferedStoreType;
 
-/**
- * Isomorphic getDefferedStore
- */
-export const getDefferedStore = () => {
-	if(!!(typeof window)) {
-		const store = new DefferedStore();
-		window._DEFFERED_STORE = store;
-	}
+export type IsomorphicDefferedStoreType = DefferedClientStoreType | DefferedServerStoreType;
 
-	return new DefferedStore();
-};
+export {DefferedStoreServer, DefferdStoreClient};

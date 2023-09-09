@@ -6,3 +6,9 @@ export const useGetDefferedPromise = (name: string) => {
 
 	return store.getByActionName(name);
 };
+
+export const useGetDeferredStore = () => {
+	const store = useContext(DefferedStoreContext);
+
+	return store;
+};

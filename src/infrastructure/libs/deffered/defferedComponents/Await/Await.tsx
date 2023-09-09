@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { useGetDefferedPromise } from '../context/useGetDefferedStore';
+import { useGetDeferredStore, useGetDefferedPromise } from '../context/useGetDefferedStore';
 
 type PropsType = {
     name: string;
@@ -17,6 +17,13 @@ type PropsType = {
  */
 export const Await: React.FC<PropsWithChildren<PropsType>> = ({name, getData, children}) => {
 	const deffered = useGetDefferedPromise(name);
+	const store = useGetDeferredStore();
+
+	// indicates server store env
+	// request for data on server
+	if('createActionData' in store) {
+		store.createActionData(name, getData);
+	}
 
 	if(deffered.isResolved()) {
 		return <>{children(deffered.promise)}</>;
