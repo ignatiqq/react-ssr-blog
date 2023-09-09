@@ -39,7 +39,7 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 	// (when we sent all of our promises to client)
 	// in the TaskManager we will have pool of react html chunks
 	// from the renderToPipeable stream (we will pipe to htmWriter from "rendertps" pipe)
-	taskManager.push(() => {
+	taskManager.push(async () => {
 		return defferedStreamReady.promise;
 	});
 
@@ -47,6 +47,10 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 
 	// script resolver for deffered scripts sending functionalluity
 	const scriptResolver = new ScriptResolver(res);
+
+	htmlToResponseStreamWriter.on('finish', () => {
+		defferedStreamReady.resolve();
+	});
 
 	import('@client/App').then(data => {
 		const App = data.default;
@@ -77,8 +81,8 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 					onEndRenderPromise.resolve();
 				},
 				onAllReady() {
+					console.log('ON ALL READY');
 					// set our last (after all streamed chunks) promise to resolve
-					defferedStreamReady.resolve();
 				},
 				onError(err) {
 					didError = true;

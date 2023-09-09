@@ -40,8 +40,8 @@ export class ServerResponseTaskManager implements ServerResponseTaskManagerType 
 	}
 
 	closeQueue() {
-		this.status = 'closed';
-
-		return Promise.all(this.processedTasks);
+		return Promise.all(this.processedTasks).finally(() => {
+			this.status = 'closed';
+		});
 	}
 }

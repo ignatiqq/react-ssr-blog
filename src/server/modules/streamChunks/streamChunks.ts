@@ -22,6 +22,8 @@ export async function streamChunks(managers: ResponseManagersType) {
 	// и закроется стрим
 	await managers.taskManager.closeQueue();
 
+	console.log('AFTER ALL REACT CHUNKS SENDED');
+
 	// close id="root" div + body + html
 	managers.responseStream.push('</div></body></html>');
 

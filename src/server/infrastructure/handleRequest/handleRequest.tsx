@@ -67,7 +67,7 @@ async function handleRequest(
 			.then(async () => {{
 				queryClient.clear();
 
-				console.log(managers.taskManager);
+				console.log('renderToStream.then', managers.taskManager);
 
 				// отправить все чанки в стрим клиенту после
 				// заврешения всех деферред промисов
