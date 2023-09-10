@@ -1,1 +1,0 @@
-export type StyledContainerType<T> = T & {children: React.ReactNode}

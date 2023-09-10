@@ -1,6 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
 
-import { AppThemeProdvider } from '@client/modules/layouts';
 import { useRefreshToken } from '@api/endpoints/blog/auth/authorization';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '@general-infrastructure/constants/cookies';
@@ -33,9 +32,7 @@ const App: React.FC = () => {
 			isLoading,
 			hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
 		}}>
-			<AppThemeProdvider>
-				<Content />
-			</AppThemeProdvider>
+			<Content />
 		</AuthContext.Provider>
 
 	);

@@ -1,28 +1,26 @@
 import React from 'react';
 
-import {Flex, Link, Wrap} from '@client/modules/components/shared';
 import {MustAuthorized} from '@client/modules/authorization/components';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
 	return (
-		<Wrap padding="20px">
-			<Flex customWidth='100%' justifyContent='space-between' alignItems='center'>
-				<div>
+		<>
+			<div>
 					SOCIALS
-				</div>
+			</div>
+			<div>
+				<span>ignatiqq blog</span>
+			</div>
+			<div>
+				<Link to={'https://github.com/ignatiqq/react-ssr-blog'}>source code</Link>
+			</div>
+			<MustAuthorized>
 				<div>
-					<span>ignatiqq blog</span>
-				</div>
-				<div>
-					<Link href={'https://github.com/ignatiqq/react-ssr-blog'}>source code</Link>
-				</div>
-				<MustAuthorized>
-					<div>
 						ADMIN
-					</div>
-				</MustAuthorized>
-			</Flex>
-		</Wrap>
+				</div>
+			</MustAuthorized>
+		</>
 	);
 };
 

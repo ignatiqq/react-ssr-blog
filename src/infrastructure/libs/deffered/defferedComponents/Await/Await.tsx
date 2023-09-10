@@ -19,8 +19,6 @@ export const Await: React.FC<PropsWithChildren<PropsType>> = ({name, getData, ch
 	let deffered = useGetDefferedPromise(name);
 	const store = useGetDeferredStore();
 
-	console.log({deffered, store});
-
 	if(!deffered) {
 		deffered = store.setAction(name);
 	}

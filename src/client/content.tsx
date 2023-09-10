@@ -3,7 +3,6 @@ import { Await } from '@general-infrastructure/libs/deffered';
 import { sleep } from '@general-infrastructure/libs/sleep/sleep';
 import { Link } from 'react-router-dom';
 import { Header } from './modules/components/global';
-import Loader from './modules/components/shared/Loader/Loader';
 import Routes from './modules/routes/Routes';
 
 export const Content = () => {
@@ -19,7 +18,13 @@ export const Content = () => {
 			</div>
 
 			<Suspense fallback={<div>Loader</div>}>
-
+				<Await
+					name="cat"
+					getData={() => sleep(5000)}
+				>
+					{/* @ts-ignore */}
+					{(data) => (<div>Hello</div>)}
+				</Await>
 			</Suspense>
 		</>
 	);

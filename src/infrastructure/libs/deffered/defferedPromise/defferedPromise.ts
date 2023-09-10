@@ -12,9 +12,9 @@ export type DefferedType<PromiseDataType> = {
 
 // Realization
 export class Deffered<PromiseDataType> implements DefferedType<PromiseDataType> {
-	isResolvedPromise: boolean;
-	isRejectedPromise: boolean;
-	isPendingPromise: boolean;
+	isResolvedPromise: boolean = false;
+	isRejectedPromise: boolean = false;
+	isPendingPromise: boolean = false;
 	promise: Promise<PromiseDataType>;
 	resolve: (data?: PromiseDataType) => void;
 	reject: (reason?: any) => void;
@@ -38,7 +38,7 @@ export class Deffered<PromiseDataType> implements DefferedType<PromiseDataType> 
 	}
 
 	isResolved() {
-		return this.isRejectedPromise;
+		return this.isResolvedPromise;
 	}
 
 	isRejected() {

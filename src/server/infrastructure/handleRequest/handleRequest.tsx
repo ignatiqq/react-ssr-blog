@@ -1,6 +1,7 @@
 import { Response } from 'express';
 import { dehydrate, QueryClient } from '@tanstack/react-query';
 import { matchPath } from 'react-router-dom';
+// @ts-ignore
 import serializeJavascript from 'serialize-javascript';
 
 import { IRouteType } from '@general-infrastructure/routes/types';
