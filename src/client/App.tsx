@@ -33,9 +33,9 @@ const App: React.FC = () => {
 			isLoading,
 			hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
 		}}>
-			{/* <AppThemeProdvider> */}
-			<Content />
-			{/* </AppThemeProdvider> */}
+			<AppThemeProdvider>
+				<Content />
+			</AppThemeProdvider>
 		</AuthContext.Provider>
 
 	);
