@@ -1,8 +1,13 @@
 import { Deffered } from '../../defferedPromise/defferedPromise';
 import React, { PropsWithChildren, useRef } from 'react';
 import { IsomorphicDefferedStoreType } from '../../defferedStore/defferedStore';
+import { noop } from '@general-infrastructure/constants/functions';
 
-const initialState: IsomorphicDefferedStoreType = {getByActionName: () => new Deffered()};
+const initialState: IsomorphicDefferedStoreType = {
+	getByActionName: () => new Deffered(),
+	createActionData: noop,
+	setAction: () => new Deffered(),
+};
 
 // we should use context because of we dont want to create global variable on server to keep
 // deffered map var with context we can just put it there and keep in 1 session

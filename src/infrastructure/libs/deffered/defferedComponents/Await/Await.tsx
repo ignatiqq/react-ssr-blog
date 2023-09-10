@@ -16,8 +16,14 @@ type PropsType = {
  * Await component which requests defferedMap action by name
  */
 export const Await: React.FC<PropsWithChildren<PropsType>> = ({name, getData, children}) => {
-	const deffered = useGetDefferedPromise(name);
+	let deffered = useGetDefferedPromise(name);
 	const store = useGetDeferredStore();
+
+	console.log({deffered, store});
+
+	if(!deffered) {
+		deffered = store.setAction(name);
+	}
 
 	// indicates server store env
 	// request for data on server
@@ -27,10 +33,6 @@ export const Await: React.FC<PropsWithChildren<PropsType>> = ({name, getData, ch
 
 	if(deffered.isResolved()) {
 		return <>{children(deffered.promise)}</>;
-	}
-
-	if(deffered.isRejected()) {
-		// handle an error
 	}
 
 	// react suspense feature

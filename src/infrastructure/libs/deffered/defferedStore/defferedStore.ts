@@ -7,6 +7,7 @@ export const DEFFERED_STORE_CONSTANT_NAME = '_DEFFERED_STORE';
 type DefferedStoreType = {
     // any should be typed
     getByActionName: (actionName: string) => DefferedType<any> | null;
+    setAction: (actionName: string) => DefferedType<any>;
 }
 
 export type DefferedClientStoreType = DefferedStoreType;

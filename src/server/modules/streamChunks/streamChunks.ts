@@ -1,5 +1,4 @@
 import { ResponseManagersType } from '@server/types';
-import { Response } from 'express';
 
 
 export async function streamChunks(managers: ResponseManagersType) {

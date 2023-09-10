@@ -5,6 +5,7 @@ export function handleErrors(fn: (...args: any[]) => Promise<any> | void) {
 		try {
 			return await fn(req, res);
 		} catch (x) {
+			console.log({x});
 			next(x);
 		}
 	};

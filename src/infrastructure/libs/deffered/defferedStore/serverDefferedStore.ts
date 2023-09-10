@@ -1,5 +1,5 @@
 import { SerializerType } from '@general-infrastructure/libs/serializer/type';
-import { DefferedType } from '../defferedPromise/defferedPromise';
+import { Deffered, DefferedType } from '../defferedPromise/defferedPromise';
 import { ScriptResolverType } from '../scriptResolver/scriptResolver';
 import { DefferedServerStoreType, DEFFERED_STORE_CONSTANT_NAME } from './defferedStore';
 
@@ -16,15 +16,13 @@ export class DefferedStoreServer implements DefferedServerStoreType {
 		return this.defferedTasks.get(actionName);
 	}
 
-	public getByActionName(actionName: string) {
-		return this.defferedTasks.get(actionName) || null;
+	public setAction(actionName: string) {
+		this.defferedTasks.set(actionName, new Deffered());
+		return this.getDeffered(actionName);
 	}
 
-	private createResolveScript(actionName: string, data: string) {
-		return `<script>
-			window[${DEFFERED_STORE_CONSTANT_NAME}][${actionName}]
-				.resolve(${data})
-		`;
+	public getByActionName(actionName: string) {
+		return this.defferedTasks.get(actionName) || null;
 	}
 
 	public createActionData<T extends object>(actionName: string, getData: () => Promise<T>) {
@@ -32,9 +30,7 @@ export class DefferedStoreServer implements DefferedServerStoreType {
 			.then((data) => {
 				if(!this.isDefferedPresents(actionName)) return;
 
-				const script = this.createResolveScript(actionName, this.serializer.serializeObject(data));
-
-				this.scriptResolver.resolveScript(script);
+				this.scriptResolver.resolveScript(actionName, this.serializer.serializeObject(data));
 			})
 			.catch((err: Error) => {
 				if(!this.isDefferedPresents(actionName)) return;

@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query
 
 import './styles/index.scss';
 import App from './App';
+import { DefferedStoreProvider } from '@general-infrastructure/libs/deffered/defferedComponents/context/context';
+import { DefferdStoreClient } from '@general-infrastructure/libs/deffered';
 
 const container = document.getElementById('root') as HTMLElement;
 
@@ -17,13 +19,16 @@ const renderer = () => {
 	const hydrate = () => {
 		hydrateRoot(
 			container,
-			<BrowserRouter>
-				<QueryClientProvider client={queryClient}>
-					<Hydrate state={dehydratedState}>
-						<App />
-					</Hydrate>
-				</QueryClientProvider>
-			</BrowserRouter>,
+			<DefferedStoreProvider defferedStore={new DefferdStoreClient()}>
+				<BrowserRouter>
+					<QueryClientProvider client={queryClient}>
+						<Hydrate state={dehydratedState}>
+							<App />
+						</Hydrate>
+					</QueryClientProvider>
+				</BrowserRouter>
+			</DefferedStoreProvider>
+			,
 		);
 	};
 

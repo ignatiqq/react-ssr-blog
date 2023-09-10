@@ -46,7 +46,7 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 	let didError = false;
 
 	// script resolver for deffered scripts sending functionalluity
-	const scriptResolver = new ScriptResolver(res);
+	const scriptResolver = new ScriptResolver(res, htmlToResponseStreamWriter);
 
 	htmlToResponseStreamWriter.on('finish', () => {
 		defferedStreamReady.resolve();
@@ -82,10 +82,10 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 				},
 				onAllReady() {
 					console.log('ON ALL READY');
-					// set our last (after all streamed chunks) promise to resolve
 				},
 				onError(err) {
 					didError = true;
+					console.log('RENDERING ERROR', {err});
 					// reject((err as ErrorType).message);
 				},
 			},
