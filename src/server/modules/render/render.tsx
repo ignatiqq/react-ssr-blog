@@ -1,69 +1,99 @@
 import React from 'react';
-import fs from 'fs';
-import path from 'path';
 import { Response } from 'express';
 import { renderToPipeableStream } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { QueryClientProvider, Hydrate, QueryClient } from '@tanstack/react-query';
 
 import { ABORT_DELAY } from '@server/constants/render';
-import App from '@client/App';
-import { ErrorType } from '@server/types';
-import { Html } from '@server/components';
+import { ResponseManagersType } from '@server/types';
+import { HtmlToStreamWriteable } from '../htmlToStreamWriteable/htmlToStreamWriteable';
+import { Deffered, DefferedStoreServer } from '@general-infrastructure/libs/deffered';
+import { DefferedStoreProvider } from '@general-infrastructure/libs/deffered/defferedComponents/context/context';
+import { serializer } from '@general-infrastructure/libs/serializer';
+import { ScriptResolver } from '@general-infrastructure/libs/deffered/scriptResolver/scriptResolver';
 
 interface RenderOptions {
 	url: string;
 	queryClient: QueryClient;
 	queryState: string;
-	title: string;
 }
 
-const render = async (res: Response, options: RenderOptions) => {
-	const {url, queryClient, queryState, title} = options;
+// https://github.com/reactwg/react-18/discussions/114
+// client bootstrap.tsx
+const BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING =
+'typeof window._HYDRATE === "function" ? window._HYDRATE() : window._HYDRATE = true';
 
-	const manifest = fs.readFileSync(
-		path.join(__dirname, '../../client/manifest.json'),
-		'utf-8',
-	);
+export const renderToStream = async (res: Response, options: RenderOptions, managers: ResponseManagersType) => {
+	const {url, queryClient, queryState} = options;
+	const {responseStream, taskManager} = managers;
 
-	// assets html data
-	const assets = JSON.parse(manifest);
-	const assetsHtmlData = {
-		assets,
-		title,
-	};
-	const globalStatements = {
-		__REACT_QUERY_STATE__: queryState,
-	};
+	const htmlToResponseStreamWriter = new HtmlToStreamWriteable(responseStream, taskManager);
+
+	const onEndRenderPromise = new Deffered();
+
+	// deffered promise for the onAllReady stream resolved
+	const defferedStreamReady = new Deffered();
+
+	// we should to add promise ("UNRESOLVED") to task manager
+	// we will resolve it only after all our tasks in taskManager is done
+	// (when we sent all of our promises to client)
+	// in the TaskManager we will have pool of react html chunks
+	// from the renderToPipeable stream (we will pipe to htmWriter from "rendertps" pipe)
+	taskManager.push(async () => {
+		return defferedStreamReady.promise;
+	});
+
 	let didError = false;
 
-	const assetsWithGlobalStatements = {
-		...assetsHtmlData,
-		globalStatements,
-	};
+	const resolveScriptCallback = (script: string) => {
+		taskManager.push(async () => {
+			console.log("STREAM RESPONSE PUSH SCRIPT")
+			responseStream.push(script);
+		});
+	}
 
-	const root = import('@client/App').then(data => {
+	// script resolver for deffered scripts sending functionalluity
+	const scriptResolver = new ScriptResolver(resolveScriptCallback);
+
+	htmlToResponseStreamWriter.on('finish', () => {
+		defferedStreamReady.resolve();
+	});
+
+	import('@client/App').then(data => {
 		const App = data.default;
 
+		// render <div id="root">HTML</div>
 		const stream = renderToPipeableStream(
-			<StaticRouter location={url}>
-				<QueryClientProvider client={queryClient}>
-					<Hydrate state={JSON.parse(queryState)}>
-						<Html HTMLData={assetsWithGlobalStatements}>
+			<DefferedStoreProvider defferedStore={new DefferedStoreServer(serializer, scriptResolver)}>
+				<StaticRouter location={url}>
+					<QueryClientProvider client={queryClient}>
+						<Hydrate state={JSON.parse(queryState)}>
 							<App />
-						</Html>
-					</Hydrate>
-				</QueryClientProvider>
-			</StaticRouter>,
+						</Hydrate>
+					</QueryClientProvider>
+				</StaticRouter>
+			</DefferedStoreProvider>
+			,
 			{
+				bootstrapScriptContent: BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING,
 				onShellReady() {
 					res.statusCode = didError ? 500 : 200;
-					res.setHeader('Content-type', 'text/html');
-					stream.pipe(res);
+					// pipe not to actuall node js response
+					// pipe to HtmlWriter => TaskManager
+					stream.pipe(htmlToResponseStreamWriter);
+
+					// after we collect all react stream chunks
+					// we will exit the render function
+					// by resolving the promise
+					onEndRenderPromise.resolve();
+				},
+				onAllReady() {
+					console.log('ON ALL READY');
 				},
 				onError(err) {
 					didError = true;
-					console.error((err as ErrorType).message);
+					console.log('RENDERING ERROR', {err});
+					// reject((err as ErrorType).message);
 				},
 			},
 		);
@@ -72,6 +102,6 @@ const render = async (res: Response, options: RenderOptions) => {
 			stream.abort();
 		}, ABORT_DELAY);
 	});
-};
 
-export default render;
+	return onEndRenderPromise.promise;
+};

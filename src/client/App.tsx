@@ -1,14 +1,10 @@
-import React, {Suspense, useEffect, useMemo} from 'react';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useMemo} from 'react';
 
-import Routes from '@client/modules/routes/Routes';
-import { AppThemeProdvider } from '@client/modules/layouts';
-import {Container} from '@client/modules/components/shared';
-import { Header } from '@client/modules/components/global';
 import { useRefreshToken } from '@api/endpoints/blog/auth/authorization';
 import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '@general-infrastructure/constants/cookies';
 import {AuthContext} from '@client/modules/authorization/context';
+import { Content } from './content';
 
 
 const App: React.FC = () => {
@@ -31,27 +27,20 @@ const App: React.FC = () => {
 	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
 
 	return (
-		// @TODO add error boundary
-		<Suspense fallback={'Loading...'}>
-			<AuthContext.Provider value={{
-				isAuthorized,
-				isLoading,
-				hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
-			}}>
-				<AppThemeProdvider>
-					<Container>
-						<Header />
-						<div>
-							<Link to="/overview">Overview</Link>
-							<Link to="/lazy">lazy</Link>
-							<Link to="/super-private-page">SUPER PRIVATE DONT CLICK</Link>
-							<Link to="/microfronted/home">Microfrontend home</Link>
-							<Routes />
-						</div>
-					</Container>
-				</AppThemeProdvider>
-			</AuthContext.Provider>
-		</Suspense>
+		<AuthContext.Provider value={{
+			isAuthorized,
+			isLoading,
+			hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
+		}}>
+			{/* @TODO НЕЗАКОНЧЕННЫЙ СТРИМ НЕ ДОЛЖЕН ВЫЗЫВАТЬ ОШИБКУ ГИДРАЦИЙ ПРИ ВЗАИМОДЕЙСТВИИ, ТАК КАК
+			ЭТО ЕГО ОСНОВНАЯ КОНЦЕПЦИЯ КАК И ОПИСАНО В СТАТЬЕ ДЕНА ОБРАМОВА НА ЭТУ ТЕМУ, УЗНАТЬ
+			ПОЧЕМУ У МЕНЯ СЕТ СТЕЙТ ЛОМАЕТ НЕЗАКОНЧЕННЫЙ СТРИМ СВИТЧ НА КЛИЕНТ РЕННДЕРИНГ 
+			// Tramvai Realization:
+			https://github.com/tramvaijs/tramvai/commit/c6414a2e667c89b1891377b0c2f2433e8915e629
+			*/}
+			<Content />
+		</AuthContext.Provider>
+
 	);
 };
 
