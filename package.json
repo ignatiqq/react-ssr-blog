@@ -77,7 +77,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1",
     "serialize-javascript": "^6.0.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "used-styles": "^2.5.2"
   },
   "husky": {
     "hooks": {

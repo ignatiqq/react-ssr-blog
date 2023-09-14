@@ -32,7 +32,7 @@ const App: React.FC = () => {
 
 	return (
 		// @TODO add error boundary
-		<Suspense fallback={'Loading...'}>
+		<>
 			<AuthContext.Provider value={{
 				isAuthorized,
 				isLoading,
@@ -51,7 +51,7 @@ const App: React.FC = () => {
 					</Container>
 				</AppThemeProdvider>
 			</AuthContext.Provider>
-		</Suspense>
+		</>
 	);
 };
 

@@ -36,6 +36,10 @@ async function handleRequest(url: string, res: Response, routes: IRouteType[]): 
 			queryState: serializeJavascript(dehydratedState),
 			queryClient: queryClient,
 			title: activeRoute.title,
+		}).then((responseStream) => {
+			// @ts-ignore
+			responseStream.push('</div></body></html>');
+			res.end();
 		});
 
 		queryClient.clear();
