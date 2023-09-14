@@ -2,6 +2,7 @@ import React from 'react';
 import { IRouteType } from './types';
 import {Overview} from '@client/modules/pages';
 
+// изобрел блинь react-helmet дурак
 const routes: IRouteType[] = [
 	{
 		path: '/',
@@ -23,6 +24,10 @@ const routes: IRouteType[] = [
 	{
 		path: '/super-private-page',
 		title: 'PRIVATE!!!',
+	},
+	{
+		path: '/lazycss',
+		title: 'LazyCSs',
 	},
 	{
 		path: '/microfronted/home',

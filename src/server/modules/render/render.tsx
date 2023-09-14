@@ -159,7 +159,7 @@ const render = async (res: Response, options: RenderOptions) => {
 				bootstrapScriptContent: BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING,
 				onShellReady() {
 					res.statusCode = didError ? 500 : 200;
-					stream.pipe(styleStream).pipe(addMoveStyleScriptToEveryDataUsedLink).pipe(htmlToStreamWriteableStream);
+					stream.pipe(styleStream).pipe(htmlToStreamWriteableStream);
 					console.log({stream});
 				},
 				onAllReady() {

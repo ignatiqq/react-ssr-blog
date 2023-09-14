@@ -26,6 +26,14 @@ const Routes: React.FC = () => {
 			)},
 			{path: '/overview', element: <Overview.component />},
 			{path: '/super-private-page', element: <PrivateRoute Component={SuperPrivatePage} />},
+			{path: '/lazycss', element:
+			<LazyLoad
+				render={(Component) => <>
+					<Component />
+				</>}
+				load={() => import(/* webpackChunkName: "LazyTestComponent" */ '@client/lazyTestcomponent')}
+			/>,
+			},
 			{
 				path: '/microfronted/home',
 				element: (
