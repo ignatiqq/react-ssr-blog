@@ -21,11 +21,16 @@ const App: React.FC = () => {
 		},
 	});
 
+	if(typeof window !== 'undefined') {
+		console.log('HYDRATION RENDER: ', [...document.querySelectorAll('*')]);
+	}
+
 	useEffect(() => {
 		const refreshToken = data?.data?.refreshToken;
 		if(refreshToken) {
 			cookieStore.set(REFRESH_TOKEN, refreshToken);
 		}
+		console.log('after render: ', [...document.querySelectorAll('*')]);
 	}, [data]);
 
 	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
