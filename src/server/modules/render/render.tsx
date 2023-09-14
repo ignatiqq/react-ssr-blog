@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import fs from 'fs';
 import React from 'react';
 import path from 'path';
@@ -96,10 +97,6 @@ const render = async (res: Response, options: RenderOptions) => {
 
 	responseStream.pipe(res);
 
-
-
-	console.log({assetsWithGlobalStatements});
-
 	responseStream.push(`
 	<html lang="en">
 		<head>
@@ -114,7 +111,6 @@ const render = async (res: Response, options: RenderOptions) => {
 			<title>Title</title>
 		</head>
 		<body>
-		<div id="root">
 	`);
 
 	class HtmlToStreamWriteable extends Writable {
@@ -149,7 +145,13 @@ const render = async (res: Response, options: RenderOptions) => {
 			<StaticRouter location={url}>
 				<QueryClientProvider client={queryClient}>
 					<Hydrate state={JSON.parse(queryState)}>
-						<App />
+						{/* we should generete div with id root in the reactPipeableStream shell
+							because we need close tag before "bootstrapScriptContent" and other scripts
+							to avoid hydration issues
+						*/}
+						<div id="root">
+							<App />
+						</div>
 					</Hydrate>
 				</QueryClientProvider>
 			</StaticRouter>,

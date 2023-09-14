@@ -38,7 +38,7 @@ async function handleRequest(url: string, res: Response, routes: IRouteType[]): 
 			title: activeRoute.title,
 		}).then((responseStream) => {
 			// @ts-ignore
-			responseStream.push('</div></body></html>');
+			responseStream.push('</body></html>');
 			res.end();
 		});
 
