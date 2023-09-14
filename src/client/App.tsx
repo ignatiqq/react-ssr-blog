@@ -53,6 +53,8 @@ const App: React.FC = () => {
 							<Link to="/super-private-page">SUPER PRIVATE DONT CLICK</Link>
 							<Link to="/microfronted/home">Microfrontend home</Link>
 							{new Array(100).fill(<div></div>).map((node, i) => <div key={i}></div>)}
+							{/* @TODO не могу найти кейс где бы линк был в руте пряымо, чтобы точно сказать
+							работает ли скрипт без ошибок гидрации или нет */}
 							<Routes />
 							{new Array(100).fill(<div></div>).map((node, i) => <div key={i}></div>)}
 						</div>
