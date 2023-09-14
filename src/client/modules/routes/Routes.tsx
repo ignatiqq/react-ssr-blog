@@ -22,6 +22,12 @@ const Routes: React.FC = () => {
 					load={() => import(/* webpackChunkName: "LazyLoadChunk" */ '@client/modules/pages/Lazy/Lazy')}
 				/>
 			)},
+			{path: '/lazy1', element: (
+				<LazyLoad<{hello: string}>
+					render={(Component) => <Component hello="dfgd" />}
+					load={() => import(/* webpackChunkName: "LazyLoadChunk2" */ '@client/modules/pages/Lazy2/Lazy2')}
+				/>
+			)},
 			{path: '/overview', element: <Overview.component />},
 			{path: '/super-private-page', element: <PrivateRoute Component={SuperPrivatePage} />},
 			{

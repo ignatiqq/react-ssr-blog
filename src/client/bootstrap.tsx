@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { startTransition } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider, Hydrate } from '@tanstack/react-query';
@@ -17,6 +17,8 @@ export const queryClient = new QueryClient();
 const renderer = () => {
 
 	const hydrate = () => {
+		console.log('hydrate');
+		// startTransition(() => {
 		hydrateRoot(
 			container,
 			<DefferedStoreProvider defferedStore={new DefferdStoreClient()}>
@@ -30,6 +32,7 @@ const renderer = () => {
 			</DefferedStoreProvider>
 			,
 		);
+		// });
 	};
 
 	// we dont want to hydrate before the shell https://github.com/reactwg/react-18/discussions/114

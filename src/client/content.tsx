@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Await } from '@general-infrastructure/libs/deffered';
 import { sleep } from '@general-infrastructure/libs/sleep/sleep';
 import { Link } from 'react-router-dom';
@@ -6,8 +6,16 @@ import { Header } from './modules/components/global';
 import Routes from './modules/routes/Routes';
 
 export const Content = () => {
+	const [count, setCount] = useState(0);
+
+	useEffect(() => {
+		console.log('hydrated');
+	}, []);
+
 	return (
 		<>
+		count: {count}
+			<button onClick={() => setCount(prev => prev + 1)}>incr count</button>
 			<Header />
 			<div>
 				<Link to="/overview">Overview</Link>
@@ -20,10 +28,10 @@ export const Content = () => {
 			<Suspense fallback={<div>Loader</div>}>
 				<Await
 					name="cat"
-					getData={() => sleep(5000)}
+					getData={() => sleep(5000, 'World')}
 				>
 					{/* @ts-ignore */}
-					{(data) => (<div>Hello</div>)}
+					{(data) => (<div>Hello {data}</div>)}
 				</Await>
 			</Suspense>
 		</>

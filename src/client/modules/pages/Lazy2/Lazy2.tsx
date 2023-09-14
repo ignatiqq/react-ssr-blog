@@ -1,10 +1,9 @@
 import React from 'react';
 import { LazyComponentShared } from '../LazyShared/LazyShared';
 
-import s from './huse.module.scss';
+import s from './huse2.module.scss';
 
-
-const LazyComponent = ({hello}: {hello: string}) => {
+export const LazyComponent2 = ({hello}: {hello: string}) => {
 	return (
 		<div className={s.hello}>
 			<LazyComponentShared />
@@ -14,4 +13,4 @@ const LazyComponent = ({hello}: {hello: string}) => {
 	);
 };
 
-export default LazyComponent;
+export default LazyComponent2;

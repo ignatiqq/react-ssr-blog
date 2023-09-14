@@ -51,8 +51,10 @@ async function handleRequest(
 
 		managers.responseStream.pipe(res);
 
+		const firstPartOfHtml = `<html lang="en">${head}<body><div id="root">`;
 		// send {head} to reponseStream
-		res.write(`<html lang="en">${head}<body><div id="root">`);
+		managers.responseStream.push(firstPartOfHtml);
+		// res.write(`<html lang="en">${head}<body><div id="root">`);
 
 
 		// ПАЙПИТЬ СРАЗУ ИЛИ НЕТ НЕ ОЧ ПОНЯТНО

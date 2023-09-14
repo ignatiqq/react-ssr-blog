@@ -32,6 +32,12 @@ const App: React.FC = () => {
 			isLoading,
 			hasRefreshCookie: !!cookieStore.get(REFRESH_TOKEN),
 		}}>
+			{/* @TODO НЕЗАКОНЧЕННЫЙ СТРИМ НЕ ДОЛЖЕН ВЫЗЫВАТЬ ОШИБКУ ГИДРАЦИЙ ПРИ ВЗАИМОДЕЙСТВИИ, ТАК КАК
+			ЭТО ЕГО ОСНОВНАЯ КОНЦЕПЦИЯ КАК И ОПИСАНО В СТАТЬЕ ДЕНА ОБРАМОВА НА ЭТУ ТЕМУ, УЗНАТЬ
+			ПОЧЕМУ У МЕНЯ СЕТ СТЕЙТ ЛОМАЕТ НЕЗАКОНЧЕННЫЙ СТРИМ СВИТЧ НА КЛИЕНТ РЕННДЕРИНГ 
+			// Tramvai Realization:
+			https://github.com/tramvaijs/tramvai/commit/c6414a2e667c89b1891377b0c2f2433e8915e629
+			*/}
 			<Content />
 		</AuthContext.Provider>
 

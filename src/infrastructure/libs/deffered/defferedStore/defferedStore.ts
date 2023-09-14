@@ -11,7 +11,7 @@ type DefferedStoreType = {
 }
 
 export type DefferedClientStoreType = DefferedStoreType;
-
+export type WindowDefferedStoreType =  Map<string, DefferedType<any>>;
 export type DefferedServerStoreType = {
 	createActionData: <T extends object>(actionName: string, getData: () => Promise<T>) => void;
 } & DefferedStoreType;

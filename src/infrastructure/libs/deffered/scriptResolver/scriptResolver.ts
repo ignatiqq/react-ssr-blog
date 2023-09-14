@@ -1,24 +1,17 @@
-import { wrapScript } from '@general-infrastructure/libs/attrs/attrs';
-import { HtmlToStreamWriteable } from '@server/modules/htmlToStreamWriteable/htmlToStreamWriteable';
-import { Response } from 'express';
-import { DEFFERED_STORE_CONSTANT_NAME } from '../defferedStore/defferedStore';
+type ResolveScriptCallback = (script: string) => void;
 
 export type ScriptResolverType = {
-    resolveScript: (actionName: string, promiseData: string) => void;
+    resolveScript: (script: string) => void;
 }
 
 export class ScriptResolver {
-	private responseStream: Response;
-	private htmlResponseWriteable: HtmlToStreamWriteable;
+	private resolveScriptCallback: ResolveScriptCallback
 
-	constructor(res: Response, htmlResponseWriteable: HtmlToStreamWriteable) {
-		this.responseStream = res;
-		this.htmlResponseWriteable = htmlResponseWriteable;
+	constructor(callback: ResolveScriptCallback) {
+		this.resolveScriptCallback = callback;
 	}
 
-	public resolveScript(actionName: string, promiseData: string) {
-		const script = wrapScript(`window.${DEFFERED_STORE_CONSTANT_NAME}.${actionName}.resolve(${promiseData})`);
-		// @ts-ignore @TODO remove ignore by adding type
-		this.htmlResponseWriteable.push(script);
+	public resolveScript(script: string) {
+		this.resolveScriptCallback(script)
 	}
 }

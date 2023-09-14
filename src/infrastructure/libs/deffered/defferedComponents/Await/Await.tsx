@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { useGetDeferredStore, useGetDefferedPromise } from '../context/useGetDefferedStore';
+import { useGetDeferredStore } from '../context/useGetDefferedStore';
 
 type PropsType = {
     name: string;
@@ -16,16 +16,29 @@ type PropsType = {
  * Await component which requests defferedMap action by name
  */
 export const Await: React.FC<PropsWithChildren<PropsType>> = ({name, getData, children}) => {
-	let deffered = useGetDefferedPromise(name);
 	const store = useGetDeferredStore();
+	const deffered = store.getByActionName(name);
+
+	// @TODO add client use cases
 
 	if(!deffered) {
-		deffered = store.setAction(name);
+		store.setAction(name);
+		
+		if(Boolean(typeof window)) {
+			getData().then(deffered.resolve);
+			// avoid errors at the client
+			store.getByActionName(name).reject = function() {}
+		}
 	}
+
+	// почему то на клиенте он фалс в виндоу
+	// может нужно передавать все таки ресолв флага в тру
+	// может быть это пофиксит гидрацию интерактив ошибку
+	console.log({deffered}, deffered.isResolvedPromise);
 
 	// indicates server store env
 	// request for data on server
-	if('createActionData' in store) {
+	if(typeof window === 'undefined' && 'createActionData' in store) {
 		store.createActionData(name, getData);
 	}
 

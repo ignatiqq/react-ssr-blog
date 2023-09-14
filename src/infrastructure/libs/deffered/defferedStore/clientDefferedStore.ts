@@ -2,26 +2,22 @@ import { Deffered, DefferedType } from '../defferedPromise/defferedPromise';
 import { DefferedClientStoreType, DEFFERED_STORE_CONSTANT_NAME } from './defferedStore';
 
 export class DefferdStoreClient implements DefferedClientStoreType {
-	defferedTasks = new Map<string, DefferedType<any>>();
 
 	constructor() {
 		this.initWindowStoreVar();
 	}
 
 	private initWindowStoreVar() {
-		window[DEFFERED_STORE_CONSTANT_NAME] = this;
-	}
-
-	private getDeffered(actionName: string) {
-		return this.defferedTasks.get(actionName);
+		window[DEFFERED_STORE_CONSTANT_NAME] = new Map<string, DefferedType<any>>();
 	}
 
 	public getByActionName(actionName: string) {
-		return this.defferedTasks.get(actionName) || null;
+		return window[DEFFERED_STORE_CONSTANT_NAME].get(actionName);
+		// return this.defferedTasks.get(actionName) || null;
 	};
 
 	public setAction(actionName: string) {
-		this.defferedTasks.set(actionName, new Deffered());
-		return this.getDeffered(actionName);
+		window[DEFFERED_STORE_CONSTANT_NAME].set(actionName, new Deffered());
+		return this.getByActionName(actionName);
 	}
 }

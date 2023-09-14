@@ -45,8 +45,15 @@ export const renderToStream = async (res: Response, options: RenderOptions, mana
 
 	let didError = false;
 
+	const resolveScriptCallback = (script: string) => {
+		taskManager.push(async () => {
+			console.log("STREAM RESPONSE PUSH SCRIPT")
+			responseStream.push(script);
+		});
+	}
+
 	// script resolver for deffered scripts sending functionalluity
-	const scriptResolver = new ScriptResolver(res, htmlToResponseStreamWriter);
+	const scriptResolver = new ScriptResolver(resolveScriptCallback);
 
 	htmlToResponseStreamWriter.on('finish', () => {
 		defferedStreamReady.resolve();

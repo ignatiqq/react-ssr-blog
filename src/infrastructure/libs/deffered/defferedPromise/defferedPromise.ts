@@ -24,13 +24,13 @@ export class Deffered<PromiseDataType> implements DefferedType<PromiseDataType> 
 			this.isPendingPromise = true;
 
 			this.resolve = (data) => {
-				this.isRejectedPromise = true;
+				this.isResolvedPromise = true;
 				res(data);
 				this.isPendingPromise = false;
 			};
 
 			this.reject = (reason) => {
-				this.isResolvedPromise = true;
+				this.isRejectedPromise = true;
 				rej(reason);
 				this.isPendingPromise = false;
 			};
