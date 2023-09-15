@@ -9,7 +9,7 @@ import { QueryClientProvider, Hydrate, QueryClient } from '@tanstack/react-query
 
 import { ABORT_DELAY } from '@server/constants/render';
 import { ErrorType } from '@server/types';
-import {createLink, createStyleStream, discoverProjectStyles} from 'used-styles';
+import {createStyleStream, discoverProjectStyles} from 'used-styles';
 import { PassThrough, Transform, Writable } from 'stream';
 
 
@@ -59,7 +59,7 @@ const render = async (res: Response, options: RenderOptions) => {
 
 	const styleStream = createStyleStream(stylesLookup, (file: string) => {
 		console.log({file});
-		return `<link rel="stylesheet" href="/static/${file}" data-used-style />`;
+		return `<link rel="stylesheet" href="/static/${file}" data-used-style />` + moveDataUsedStylesToHeaderScriptText;
 	});
 
 	const manifest = fs.readFileSync(
@@ -160,7 +160,6 @@ const render = async (res: Response, options: RenderOptions) => {
 				onShellReady() {
 					res.statusCode = didError ? 500 : 200;
 					stream.pipe(styleStream).pipe(htmlToStreamWriteableStream);
-					console.log({stream});
 				},
 				onAllReady() {
 				},
