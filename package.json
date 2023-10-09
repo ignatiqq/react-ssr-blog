@@ -78,7 +78,9 @@
     "react-router-dom": "^6.4.1",
     "serialize-javascript": "^6.0.0",
     "styled-components": "^5.3.6",
-    "used-styles": "^2.5.2"
+    "typescript": "^5.2.2",
+    "used-styles": "^2.5.2",
+    "webpack-imported": "^1.2.2"
   },
   "husky": {
     "hooks": {

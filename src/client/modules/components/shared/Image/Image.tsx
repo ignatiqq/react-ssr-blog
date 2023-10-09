@@ -1,19 +1,17 @@
 import React from 'react';
 
-import {isNodeJS} from '@general-infrastructure/constants';
+import './Image.scss';
 
 type PropTypes = {
     src: string;
     alt: string;
 }
 
-const Image: React.FC<PropTypes> = ({
+export const Image: React.FC<PropTypes> = ({
 	src,
 	alt,
 }) => {
 	return (
-		<img src={src} alt={alt} />
+		<img className="helloBundle" src={src} alt={alt} />
 	);
 };
-
-export default Image;

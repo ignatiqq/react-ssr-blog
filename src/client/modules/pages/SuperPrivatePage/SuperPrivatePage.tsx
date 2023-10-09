@@ -1,8 +1,12 @@
 import React from 'react';
 
+// import './SuperPrivatePage.css';
+
 export const SuperPrivatePage = () => {
 	return (
-		<div>Super private page</div>
+		<>
+			<div className='superPrivatePageCss'>Super private page</div>
+		</>
 	);
 };
 

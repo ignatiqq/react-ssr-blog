@@ -1,5 +1,7 @@
+/* eslint-disable max-len */
 /* eslint-disable max-lines */
 import fs from 'fs';
+import { readFile } from 'fs/promises';
 import React from 'react';
 import path from 'path';
 import { Response } from 'express';
@@ -11,6 +13,7 @@ import { ABORT_DELAY } from '@server/constants/render';
 import { ErrorType } from '@server/types';
 import {createStyleStream, discoverProjectStyles} from 'used-styles';
 import { PassThrough, Transform, Writable } from 'stream';
+import { chunkLoadingTrackerSingleton } from '@general-infrastructure/libs/criticalStyles';
 
 
 interface RenderOptions {
@@ -44,6 +47,18 @@ const moveDataUsedStylesToHeaderScriptText = `<script data-remove-used>
 		})
 </script>`;
 
+const getImportedStats = (function () {
+	let stats: any;
+
+	return async (path: string) => {
+	  if(!!stats) return stats;
+
+	  const file = await readFile(path, 'utf-8');
+	  stats = file;
+	  return stats;
+	};
+})();
+
 const render = async (res: Response, options: RenderOptions) => {
 	const {url, queryClient, queryState, title} = options;
 
@@ -56,9 +71,14 @@ const render = async (res: Response, options: RenderOptions) => {
 	});
 
 	await stylesLookup;
+	const stats = await getImportedStats(path.join(__dirname, '../imported.json'));
+
+	const chunkStatsTracker = chunkLoadingTrackerSingleton.initStats(stats);
+	console.log(typeof window === 'undefined');
 
 	const styleStream = createStyleStream(stylesLookup, (file: string) => {
-		console.log({file});
+		console.log({ file, chunkStatsTracker: chunkStatsTracker.chunkShouldBeLoaded.has(file) });
+		if(!chunkStatsTracker.chunkShouldBeLoaded.has(file)) return '';
 		return `<link rel="stylesheet" href="/static/${file}" data-used-style />` + moveDataUsedStylesToHeaderScriptText;
 	});
 
@@ -121,7 +141,7 @@ const render = async (res: Response, options: RenderOptions) => {
 		_write(htmlChunk: any, encoding: BufferEncoding, callback: (error?: Error) => void): void {
 			const html = htmlChunk.toString('utf-8');
 
-			console.log({html, htmlChunk});
+			// console.log({html, htmlChunk});
 
 			responseStream.push(html);
 			console.log('AFTER PUSH');
