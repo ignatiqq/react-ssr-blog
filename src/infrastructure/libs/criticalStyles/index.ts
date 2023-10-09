@@ -49,6 +49,7 @@ export class ChunkLoadingTracker implements ChunkLoadingTrackerType {
 	}
 
 	initStats(stats: any) {
+		// + load all init bundle styles
 		this.stats = JSON.parse(stats);
 		return this;
 	}
@@ -82,7 +83,7 @@ type TrackLoadedChunkCallbackType = (name: string) => void;
 export const trackLoadedChunk = <T extends LoadFnType>(loadFn: T, name: string, callback: TrackLoadedChunkCallbackType) => {
 	console.log({callback});
 
-	const promise = loadFn();
+	const promise = React.lazy(loadFn);
 
 	// first of all request fot chunk
 	// because of callback has slow sync calculcations
@@ -97,5 +98,5 @@ type LoadFnType = () => Promise<any>
 export const dynamicLoad = typeof window === 'undefined' ? (loadFn: LoadFnType, name?: string) => {
 	return trackLoadedChunk(loadFn, name, chunkLoadingTrackerSingleton.collect);
 } : (loadFn: LoadFnType) => {
-	return React.lazy(() => loadFn());
+	return React.lazy(loadFn);
 };
