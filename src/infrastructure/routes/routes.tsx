@@ -2,7 +2,6 @@ import React from 'react';
 import { IRouteType } from './types';
 import {Overview} from '@client/modules/pages';
 
-// изобрел блинь react-helmet дурак
 const routes: IRouteType[] = [
 	{
 		path: '/',

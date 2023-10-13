@@ -81,8 +81,6 @@ type TrackLoadedChunkCallbackType = (name: string) => void;
  * @param name - name of chunk which will be loaded
  */
 export const trackLoadedChunk = <T extends LoadFnType>(loadFn: T, name: string, callback: TrackLoadedChunkCallbackType) => {
-	console.log({callback});
-
 	const promise = React.lazy(loadFn);
 
 	// first of all request fot chunk

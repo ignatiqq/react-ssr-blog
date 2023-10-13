@@ -13,7 +13,8 @@ import { ABORT_DELAY } from '@server/constants/render';
 import { ErrorType } from '@server/types';
 import {createStyleStream, discoverProjectStyles} from 'used-styles';
 import { PassThrough, Transform, Writable } from 'stream';
-import { chunkLoadingTrackerSingleton } from '@general-infrastructure/libs/criticalStyles';
+import {ChunkLoadingCollector, ChunkLoadingContext, ChunkLoadingProvider} from '@general-infrastructure/libs/chunkLoadingCollector';
+import { importAssets } from 'webpack-imported';
 
 
 interface RenderOptions {
@@ -54,7 +55,7 @@ const getImportedStats = (function () {
 	  if(!!stats) return stats;
 
 	  const file = await readFile(path, 'utf-8');
-	  stats = file;
+	  stats = JSON.parse(file);
 	  return stats;
 	};
 })();
@@ -71,14 +72,13 @@ const render = async (res: Response, options: RenderOptions) => {
 	});
 
 	await stylesLookup;
-	const stats = await getImportedStats(path.join(__dirname, '../imported.json'));
+	const stats = await getImportedStats(path.join(__dirname, '../../imported.json'));
 
-	const chunkStatsTracker = chunkLoadingTrackerSingleton.initStats(stats);
-	console.log(typeof window === 'undefined');
+	const chunkStatsTracker = new ChunkLoadingCollector(importAssets).initStats(stats);
 
 	const styleStream = createStyleStream(stylesLookup, (file: string) => {
-		console.log({ file, chunkStatsTracker: chunkStatsTracker.chunkShouldBeLoaded.has(file) });
-		if(!chunkStatsTracker.chunkShouldBeLoaded.has(file)) return '';
+		console.log({ file, chunkStatsTracker: chunkStatsTracker.shouldBeLoadedStyles.has(file) });
+		if(!chunkStatsTracker.shouldBeLoadedStyles.has(file)) return '';
 		return `<link rel="stylesheet" href="/static/${file}" data-used-style />` + moveDataUsedStylesToHeaderScriptText;
 	});
 
@@ -105,15 +105,6 @@ const render = async (res: Response, options: RenderOptions) => {
 	res.setHeader('Content-type', 'text/html');
 
 	const responseStream = new PassThrough();
-
-	const addMoveStyleScriptToEveryDataUsedLink = new Transform({
-		// transform() is called with each chunk of data
-		// tslint:disable-next-line:variable-name
-		transform(chunk, _, _callback) {
-
-			_callback(undefined, chunk.toString() + moveDataUsedStylesToHeaderScriptText);
-		},
-	});
 
 	responseStream.pipe(res);
 
@@ -162,19 +153,21 @@ const render = async (res: Response, options: RenderOptions) => {
 		const App = data.default;
 
 		const stream = renderToPipeableStream(
-			<StaticRouter location={url}>
-				<QueryClientProvider client={queryClient}>
-					<Hydrate state={JSON.parse(queryState)}>
-						{/* we should generete div with id root in the reactPipeableStream shell
-							because we need close tag before "bootstrapScriptContent" and other scripts
-							to avoid hydration issues
-						*/}
-						<div id="root">
-							<App />
-						</div>
-					</Hydrate>
-				</QueryClientProvider>
-			</StaticRouter>,
+			<ChunkLoadingProvider collector={chunkStatsTracker}>
+				<StaticRouter location={url}>
+					<QueryClientProvider client={queryClient}>
+						<Hydrate state={JSON.parse(queryState)}>
+							{/* we should generete div with id root in the reactPipeableStream shell
+								because we need close tag before "bootstrapScriptContent" and other scripts
+								to avoid hydration issues
+							*/}
+							<div id="root">
+								<App />
+							</div>
+						</Hydrate>
+					</QueryClientProvider>
+				</StaticRouter>
+			</ChunkLoadingProvider>,
 			{
 				bootstrapScriptContent: BOOTSTRAP_BEFORE_HYDRATE_SCRIPT_STRING,
 				onShellReady() {

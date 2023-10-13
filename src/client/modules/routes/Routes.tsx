@@ -5,16 +5,16 @@ import LazyLoad from '@client/libs/LazyComponents/modules/LazyLoad/LazyLoad';
 import PrivateRoute from './PrivateRoute';
 import { DynamicModuleLoader } from '@client/libs/Microfrontends/DynamicModuleLoader';
 import { HOMEPAGE_MICROFRONT } from '@client/constants/microfrontends';
-import { dynamicLoad } from '@general-infrastructure/libs/criticalStyles';
+import { dynamicLoad } from '@general-infrastructure/libs/dynamicLoad';
 
 const SuperPrivatePage = dynamicLoad(
-	() => import(/* webpackChunkName: "SuperPrivatePageChunk" */
+	() => React.lazy(() => import(/* webpackChunkName: "SuperPrivatePageChunk" */
 		'@client/modules/pages/SuperPrivatePage/SuperPrivatePage'
-	),
+	)),
 	'SuperPrivatePageChunk',
 );
 const LazyLoadChunk = dynamicLoad(
-	() => import(/* webpackChunkName: "LazyLoadChunk" */ '@client/modules/pages/Lazy/Lazy'),
+	() => React.lazy(() => import(/* webpackChunkName: "LazyLoadChunk" */ '@client/modules/pages/Lazy/Lazy')),
 	'LazyLoadChunk',
 );
 
@@ -29,10 +29,6 @@ const Routes: React.FC = () => {
 					{/* @ts-ignore */}
 					<LazyLoadChunk hello='dfgd' />
 				</Suspense>
-				// <LazyLoad<{hello: string}>
-				// 	render={(Component) => <Component hello="dfgd" />}
-				// 	load={() => import(/* webpackChunkName: "LazyLoadChunk" */ '@client/modules/pages/Lazy/Lazy')}
-				// />
 			)},
 			{path: '/overview', element: <Overview.component />},
 			{path: '/super-private-page', element: (
