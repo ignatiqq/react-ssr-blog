@@ -104,11 +104,7 @@ const render = async (res: Response, options: RenderOptions) => {
 	};
 	res.setHeader('Content-type', 'text/html');
 
-	const responseStream = new PassThrough();
-
-	responseStream.pipe(res);
-
-	responseStream.push(`
+	res.write(`
 	<html lang="en">
 		<head>
 			<meta charSet="utf-8" />
@@ -125,23 +121,31 @@ const render = async (res: Response, options: RenderOptions) => {
 	`);
 
 	class HtmlToStreamWriteable extends Writable {
-		constructor() {
+		/**
+		 * constructor
+		 */
+		constructor(readonly res: Response) {
 			super();
+			this.res = res;
 		}
-
-		_write(htmlChunk: any, encoding: BufferEncoding, callback: (error?: Error) => void): void {
+	
+		/**
+		 * reassign write method
+		 */
+		_write(htmlChunk: Buffer, encoding: BufferEncoding, callback: (error?: Error) => void): void {
 			const html = htmlChunk.toString('utf-8');
-
-			// console.log({html, htmlChunk});
-
-			responseStream.push(html);
-			console.log('AFTER PUSH');
-
-			callback();
+			const canWrite = this.res.write(html, 'utf-8', callback);
+			console.log({canWrite});
+		}
+	
+		flush() {
+			if (typeof (this.res as any).flush === 'function') {
+				(this.res as any).flush();
+			}
 		}
 	}
 
-	const htmlToStreamWriteableStream = new HtmlToStreamWriteable();
+	const htmlToStreamWriteableStream = new HtmlToStreamWriteable(res);
 
 	htmlToStreamWriteableStream.on('finish', () => {
 		console.log('finish');

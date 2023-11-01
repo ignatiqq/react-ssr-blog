@@ -8,10 +8,19 @@ const dependencies = require(path.join(__dirname, '../../../package.json')).depe
 const shared = {
 	react: {
 		requiredVersion: dependencies['react'],
+		singleton: true,
+		eager: true,
 	},
 	'react-dom': {
 		requiredVersion: dependencies['react-dom'],
+		singleton: true,
+		eager: true,
 	},
+	axios: {
+		requiredVersion: dependencies['axios'],
+		singleton: true,
+		eager: true,
+	}
 };
 
 const remotes = {
@@ -39,7 +48,7 @@ module.exports = {
 			filename: 'container.js',
 			library: {type: 'commonjs-module'},
 			remotes: {...remotes.server},
-			shared: [{ 'react': dependencies.react, 'react-dom': dependencies['react-dom'] }],
+			shared,
 		}),
 		new StreamingTargetPlugin({
 			name: 'shellApp',
