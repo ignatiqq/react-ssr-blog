@@ -5,6 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const {isDev} = require('../webpack.shared.config');
 const moduleFederation = require('../shared/mfe/module-federation');
+const { ImportedPlugin } = require('webpack-imported');
 
 const plugins = {
 	client: [
@@ -16,6 +17,7 @@ const plugins = {
 		new BundleAnalyzerPlugin({
 			generateStatsFile: isDev ? true: false,
 		}),
+		new ImportedPlugin('../imported.json'),
 		...moduleFederation.client,
 	],
 	server: [

@@ -25,6 +25,10 @@ const routes: IRouteType[] = [
 		title: 'PRIVATE!!!',
 	},
 	{
+		path: '/lazycss',
+		title: 'LazyCSs',
+	},
+	{
 		path: '/microfronted/home',
 		title: 'microfront',
 	},

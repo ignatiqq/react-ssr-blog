@@ -10,6 +10,7 @@ import { cookieStore } from '@general-infrastructure/stores/cookieStore';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '@general-infrastructure/constants/cookies';
 import {AuthContext} from '@client/modules/authorization/context';
 
+import s from './css.module.css';
 
 const App: React.FC = () => {
 	const {isLoading, data} = useRefreshToken({
@@ -21,18 +22,23 @@ const App: React.FC = () => {
 		},
 	});
 
+	if(typeof window !== 'undefined') {
+		console.log('HYDRATION RENDER: ', [...document.querySelectorAll('*')]);
+	}
+
 	useEffect(() => {
 		const refreshToken = data?.data?.refreshToken;
 		if(refreshToken) {
 			cookieStore.set(REFRESH_TOKEN, refreshToken);
 		}
+		console.log('after render: ', [...document.querySelectorAll('*')]);
 	}, [data]);
 
 	const isAuthorized = useMemo(() => isLoading ? false : !!data?.data?.refreshToken, [isLoading, data]);
 
 	return (
 		// @TODO add error boundary
-		<Suspense fallback={'Loading...'}>
+		<>
 			<AuthContext.Provider value={{
 				isAuthorized,
 				isLoading,
@@ -46,12 +52,16 @@ const App: React.FC = () => {
 							<Link to="/lazy">lazy</Link>
 							<Link to="/super-private-page">SUPER PRIVATE DONT CLICK</Link>
 							<Link to="/microfronted/home">Microfrontend home</Link>
+							{new Array(100).fill(<div></div>).map((node, i) => <div key={i}></div>)}
+							{/* @TODO не могу найти кейс где бы линк был в руте пряымо, чтобы точно сказать
+							работает ли скрипт без ошибок гидрации или нет */}
 							<Routes />
+							{new Array(100).fill(<div></div>).map((node, i) => <div key={i}></div>)}
 						</div>
 					</Container>
 				</AppThemeProdvider>
 			</AuthContext.Provider>
-		</Suspense>
+		</>
 	);
 };
 

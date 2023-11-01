@@ -24,6 +24,12 @@ module.exports = {
 		minimize: !isDev ? true : false,
 		minimizer: !isDev ? [new TerserPlugin()] : [],
 	},
+	resolve: {
+		fallback: {
+			path: false,
+			fs: false,
+		}
+	},
 	module: {
 		rules: [
 			...rules,
